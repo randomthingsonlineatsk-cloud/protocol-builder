@@ -1,0 +1,2575 @@
+{
+  "usdmVersion": "4.0.0",
+  "systemName": "Protocol Builder",
+  "systemVersion": "1.0",
+  "note": "Teaching subset of a USDM v4 export: only the classes the EDC Study Build Lab reads. The full export holds the rest.",
+  "study": {
+    "id": "Study_1",
+    "name": "NFR-118-201",
+    "instanceType": "Study",
+    "versions": [
+      {
+        "id": "StudyVersion_1",
+        "versionIdentifier": "1.0",
+        "rationale": "Original protocol",
+        "instanceType": "StudyVersion",
+        "titles": [
+          {
+            "id": "StudyTitle_1",
+            "text": "A randomised, double-blind, placebo-controlled, dose-finding phase 2 study of inhaled teravelin 50, 100 and 200 µg once daily for 12 weeks in adults with moderate to severe COPD",
+            "type": {
+              "id": "Code_18",
+              "code": "C207616",
+              "codeSystem": "http://www.cdisc.org",
+              "codeSystemVersion": "NCI Thesaurus",
+              "decode": "Official Study Title",
+              "instanceType": "Code"
+            },
+            "instanceType": "StudyTitle"
+          },
+          {
+            "id": "StudyTitle_3",
+            "text": "NORTHFELL-2",
+            "type": {
+              "id": "Code_19",
+              "code": "C207646",
+              "codeSystem": "http://www.cdisc.org",
+              "codeSystemVersion": "NCI Thesaurus",
+              "decode": "Study Acronym",
+              "instanceType": "Code"
+            },
+            "instanceType": "StudyTitle"
+          }
+        ],
+        "studyIdentifiers": [
+          {
+            "id": "StudyIdentifier_1",
+            "text": "NFR-118-201",
+            "scopeId": "Organization_1",
+            "instanceType": "StudyIdentifier"
+          }
+        ],
+        "organizations": [
+          {
+            "id": "Organization_1",
+            "name": "Northfell Respiratory (fictional)",
+            "label": "Northfell Respiratory (fictional), Leeds, United Kingdom",
+            "type": {
+              "id": "Code_20",
+              "code": "C70793",
+              "codeSystem": "http://www.cdisc.org",
+              "codeSystemVersion": "NCI Thesaurus",
+              "decode": "Clinical Study Sponsor",
+              "instanceType": "Code"
+            },
+            "identifier": "NFR-118-201",
+            "identifierScheme": "Sponsor",
+            "legalAddress": null,
+            "instanceType": "Organization"
+          }
+        ],
+        "eligibilityCriterionItems": [
+          {
+            "id": "ECI_IN01",
+            "name": "IN01",
+            "text": "Aged 40 to 80 years when consent is signed",
+            "dictionaryId": null,
+            "instanceType": "EligibilityCriterionItem"
+          },
+          {
+            "id": "ECI_IN02",
+            "name": "IN02",
+            "text": "COPD with post-bronchodilator FEV1/FVC below 0.70 and FEV1 30% to 80% of predicted at screening",
+            "dictionaryId": null,
+            "instanceType": "EligibilityCriterionItem"
+          },
+          {
+            "id": "ECI_IN03",
+            "name": "IN03",
+            "text": "Participants of childbearing potential use highly effective contraception and have a negative pregnancy test",
+            "dictionaryId": null,
+            "instanceType": "EligibilityCriterionItem"
+          },
+          {
+            "id": "ECI_EX01",
+            "name": "EX01",
+            "text": "Current diagnosis of asthma",
+            "dictionaryId": null,
+            "instanceType": "EligibilityCriterionItem"
+          },
+          {
+            "id": "ECI_EX02",
+            "name": "EX02",
+            "text": "QTcF above 450 ms at screening",
+            "dictionaryId": null,
+            "instanceType": "EligibilityCriterionItem"
+          },
+          {
+            "id": "ECI_EX03",
+            "name": "EX03",
+            "text": "A moderate or severe COPD exacerbation in the 6 weeks before screening",
+            "dictionaryId": null,
+            "instanceType": "EligibilityCriterionItem"
+          }
+        ],
+        "biomedicalConcepts": [
+          {
+            "id": "BC_P01",
+            "name": "Informed Consent Obtained",
+            "label": "Informed Consent Obtained",
+            "synonyms": [],
+            "reference": "",
+            "code": {
+              "id": "AC_P01",
+              "standardCode": {
+                "id": "Code_50",
+                "code": "INFORMED_CONSENT_OBTAINED",
+                "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                "codeSystemVersion": "1",
+                "decode": "Informed Consent Obtained",
+                "instanceType": "Code"
+              },
+              "standardCodeAliases": [],
+              "instanceType": "AliasCode"
+            },
+            "properties": [
+              {
+                "id": "BCP_P01_DSSTDAT",
+                "name": "DSSTDAT",
+                "label": "DSSTDAT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P01_DSSTDAT",
+                  "standardCode": {
+                    "id": "Code_51",
+                    "code": "DSSTDAT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "DSSTDAT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P01_ICVER",
+                "name": "ICVER",
+                "label": "ICVER",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P01_ICVER",
+                  "standardCode": {
+                    "id": "Code_52",
+                    "code": "ICVER",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "ICVER",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ],
+            "instanceType": "BiomedicalConcept"
+          },
+          {
+            "id": "BC_P02",
+            "name": "Demographics",
+            "label": "Demographics",
+            "synonyms": [],
+            "reference": "",
+            "code": {
+              "id": "AC_P02",
+              "standardCode": {
+                "id": "Code_53",
+                "code": "DEMOGRAPHICS",
+                "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                "codeSystemVersion": "1",
+                "decode": "Demographics",
+                "instanceType": "Code"
+              },
+              "standardCodeAliases": [],
+              "instanceType": "AliasCode"
+            },
+            "properties": [
+              {
+                "id": "BCP_P02_BRTHYR",
+                "name": "BRTHYR",
+                "label": "BRTHYR",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P02_BRTHYR",
+                  "standardCode": {
+                    "id": "Code_54",
+                    "code": "BRTHYR",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "BRTHYR",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P02_SEX",
+                "name": "SEX",
+                "label": "SEX",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P02_SEX",
+                  "standardCode": {
+                    "id": "Code_55",
+                    "code": "SEX",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "SEX",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P02_RACE",
+                "name": "RACE",
+                "label": "RACE",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P02_RACE",
+                  "standardCode": {
+                    "id": "Code_56",
+                    "code": "RACE",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "RACE",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ],
+            "instanceType": "BiomedicalConcept"
+          },
+          {
+            "id": "BC_P03",
+            "name": "Eligibility Criteria Not Met",
+            "label": "Eligibility Criteria Not Met",
+            "synonyms": [],
+            "reference": "",
+            "code": {
+              "id": "AC_P03",
+              "standardCode": {
+                "id": "Code_57",
+                "code": "ELIGIBILITY_CRITERIA_NOT_MET",
+                "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                "codeSystemVersion": "1",
+                "decode": "Eligibility Criteria Not Met",
+                "instanceType": "Code"
+              },
+              "standardCodeAliases": [],
+              "instanceType": "AliasCode"
+            },
+            "properties": [
+              {
+                "id": "BCP_P03_IEYN",
+                "name": "IEYN",
+                "label": "IEYN",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P03_IEYN",
+                  "standardCode": {
+                    "id": "Code_58",
+                    "code": "IEYN",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "IEYN",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P03_IETESTCD",
+                "name": "IETESTCD",
+                "label": "IETESTCD",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P03_IETESTCD",
+                  "standardCode": {
+                    "id": "Code_59",
+                    "code": "IETESTCD",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "IETESTCD",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ],
+            "instanceType": "BiomedicalConcept"
+          },
+          {
+            "id": "BC_P04",
+            "name": "Medical History",
+            "label": "Medical History",
+            "synonyms": [],
+            "reference": "",
+            "code": {
+              "id": "AC_P04",
+              "standardCode": {
+                "id": "Code_60",
+                "code": "MEDICAL_HISTORY",
+                "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                "codeSystemVersion": "1",
+                "decode": "Medical History",
+                "instanceType": "Code"
+              },
+              "standardCodeAliases": [],
+              "instanceType": "AliasCode"
+            },
+            "properties": [
+              {
+                "id": "BCP_P04_MHTERM",
+                "name": "MHTERM",
+                "label": "MHTERM",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P04_MHTERM",
+                  "standardCode": {
+                    "id": "Code_61",
+                    "code": "MHTERM",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "MHTERM",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P04_MHSTDAT",
+                "name": "MHSTDAT",
+                "label": "MHSTDAT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P04_MHSTDAT",
+                  "standardCode": {
+                    "id": "Code_62",
+                    "code": "MHSTDAT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "MHSTDAT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P04_MHONGO",
+                "name": "MHONGO",
+                "label": "MHONGO",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P04_MHONGO",
+                  "standardCode": {
+                    "id": "Code_63",
+                    "code": "MHONGO",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "MHONGO",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ],
+            "instanceType": "BiomedicalConcept"
+          },
+          {
+            "id": "BC_P05",
+            "name": "Spirometry",
+            "label": "Spirometry",
+            "synonyms": [],
+            "reference": "",
+            "code": {
+              "id": "AC_P05",
+              "standardCode": {
+                "id": "Code_64",
+                "code": "SPIROMETRY",
+                "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                "codeSystemVersion": "1",
+                "decode": "Spirometry",
+                "instanceType": "Code"
+              },
+              "standardCodeAliases": [],
+              "instanceType": "AliasCode"
+            },
+            "properties": [],
+            "instanceType": "BiomedicalConcept"
+          },
+          {
+            "id": "BC_P06",
+            "name": "COPD Assessment Test",
+            "label": "COPD Assessment Test",
+            "synonyms": [],
+            "reference": "",
+            "code": {
+              "id": "AC_P06",
+              "standardCode": {
+                "id": "Code_65",
+                "code": "COPD_ASSESSMENT_TEST",
+                "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                "codeSystemVersion": "1",
+                "decode": "COPD Assessment Test",
+                "instanceType": "Code"
+              },
+              "standardCodeAliases": [],
+              "instanceType": "AliasCode"
+            },
+            "properties": [],
+            "instanceType": "BiomedicalConcept"
+          },
+          {
+            "id": "BC_P07",
+            "name": "Vital Signs (Blood Pressure, Pulse)",
+            "label": "Vital Signs (Blood Pressure, Pulse)",
+            "synonyms": [],
+            "reference": "",
+            "code": {
+              "id": "AC_P07",
+              "standardCode": {
+                "id": "Code_66",
+                "code": "VITAL_SIGNS_BLOOD_PRESSURE_PULSE_",
+                "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                "codeSystemVersion": "1",
+                "decode": "Vital Signs (Blood Pressure, Pulse)",
+                "instanceType": "Code"
+              },
+              "standardCodeAliases": [],
+              "instanceType": "AliasCode"
+            },
+            "properties": [
+              {
+                "id": "BCP_P07_VSDAT",
+                "name": "VSDAT",
+                "label": "VSDAT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P07_VSDAT",
+                  "standardCode": {
+                    "id": "Code_67",
+                    "code": "VSDAT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "VSDAT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P07_SYSBP",
+                "name": "SYSBP",
+                "label": "SYSBP",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P07_SYSBP",
+                  "standardCode": {
+                    "id": "Code_68",
+                    "code": "SYSBP",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "SYSBP",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P07_DIABP",
+                "name": "DIABP",
+                "label": "DIABP",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P07_DIABP",
+                  "standardCode": {
+                    "id": "Code_69",
+                    "code": "DIABP",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "DIABP",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P07_PULSE",
+                "name": "PULSE",
+                "label": "PULSE",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P07_PULSE",
+                  "standardCode": {
+                    "id": "Code_70",
+                    "code": "PULSE",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "PULSE",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P07_WEIGHT",
+                "name": "WEIGHT",
+                "label": "WEIGHT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P07_WEIGHT",
+                  "standardCode": {
+                    "id": "Code_71",
+                    "code": "WEIGHT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "WEIGHT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ],
+            "instanceType": "BiomedicalConcept"
+          },
+          {
+            "id": "BC_P08",
+            "name": "12-Lead ECG",
+            "label": "12-Lead ECG",
+            "synonyms": [],
+            "reference": "",
+            "code": {
+              "id": "AC_P08",
+              "standardCode": {
+                "id": "Code_72",
+                "code": "12_LEAD_ECG",
+                "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                "codeSystemVersion": "1",
+                "decode": "12-Lead ECG",
+                "instanceType": "Code"
+              },
+              "standardCodeAliases": [],
+              "instanceType": "AliasCode"
+            },
+            "properties": [
+              {
+                "id": "BCP_P08_EGDAT",
+                "name": "EGDAT",
+                "label": "EGDAT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P08_EGDAT",
+                  "standardCode": {
+                    "id": "Code_73",
+                    "code": "EGDAT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "EGDAT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P08_QTCF",
+                "name": "QTCF",
+                "label": "QTCF",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P08_QTCF",
+                  "standardCode": {
+                    "id": "Code_74",
+                    "code": "QTCF",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "QTCF",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P08_EGINTP",
+                "name": "EGINTP",
+                "label": "EGINTP",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P08_EGINTP",
+                  "standardCode": {
+                    "id": "Code_75",
+                    "code": "EGINTP",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "EGINTP",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ],
+            "instanceType": "BiomedicalConcept"
+          },
+          {
+            "id": "BC_P09",
+            "name": "Local Safety Laboratory Panel",
+            "label": "Local Safety Laboratory Panel",
+            "synonyms": [],
+            "reference": "",
+            "code": {
+              "id": "AC_P09",
+              "standardCode": {
+                "id": "Code_76",
+                "code": "LOCAL_SAFETY_LABORATORY_PANEL",
+                "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                "codeSystemVersion": "1",
+                "decode": "Local Safety Laboratory Panel",
+                "instanceType": "Code"
+              },
+              "standardCodeAliases": [],
+              "instanceType": "AliasCode"
+            },
+            "properties": [
+              {
+                "id": "BCP_P09_LBDAT",
+                "name": "LBDAT",
+                "label": "LBDAT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P09_LBDAT",
+                  "standardCode": {
+                    "id": "Code_77",
+                    "code": "LBDAT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "LBDAT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P09_K",
+                "name": "K",
+                "label": "K",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P09_K",
+                  "standardCode": {
+                    "id": "Code_78",
+                    "code": "K",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "K",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P09_CREAT",
+                "name": "CREAT",
+                "label": "CREAT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P09_CREAT",
+                  "standardCode": {
+                    "id": "Code_79",
+                    "code": "CREAT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "CREAT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P09_ALT",
+                "name": "ALT",
+                "label": "ALT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P09_ALT",
+                  "standardCode": {
+                    "id": "Code_80",
+                    "code": "ALT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "ALT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ],
+            "instanceType": "BiomedicalConcept"
+          },
+          {
+            "id": "BC_P10",
+            "name": "Pregnancy Test (Choriogonadotropin Beta)",
+            "label": "Pregnancy Test (Choriogonadotropin Beta)",
+            "synonyms": [],
+            "reference": "",
+            "code": {
+              "id": "AC_P10",
+              "standardCode": {
+                "id": "Code_81",
+                "code": "PREGNANCY_TEST_CHORIOGONADOTROPIN_BETA_",
+                "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                "codeSystemVersion": "1",
+                "decode": "Pregnancy Test (Choriogonadotropin Beta)",
+                "instanceType": "Code"
+              },
+              "standardCodeAliases": [],
+              "instanceType": "AliasCode"
+            },
+            "properties": [
+              {
+                "id": "BCP_P10_PREGDAT",
+                "name": "PREGDAT",
+                "label": "PREGDAT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P10_PREGDAT",
+                  "standardCode": {
+                    "id": "Code_82",
+                    "code": "PREGDAT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "PREGDAT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P10_PREGRES",
+                "name": "PREGRES",
+                "label": "PREGRES",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P10_PREGRES",
+                  "standardCode": {
+                    "id": "Code_83",
+                    "code": "PREGRES",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "PREGRES",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ],
+            "instanceType": "BiomedicalConcept"
+          },
+          {
+            "id": "BC_P11",
+            "name": "Study Drug Dispensing and Accountability",
+            "label": "Study Drug Dispensing and Accountability",
+            "synonyms": [],
+            "reference": "",
+            "code": {
+              "id": "AC_P11",
+              "standardCode": {
+                "id": "Code_84",
+                "code": "STUDY_DRUG_DISPENSING_AND_ACCOUNTABILITY",
+                "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                "codeSystemVersion": "1",
+                "decode": "Study Drug Dispensing and Accountability",
+                "instanceType": "Code"
+              },
+              "standardCodeAliases": [],
+              "instanceType": "AliasCode"
+            },
+            "properties": [
+              {
+                "id": "BCP_P11_EXDISP",
+                "name": "EXDISP",
+                "label": "EXDISP",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P11_EXDISP",
+                  "standardCode": {
+                    "id": "Code_85",
+                    "code": "EXDISP",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "EXDISP",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P11_EXKIT",
+                "name": "EXKIT",
+                "label": "EXKIT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P11_EXKIT",
+                  "standardCode": {
+                    "id": "Code_86",
+                    "code": "EXKIT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "EXKIT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P11_EXDSPQ",
+                "name": "EXDSPQ",
+                "label": "EXDSPQ",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P11_EXDSPQ",
+                  "standardCode": {
+                    "id": "Code_87",
+                    "code": "EXDSPQ",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "EXDSPQ",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P11_EXRET",
+                "name": "EXRET",
+                "label": "EXRET",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P11_EXRET",
+                  "standardCode": {
+                    "id": "Code_88",
+                    "code": "EXRET",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "EXRET",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P11_EXCOMPL",
+                "name": "EXCOMPL",
+                "label": "EXCOMPL",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P11_EXCOMPL",
+                  "standardCode": {
+                    "id": "Code_89",
+                    "code": "EXCOMPL",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "EXCOMPL",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ],
+            "instanceType": "BiomedicalConcept"
+          },
+          {
+            "id": "BC_P12",
+            "name": "Adverse Event",
+            "label": "Adverse Event",
+            "synonyms": [],
+            "reference": "",
+            "code": {
+              "id": "AC_P12",
+              "standardCode": {
+                "id": "Code_90",
+                "code": "ADVERSE_EVENT",
+                "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                "codeSystemVersion": "1",
+                "decode": "Adverse Event",
+                "instanceType": "Code"
+              },
+              "standardCodeAliases": [],
+              "instanceType": "AliasCode"
+            },
+            "properties": [
+              {
+                "id": "BCP_P12_AETERM",
+                "name": "AETERM",
+                "label": "AETERM",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P12_AETERM",
+                  "standardCode": {
+                    "id": "Code_91",
+                    "code": "AETERM",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "AETERM",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P12_AESTDAT",
+                "name": "AESTDAT",
+                "label": "AESTDAT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P12_AESTDAT",
+                  "standardCode": {
+                    "id": "Code_92",
+                    "code": "AESTDAT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "AESTDAT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P12_AEONGO",
+                "name": "AEONGO",
+                "label": "AEONGO",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P12_AEONGO",
+                  "standardCode": {
+                    "id": "Code_93",
+                    "code": "AEONGO",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "AEONGO",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P12_AEENDAT",
+                "name": "AEENDAT",
+                "label": "AEENDAT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P12_AEENDAT",
+                  "standardCode": {
+                    "id": "Code_94",
+                    "code": "AEENDAT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "AEENDAT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P12_AESEV",
+                "name": "AESEV",
+                "label": "AESEV",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P12_AESEV",
+                  "standardCode": {
+                    "id": "Code_95",
+                    "code": "AESEV",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "AESEV",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P12_AESER",
+                "name": "AESER",
+                "label": "AESER",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P12_AESER",
+                  "standardCode": {
+                    "id": "Code_96",
+                    "code": "AESER",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "AESER",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P12_AEREL",
+                "name": "AEREL",
+                "label": "AEREL",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P12_AEREL",
+                  "standardCode": {
+                    "id": "Code_97",
+                    "code": "AEREL",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "AEREL",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P12_AEACN",
+                "name": "AEACN",
+                "label": "AEACN",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P12_AEACN",
+                  "standardCode": {
+                    "id": "Code_98",
+                    "code": "AEACN",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "AEACN",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P12_AEOUT",
+                "name": "AEOUT",
+                "label": "AEOUT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P12_AEOUT",
+                  "standardCode": {
+                    "id": "Code_99",
+                    "code": "AEOUT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "AEOUT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ],
+            "instanceType": "BiomedicalConcept"
+          },
+          {
+            "id": "BC_P13",
+            "name": "Concomitant Medication",
+            "label": "Concomitant Medication",
+            "synonyms": [],
+            "reference": "",
+            "code": {
+              "id": "AC_P13",
+              "standardCode": {
+                "id": "Code_100",
+                "code": "CONCOMITANT_MEDICATION",
+                "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                "codeSystemVersion": "1",
+                "decode": "Concomitant Medication",
+                "instanceType": "Code"
+              },
+              "standardCodeAliases": [],
+              "instanceType": "AliasCode"
+            },
+            "properties": [
+              {
+                "id": "BCP_P13_CMTRT",
+                "name": "CMTRT",
+                "label": "CMTRT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P13_CMTRT",
+                  "standardCode": {
+                    "id": "Code_101",
+                    "code": "CMTRT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "CMTRT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P13_CMINDC",
+                "name": "CMINDC",
+                "label": "CMINDC",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P13_CMINDC",
+                  "standardCode": {
+                    "id": "Code_102",
+                    "code": "CMINDC",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "CMINDC",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P13_CMDSTXT",
+                "name": "CMDSTXT",
+                "label": "CMDSTXT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P13_CMDSTXT",
+                  "standardCode": {
+                    "id": "Code_103",
+                    "code": "CMDSTXT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "CMDSTXT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P13_CMDOSU",
+                "name": "CMDOSU",
+                "label": "CMDOSU",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P13_CMDOSU",
+                  "standardCode": {
+                    "id": "Code_104",
+                    "code": "CMDOSU",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "CMDOSU",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P13_CMROUTE",
+                "name": "CMROUTE",
+                "label": "CMROUTE",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P13_CMROUTE",
+                  "standardCode": {
+                    "id": "Code_105",
+                    "code": "CMROUTE",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "CMROUTE",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P13_CMSTDAT",
+                "name": "CMSTDAT",
+                "label": "CMSTDAT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P13_CMSTDAT",
+                  "standardCode": {
+                    "id": "Code_106",
+                    "code": "CMSTDAT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "CMSTDAT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P13_CMONGO",
+                "name": "CMONGO",
+                "label": "CMONGO",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P13_CMONGO",
+                  "standardCode": {
+                    "id": "Code_107",
+                    "code": "CMONGO",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "CMONGO",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P13_CMENDAT",
+                "name": "CMENDAT",
+                "label": "CMENDAT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P13_CMENDAT",
+                  "standardCode": {
+                    "id": "Code_108",
+                    "code": "CMENDAT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "CMENDAT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ],
+            "instanceType": "BiomedicalConcept"
+          },
+          {
+            "id": "BC_P14",
+            "name": "Disposition",
+            "label": "Disposition",
+            "synonyms": [],
+            "reference": "",
+            "code": {
+              "id": "AC_P14",
+              "standardCode": {
+                "id": "Code_109",
+                "code": "DISPOSITION",
+                "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                "codeSystemVersion": "1",
+                "decode": "Disposition",
+                "instanceType": "Code"
+              },
+              "standardCodeAliases": [],
+              "instanceType": "AliasCode"
+            },
+            "properties": [
+              {
+                "id": "BCP_P14_DSDECOD",
+                "name": "DSDECOD",
+                "label": "DSDECOD",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P14_DSDECOD",
+                  "standardCode": {
+                    "id": "Code_110",
+                    "code": "DSDECOD",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "DSDECOD",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              },
+              {
+                "id": "BCP_P14_EOSDAT",
+                "name": "EOSDAT",
+                "label": "EOSDAT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "string",
+                "responseCodes": [],
+                "code": {
+                  "id": "ACP_P14_EOSDAT",
+                  "standardCode": {
+                    "id": "Code_111",
+                    "code": "EOSDAT",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "EOSDAT",
+                    "instanceType": "Code"
+                  },
+                  "standardCodeAliases": [],
+                  "instanceType": "AliasCode"
+                },
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ],
+            "instanceType": "BiomedicalConcept"
+          }
+        ],
+        "studyDesigns": [
+          {
+            "id": "StudyDesign_1",
+            "name": "NORTHFELL-2 design",
+            "instanceType": "InterventionalStudyDesign",
+            "model": {
+              "id": "Code_112",
+              "code": "C82639",
+              "codeSystem": "http://www.cdisc.org",
+              "codeSystemVersion": "ICH M11 technical specification (Step 4, 2025-11-19)",
+              "decode": "Parallel Group",
+              "instanceType": "Code"
+            },
+            "encounters": [
+              {
+                "id": "Encounter_SCR",
+                "name": "SCR",
+                "label": "Screening",
+                "description": "Screening",
+                "type": {
+                  "id": "Code_130",
+                  "code": "C25716",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "NCI Thesaurus",
+                  "decode": "Visit",
+                  "instanceType": "Code"
+                },
+                "environmentalSettings": [
+                  {
+                    "id": "Code_131",
+                    "code": "CLINIC",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "Clinic",
+                    "instanceType": "Code"
+                  }
+                ],
+                "contactModes": [
+                  {
+                    "id": "Code_132",
+                    "code": "IN_PERSON",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "In Person",
+                    "instanceType": "Code"
+                  }
+                ],
+                "scheduledAtId": "Timing_SCR",
+                "previousId": null,
+                "nextId": "Encounter_D1",
+                "transitionStartRule": null,
+                "transitionEndRule": null,
+                "instanceType": "Encounter"
+              },
+              {
+                "id": "Encounter_D1",
+                "name": "D1",
+                "label": "Day 1 (randomisation)",
+                "description": "Day 1 (randomisation)",
+                "type": {
+                  "id": "Code_133",
+                  "code": "C25716",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "NCI Thesaurus",
+                  "decode": "Visit",
+                  "instanceType": "Code"
+                },
+                "environmentalSettings": [
+                  {
+                    "id": "Code_134",
+                    "code": "CLINIC",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "Clinic",
+                    "instanceType": "Code"
+                  }
+                ],
+                "contactModes": [
+                  {
+                    "id": "Code_135",
+                    "code": "IN_PERSON",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "In Person",
+                    "instanceType": "Code"
+                  }
+                ],
+                "scheduledAtId": "Timing_D1",
+                "previousId": "Encounter_SCR",
+                "nextId": "Encounter_W2",
+                "transitionStartRule": null,
+                "transitionEndRule": null,
+                "instanceType": "Encounter"
+              },
+              {
+                "id": "Encounter_W2",
+                "name": "W2",
+                "label": "Week 2",
+                "description": "Week 2",
+                "type": {
+                  "id": "Code_136",
+                  "code": "C25716",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "NCI Thesaurus",
+                  "decode": "Visit",
+                  "instanceType": "Code"
+                },
+                "environmentalSettings": [
+                  {
+                    "id": "Code_137",
+                    "code": "CLINIC",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "Clinic",
+                    "instanceType": "Code"
+                  }
+                ],
+                "contactModes": [
+                  {
+                    "id": "Code_138",
+                    "code": "IN_PERSON",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "In Person",
+                    "instanceType": "Code"
+                  }
+                ],
+                "scheduledAtId": "Timing_W2",
+                "previousId": "Encounter_D1",
+                "nextId": "Encounter_W4",
+                "transitionStartRule": null,
+                "transitionEndRule": null,
+                "instanceType": "Encounter"
+              },
+              {
+                "id": "Encounter_W4",
+                "name": "W4",
+                "label": "Week 4",
+                "description": "Week 4",
+                "type": {
+                  "id": "Code_139",
+                  "code": "C25716",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "NCI Thesaurus",
+                  "decode": "Visit",
+                  "instanceType": "Code"
+                },
+                "environmentalSettings": [
+                  {
+                    "id": "Code_140",
+                    "code": "CLINIC",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "Clinic",
+                    "instanceType": "Code"
+                  }
+                ],
+                "contactModes": [
+                  {
+                    "id": "Code_141",
+                    "code": "IN_PERSON",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "In Person",
+                    "instanceType": "Code"
+                  }
+                ],
+                "scheduledAtId": "Timing_W4",
+                "previousId": "Encounter_W2",
+                "nextId": "Encounter_W8",
+                "transitionStartRule": null,
+                "transitionEndRule": null,
+                "instanceType": "Encounter"
+              },
+              {
+                "id": "Encounter_W8",
+                "name": "W8",
+                "label": "Week 8",
+                "description": "Week 8",
+                "type": {
+                  "id": "Code_142",
+                  "code": "C25716",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "NCI Thesaurus",
+                  "decode": "Visit",
+                  "instanceType": "Code"
+                },
+                "environmentalSettings": [
+                  {
+                    "id": "Code_143",
+                    "code": "CLINIC",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "Clinic",
+                    "instanceType": "Code"
+                  }
+                ],
+                "contactModes": [
+                  {
+                    "id": "Code_144",
+                    "code": "IN_PERSON",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "In Person",
+                    "instanceType": "Code"
+                  }
+                ],
+                "scheduledAtId": "Timing_W8",
+                "previousId": "Encounter_W4",
+                "nextId": "Encounter_W12",
+                "transitionStartRule": null,
+                "transitionEndRule": null,
+                "instanceType": "Encounter"
+              },
+              {
+                "id": "Encounter_W12",
+                "name": "W12",
+                "label": "Week 12 (end of treatment)",
+                "description": "Week 12 (end of treatment)",
+                "type": {
+                  "id": "Code_145",
+                  "code": "C25716",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "NCI Thesaurus",
+                  "decode": "Visit",
+                  "instanceType": "Code"
+                },
+                "environmentalSettings": [
+                  {
+                    "id": "Code_146",
+                    "code": "CLINIC",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "Clinic",
+                    "instanceType": "Code"
+                  }
+                ],
+                "contactModes": [
+                  {
+                    "id": "Code_147",
+                    "code": "IN_PERSON",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "In Person",
+                    "instanceType": "Code"
+                  }
+                ],
+                "scheduledAtId": "Timing_W12",
+                "previousId": "Encounter_W8",
+                "nextId": "Encounter_FU",
+                "transitionStartRule": null,
+                "transitionEndRule": null,
+                "instanceType": "Encounter"
+              },
+              {
+                "id": "Encounter_FU",
+                "name": "FU",
+                "label": "Week 14 follow-up",
+                "description": "Week 14 follow-up",
+                "type": {
+                  "id": "Code_148",
+                  "code": "C25716",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "NCI Thesaurus",
+                  "decode": "Visit",
+                  "instanceType": "Code"
+                },
+                "environmentalSettings": [
+                  {
+                    "id": "Code_149",
+                    "code": "CLINIC",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "Clinic",
+                    "instanceType": "Code"
+                  }
+                ],
+                "contactModes": [
+                  {
+                    "id": "Code_150",
+                    "code": "IN_PERSON",
+                    "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                    "codeSystemVersion": "1",
+                    "decode": "In Person",
+                    "instanceType": "Code"
+                  }
+                ],
+                "scheduledAtId": "Timing_FU",
+                "previousId": "Encounter_W12",
+                "nextId": null,
+                "transitionStartRule": null,
+                "transitionEndRule": null,
+                "instanceType": "Encounter"
+              }
+            ],
+            "activities": [
+              {
+                "id": "Activity_P01",
+                "name": "Informed consent",
+                "label": "Informed consent",
+                "description": "Protocol section 11.3",
+                "biomedicalConceptIds": [
+                  "BC_P01"
+                ],
+                "bcCategoryIds": [],
+                "bcSurrogateIds": [],
+                "timelineId": null,
+                "previousId": null,
+                "nextId": "Activity_P02",
+                "notes": [],
+                "instanceType": "Activity"
+              },
+              {
+                "id": "Activity_P02",
+                "name": "Demographics and smoking history",
+                "label": "Demographics and smoking history",
+                "description": "Protocol section 8.2",
+                "biomedicalConceptIds": [
+                  "BC_P02"
+                ],
+                "bcCategoryIds": [],
+                "bcSurrogateIds": [],
+                "timelineId": null,
+                "previousId": "Activity_P01",
+                "nextId": "Activity_P03",
+                "notes": [],
+                "instanceType": "Activity"
+              },
+              {
+                "id": "Activity_P03",
+                "name": "Eligibility criteria",
+                "label": "Eligibility criteria",
+                "description": "Protocol section 5.2, 5.3",
+                "biomedicalConceptIds": [
+                  "BC_P03"
+                ],
+                "bcCategoryIds": [],
+                "bcSurrogateIds": [],
+                "timelineId": null,
+                "previousId": "Activity_P02",
+                "nextId": "Activity_P04",
+                "notes": [],
+                "instanceType": "Activity"
+              },
+              {
+                "id": "Activity_P04",
+                "name": "Medical history, including exacerbation history",
+                "label": "Medical history, including exacerbation history",
+                "description": "Protocol section 8.2",
+                "biomedicalConceptIds": [
+                  "BC_P04"
+                ],
+                "bcCategoryIds": [],
+                "bcSurrogateIds": [],
+                "timelineId": null,
+                "previousId": "Activity_P03",
+                "nextId": "Activity_P05",
+                "notes": [],
+                "instanceType": "Activity"
+              },
+              {
+                "id": "Activity_P05",
+                "name": "Spirometry (pre-dose trough FEV1 and FVC)",
+                "label": "Spirometry (pre-dose trough FEV1 and FVC)",
+                "description": "Protocol section 8.3",
+                "biomedicalConceptIds": [
+                  "BC_P05"
+                ],
+                "bcCategoryIds": [],
+                "bcSurrogateIds": [],
+                "timelineId": null,
+                "previousId": "Activity_P04",
+                "nextId": "Activity_P06",
+                "notes": [
+                  {
+                    "id": "Note_P05",
+                    "text": "a: trough FEV1 is measured 23 to 24 hours after the previous dose; post-bronchodilator spirometry at screening only.",
+                    "codes": [],
+                    "instanceType": "CommentAnnotation"
+                  }
+                ],
+                "instanceType": "Activity"
+              },
+              {
+                "id": "Activity_P06",
+                "name": "COPD Assessment Test (CAT)",
+                "label": "COPD Assessment Test (CAT)",
+                "description": "Protocol section 8.3",
+                "biomedicalConceptIds": [
+                  "BC_P06"
+                ],
+                "bcCategoryIds": [],
+                "bcSurrogateIds": [],
+                "timelineId": null,
+                "previousId": "Activity_P05",
+                "nextId": "Activity_P07",
+                "notes": [],
+                "instanceType": "Activity"
+              },
+              {
+                "id": "Activity_P07",
+                "name": "Vital signs",
+                "label": "Vital signs",
+                "description": "Protocol section 8.4.2",
+                "biomedicalConceptIds": [
+                  "BC_P07"
+                ],
+                "bcCategoryIds": [],
+                "bcSurrogateIds": [],
+                "timelineId": null,
+                "previousId": "Activity_P06",
+                "nextId": "Activity_P08",
+                "notes": [],
+                "instanceType": "Activity"
+              },
+              {
+                "id": "Activity_P08",
+                "name": "12-lead ECG",
+                "label": "12-lead ECG",
+                "description": "Protocol section 8.4.3",
+                "biomedicalConceptIds": [
+                  "BC_P08"
+                ],
+                "bcCategoryIds": [],
+                "bcSurrogateIds": [],
+                "timelineId": null,
+                "previousId": "Activity_P07",
+                "nextId": "Activity_P09",
+                "notes": [],
+                "instanceType": "Activity"
+              },
+              {
+                "id": "Activity_P09",
+                "name": "Safety laboratory",
+                "label": "Safety laboratory",
+                "description": "Protocol section 8.4.4, 12.1",
+                "biomedicalConceptIds": [
+                  "BC_P09"
+                ],
+                "bcCategoryIds": [],
+                "bcSurrogateIds": [],
+                "timelineId": null,
+                "previousId": "Activity_P08",
+                "nextId": "Activity_P10",
+                "notes": [],
+                "instanceType": "Activity"
+              },
+              {
+                "id": "Activity_P10",
+                "name": "Pregnancy test (participants of childbearing potential)",
+                "label": "Pregnancy test (participants of childbearing potential)",
+                "description": "Protocol section 8.4.5",
+                "biomedicalConceptIds": [
+                  "BC_P10"
+                ],
+                "bcCategoryIds": [],
+                "bcSurrogateIds": [],
+                "timelineId": null,
+                "previousId": "Activity_P09",
+                "nextId": "Activity_P11",
+                "notes": [],
+                "instanceType": "Activity"
+              },
+              {
+                "id": "Activity_P11",
+                "name": "Dispense inhaler; dose counter check",
+                "label": "Dispense inhaler; dose counter check",
+                "description": "Protocol section 6.6.3, 6.8",
+                "biomedicalConceptIds": [
+                  "BC_P11"
+                ],
+                "bcCategoryIds": [],
+                "bcSurrogateIds": [],
+                "timelineId": null,
+                "previousId": "Activity_P10",
+                "nextId": "Activity_P12",
+                "notes": [],
+                "instanceType": "Activity"
+              },
+              {
+                "id": "Activity_P12",
+                "name": "Adverse events",
+                "label": "Adverse events",
+                "description": "Protocol section 9.2",
+                "biomedicalConceptIds": [
+                  "BC_P12"
+                ],
+                "bcCategoryIds": [],
+                "bcSurrogateIds": [],
+                "timelineId": null,
+                "previousId": "Activity_P11",
+                "nextId": "Activity_P13",
+                "notes": [],
+                "instanceType": "Activity"
+              },
+              {
+                "id": "Activity_P13",
+                "name": "Concomitant and rescue medication",
+                "label": "Concomitant and rescue medication",
+                "description": "Protocol section 6.9, 6.10",
+                "biomedicalConceptIds": [
+                  "BC_P13"
+                ],
+                "bcCategoryIds": [],
+                "bcSurrogateIds": [],
+                "timelineId": null,
+                "previousId": "Activity_P12",
+                "nextId": "Activity_P14",
+                "notes": [],
+                "instanceType": "Activity"
+              },
+              {
+                "id": "Activity_P14",
+                "name": "End of trial status",
+                "label": "End of trial status",
+                "description": "Protocol section 7.2",
+                "biomedicalConceptIds": [
+                  "BC_P14"
+                ],
+                "bcCategoryIds": [],
+                "bcSurrogateIds": [],
+                "timelineId": null,
+                "previousId": "Activity_P13",
+                "nextId": null,
+                "notes": [],
+                "instanceType": "Activity"
+              }
+            ],
+            "eligibilityCriteria": [
+              {
+                "id": "EC_IN01",
+                "name": "IN01",
+                "label": "IN01",
+                "description": "",
+                "identifier": "IN01",
+                "category": {
+                  "id": "Code_151",
+                  "code": "C25532",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "NCI Thesaurus",
+                  "decode": "Inclusion Criteria",
+                  "instanceType": "Code"
+                },
+                "criterionItemId": "ECI_IN01",
+                "previousId": null,
+                "nextId": "EC_IN02",
+                "contextId": null,
+                "instanceType": "EligibilityCriterion"
+              },
+              {
+                "id": "EC_IN02",
+                "name": "IN02",
+                "label": "IN02",
+                "description": "",
+                "identifier": "IN02",
+                "category": {
+                  "id": "Code_152",
+                  "code": "C25532",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "NCI Thesaurus",
+                  "decode": "Inclusion Criteria",
+                  "instanceType": "Code"
+                },
+                "criterionItemId": "ECI_IN02",
+                "previousId": "EC_IN01",
+                "nextId": "EC_IN03",
+                "contextId": null,
+                "instanceType": "EligibilityCriterion"
+              },
+              {
+                "id": "EC_IN03",
+                "name": "IN03",
+                "label": "IN03",
+                "description": "",
+                "identifier": "IN03",
+                "category": {
+                  "id": "Code_153",
+                  "code": "C25532",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "NCI Thesaurus",
+                  "decode": "Inclusion Criteria",
+                  "instanceType": "Code"
+                },
+                "criterionItemId": "ECI_IN03",
+                "previousId": "EC_IN02",
+                "nextId": "EC_EX01",
+                "contextId": null,
+                "instanceType": "EligibilityCriterion"
+              },
+              {
+                "id": "EC_EX01",
+                "name": "EX01",
+                "label": "EX01",
+                "description": "",
+                "identifier": "EX01",
+                "category": {
+                  "id": "Code_154",
+                  "code": "C25370",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "NCI Thesaurus",
+                  "decode": "Exclusion Criteria",
+                  "instanceType": "Code"
+                },
+                "criterionItemId": "ECI_EX01",
+                "previousId": "EC_IN03",
+                "nextId": "EC_EX02",
+                "contextId": null,
+                "instanceType": "EligibilityCriterion"
+              },
+              {
+                "id": "EC_EX02",
+                "name": "EX02",
+                "label": "EX02",
+                "description": "",
+                "identifier": "EX02",
+                "category": {
+                  "id": "Code_155",
+                  "code": "C25370",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "NCI Thesaurus",
+                  "decode": "Exclusion Criteria",
+                  "instanceType": "Code"
+                },
+                "criterionItemId": "ECI_EX02",
+                "previousId": "EC_EX01",
+                "nextId": "EC_EX03",
+                "contextId": null,
+                "instanceType": "EligibilityCriterion"
+              },
+              {
+                "id": "EC_EX03",
+                "name": "EX03",
+                "label": "EX03",
+                "description": "",
+                "identifier": "EX03",
+                "category": {
+                  "id": "Code_156",
+                  "code": "C25370",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "NCI Thesaurus",
+                  "decode": "Exclusion Criteria",
+                  "instanceType": "Code"
+                },
+                "criterionItemId": "ECI_EX03",
+                "previousId": "EC_EX02",
+                "nextId": null,
+                "contextId": null,
+                "instanceType": "EligibilityCriterion"
+              }
+            ],
+            "scheduleTimelines": [
+              {
+                "id": "Timeline_1",
+                "name": "Main timeline",
+                "label": "Schedule of activities",
+                "description": "",
+                "mainTimeline": true,
+                "entryCondition": "Informed consent signed",
+                "entryId": "SAI_SCR",
+                "plannedDuration": null,
+                "exits": [
+                  {
+                    "id": "Exit_1",
+                    "instanceType": "ScheduleTimelineExit"
+                  }
+                ],
+                "instanceType": "ScheduleTimeline",
+                "instances": [
+                  {
+                    "id": "SAI_SCR",
+                    "name": "SCR",
+                    "label": "Screening",
+                    "description": "",
+                    "encounterId": "Encounter_SCR",
+                    "activityIds": [
+                      "Activity_P01",
+                      "Activity_P02",
+                      "Activity_P03",
+                      "Activity_P04",
+                      "Activity_P05",
+                      "Activity_P07",
+                      "Activity_P08",
+                      "Activity_P09",
+                      "Activity_P10",
+                      "Activity_P12",
+                      "Activity_P13"
+                    ],
+                    "epochId": "StudyEpoch_EP_SCR",
+                    "defaultConditionId": "SAI_D1",
+                    "timelineExitId": null,
+                    "timelineId": null,
+                    "instanceType": "ScheduledActivityInstance"
+                  },
+                  {
+                    "id": "SAI_D1",
+                    "name": "D1",
+                    "label": "Day 1 (randomisation)",
+                    "description": "",
+                    "encounterId": "Encounter_D1",
+                    "activityIds": [
+                      "Activity_P03",
+                      "Activity_P05",
+                      "Activity_P06",
+                      "Activity_P07",
+                      "Activity_P10",
+                      "Activity_P11",
+                      "Activity_P12",
+                      "Activity_P13"
+                    ],
+                    "epochId": "StudyEpoch_EP_TRT",
+                    "defaultConditionId": "SAI_W2",
+                    "timelineExitId": null,
+                    "timelineId": null,
+                    "instanceType": "ScheduledActivityInstance"
+                  },
+                  {
+                    "id": "SAI_W2",
+                    "name": "W2",
+                    "label": "Week 2",
+                    "description": "",
+                    "encounterId": "Encounter_W2",
+                    "activityIds": [
+                      "Activity_P05",
+                      "Activity_P12",
+                      "Activity_P13"
+                    ],
+                    "epochId": "StudyEpoch_EP_TRT",
+                    "defaultConditionId": "SAI_W4",
+                    "timelineExitId": null,
+                    "timelineId": null,
+                    "instanceType": "ScheduledActivityInstance"
+                  },
+                  {
+                    "id": "SAI_W4",
+                    "name": "W4",
+                    "label": "Week 4",
+                    "description": "",
+                    "encounterId": "Encounter_W4",
+                    "activityIds": [
+                      "Activity_P05",
+                      "Activity_P06",
+                      "Activity_P07",
+                      "Activity_P08",
+                      "Activity_P09",
+                      "Activity_P11",
+                      "Activity_P12",
+                      "Activity_P13"
+                    ],
+                    "epochId": "StudyEpoch_EP_TRT",
+                    "defaultConditionId": "SAI_W8",
+                    "timelineExitId": null,
+                    "timelineId": null,
+                    "instanceType": "ScheduledActivityInstance"
+                  },
+                  {
+                    "id": "SAI_W8",
+                    "name": "W8",
+                    "label": "Week 8",
+                    "description": "",
+                    "encounterId": "Encounter_W8",
+                    "activityIds": [
+                      "Activity_P05",
+                      "Activity_P06",
+                      "Activity_P11",
+                      "Activity_P12",
+                      "Activity_P13"
+                    ],
+                    "epochId": "StudyEpoch_EP_TRT",
+                    "defaultConditionId": "SAI_W12",
+                    "timelineExitId": null,
+                    "timelineId": null,
+                    "instanceType": "ScheduledActivityInstance"
+                  },
+                  {
+                    "id": "SAI_W12",
+                    "name": "W12",
+                    "label": "Week 12 (end of treatment)",
+                    "description": "",
+                    "encounterId": "Encounter_W12",
+                    "activityIds": [
+                      "Activity_P05",
+                      "Activity_P06",
+                      "Activity_P07",
+                      "Activity_P08",
+                      "Activity_P09",
+                      "Activity_P10",
+                      "Activity_P11",
+                      "Activity_P12",
+                      "Activity_P13"
+                    ],
+                    "epochId": "StudyEpoch_EP_TRT",
+                    "defaultConditionId": "SAI_FU",
+                    "timelineExitId": null,
+                    "timelineId": null,
+                    "instanceType": "ScheduledActivityInstance"
+                  },
+                  {
+                    "id": "SAI_FU",
+                    "name": "FU",
+                    "label": "Week 14 follow-up",
+                    "description": "",
+                    "encounterId": "Encounter_FU",
+                    "activityIds": [
+                      "Activity_P07",
+                      "Activity_P12",
+                      "Activity_P13",
+                      "Activity_P14"
+                    ],
+                    "epochId": "StudyEpoch_EP_FU",
+                    "defaultConditionId": null,
+                    "timelineExitId": "Exit_1",
+                    "timelineId": null,
+                    "instanceType": "ScheduledActivityInstance"
+                  }
+                ],
+                "timings": [
+                  {
+                    "id": "Timing_SCR",
+                    "name": "SCR timing",
+                    "label": "Screening",
+                    "description": "",
+                    "type": {
+                      "id": "Code_1",
+                      "code": "BEFORE",
+                      "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                      "codeSystemVersion": "1",
+                      "decode": "Before",
+                      "instanceType": "Code"
+                    },
+                    "value": "P14D",
+                    "valueLabel": "Day -14",
+                    "relativeToFrom": {
+                      "id": "Code_2",
+                      "code": "START_TO_START",
+                      "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                      "codeSystemVersion": "1",
+                      "decode": "Start to Start",
+                      "instanceType": "Code"
+                    },
+                    "relativeFromScheduledInstanceId": "SAI_SCR",
+                    "relativeToScheduledInstanceId": "SAI_D1",
+                    "windowLower": "P7D",
+                    "windowUpper": "P7D",
+                    "windowLabel": "Day -21 to -7",
+                    "instanceType": "Timing"
+                  },
+                  {
+                    "id": "Timing_D1",
+                    "name": "D1 timing",
+                    "label": "Day 1 (randomisation)",
+                    "description": "",
+                    "type": {
+                      "id": "Code_3",
+                      "code": "FIXED_REFERENCE",
+                      "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                      "codeSystemVersion": "1",
+                      "decode": "Fixed Reference",
+                      "instanceType": "Code"
+                    },
+                    "value": "P0D",
+                    "valueLabel": "Day 1",
+                    "relativeToFrom": {
+                      "id": "Code_4",
+                      "code": "START_TO_START",
+                      "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                      "codeSystemVersion": "1",
+                      "decode": "Start to Start",
+                      "instanceType": "Code"
+                    },
+                    "relativeFromScheduledInstanceId": "SAI_D1",
+                    "relativeToScheduledInstanceId": "SAI_D1",
+                    "windowLower": "P0D",
+                    "windowUpper": "P0D",
+                    "windowLabel": "Day 1",
+                    "instanceType": "Timing"
+                  },
+                  {
+                    "id": "Timing_W2",
+                    "name": "W2 timing",
+                    "label": "Week 2",
+                    "description": "",
+                    "type": {
+                      "id": "Code_5",
+                      "code": "AFTER",
+                      "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                      "codeSystemVersion": "1",
+                      "decode": "After",
+                      "instanceType": "Code"
+                    },
+                    "value": "P14D",
+                    "valueLabel": "Day 15",
+                    "relativeToFrom": {
+                      "id": "Code_6",
+                      "code": "START_TO_START",
+                      "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                      "codeSystemVersion": "1",
+                      "decode": "Start to Start",
+                      "instanceType": "Code"
+                    },
+                    "relativeFromScheduledInstanceId": "SAI_W2",
+                    "relativeToScheduledInstanceId": "SAI_D1",
+                    "windowLower": "P2D",
+                    "windowUpper": "P2D",
+                    "windowLabel": "Day 13 to 17",
+                    "instanceType": "Timing"
+                  },
+                  {
+                    "id": "Timing_W4",
+                    "name": "W4 timing",
+                    "label": "Week 4",
+                    "description": "",
+                    "type": {
+                      "id": "Code_7",
+                      "code": "AFTER",
+                      "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                      "codeSystemVersion": "1",
+                      "decode": "After",
+                      "instanceType": "Code"
+                    },
+                    "value": "P28D",
+                    "valueLabel": "Day 29",
+                    "relativeToFrom": {
+                      "id": "Code_8",
+                      "code": "START_TO_START",
+                      "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                      "codeSystemVersion": "1",
+                      "decode": "Start to Start",
+                      "instanceType": "Code"
+                    },
+                    "relativeFromScheduledInstanceId": "SAI_W4",
+                    "relativeToScheduledInstanceId": "SAI_D1",
+                    "windowLower": "P3D",
+                    "windowUpper": "P3D",
+                    "windowLabel": "Day 26 to 32",
+                    "instanceType": "Timing"
+                  },
+                  {
+                    "id": "Timing_W8",
+                    "name": "W8 timing",
+                    "label": "Week 8",
+                    "description": "",
+                    "type": {
+                      "id": "Code_9",
+                      "code": "AFTER",
+                      "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                      "codeSystemVersion": "1",
+                      "decode": "After",
+                      "instanceType": "Code"
+                    },
+                    "value": "P56D",
+                    "valueLabel": "Day 57",
+                    "relativeToFrom": {
+                      "id": "Code_10",
+                      "code": "START_TO_START",
+                      "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                      "codeSystemVersion": "1",
+                      "decode": "Start to Start",
+                      "instanceType": "Code"
+                    },
+                    "relativeFromScheduledInstanceId": "SAI_W8",
+                    "relativeToScheduledInstanceId": "SAI_D1",
+                    "windowLower": "P4D",
+                    "windowUpper": "P4D",
+                    "windowLabel": "Day 53 to 61",
+                    "instanceType": "Timing"
+                  },
+                  {
+                    "id": "Timing_W12",
+                    "name": "W12 timing",
+                    "label": "Week 12 (end of treatment)",
+                    "description": "",
+                    "type": {
+                      "id": "Code_11",
+                      "code": "AFTER",
+                      "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                      "codeSystemVersion": "1",
+                      "decode": "After",
+                      "instanceType": "Code"
+                    },
+                    "value": "P84D",
+                    "valueLabel": "Day 85",
+                    "relativeToFrom": {
+                      "id": "Code_12",
+                      "code": "START_TO_START",
+                      "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                      "codeSystemVersion": "1",
+                      "decode": "Start to Start",
+                      "instanceType": "Code"
+                    },
+                    "relativeFromScheduledInstanceId": "SAI_W12",
+                    "relativeToScheduledInstanceId": "SAI_D1",
+                    "windowLower": "P4D",
+                    "windowUpper": "P4D",
+                    "windowLabel": "Day 81 to 89",
+                    "instanceType": "Timing"
+                  },
+                  {
+                    "id": "Timing_FU",
+                    "name": "FU timing",
+                    "label": "Week 14 follow-up",
+                    "description": "",
+                    "type": {
+                      "id": "Code_13",
+                      "code": "AFTER",
+                      "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                      "codeSystemVersion": "1",
+                      "decode": "After",
+                      "instanceType": "Code"
+                    },
+                    "value": "P98D",
+                    "valueLabel": "Day 99",
+                    "relativeToFrom": {
+                      "id": "Code_14",
+                      "code": "START_TO_START",
+                      "codeSystem": "https://randomthingsonlineatsk-cloud.github.io/protocol-builder/terms",
+                      "codeSystemVersion": "1",
+                      "decode": "Start to Start",
+                      "instanceType": "Code"
+                    },
+                    "relativeFromScheduledInstanceId": "SAI_FU",
+                    "relativeToScheduledInstanceId": "SAI_D1",
+                    "windowLower": "P3D",
+                    "windowUpper": "P3D",
+                    "windowLabel": "Day 96 to 102",
+                    "instanceType": "Timing"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
