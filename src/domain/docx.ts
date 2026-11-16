@@ -1,8 +1,10 @@
 // The protocol as a Word document (Office Open XML): title page, amendment details and summary of
-// changes, a table of contents field (Word fills it on opening: References, Update table), every
+// changes, a table of contents written with its entries and page numbers already filled in (the
+// page layout is worked out as the file is made, so it reads correctly in any app), every
 // M11 section as a numbered heading with its structured content as tables, and the schedule of
 // activities in landscape. Header: protocol identifier and version; footer: page numbers.
 import { AlignmentType, Document, Footer, Header, HeadingLevel, PageNumber, PageOrientation, Packer, Paragraph, SectionType, Table, TableCell, TableOfContents, TableRow, TextRun, WidthType, ShadingType } from 'docx'
+import { estimatePageNumbers } from 'docx/layout'
 import { TOC, TITLE_ELEMENTS, DESIGN_ELEMENTS } from './m11'
 import type { ProtocolData } from './types'
 import { amendmentRows, changeRows, type DocOpts } from './print'
@@ -50,17 +52,16 @@ export function protocolDocx(d: ProtocolData, opts: DocOpts = {}): Document {
     P('Fictional protocol written in the Protocol Builder (training only). ICH M11 CeSHarP structure.', { italics: true, size: 18 }),
     new Paragraph({ children: [new TextRun({ text: d.title['Full Title'] ?? '', bold: true, size: 32 })], spacing: { after: 300 } }),
     table(['Title page element', 'Value'], TITLE_ELEMENTS.filter((e) => d.title[e.term] && e.term !== 'Full Title').map((e) => [e.term, d.title[e.term]])),
-    ...(opts.amendment ? [new Paragraph({ text: 'Amendment details', heading: HeadingLevel.HEADING_1, pageBreakBefore: true }), table(['Amendment element', 'Value'], amendmentRows(opts.amendment).filter((r) => r[1])),
-      new Paragraph({ text: 'Overview of changes in the current amendment', heading: HeadingLevel.HEADING_2 }), table(['Section', 'Description of change', 'Brief rationale'], changeRows(opts.amendment).map((r) => r.slice(0, 3)))] : []),
-    new Paragraph({ text: 'Table of contents', heading: HeadingLevel.HEADING_1, pageBreakBefore: true }),
+    ...(opts.amendment ? [new Paragraph({ children: [new TextRun({ text: 'Amendment details', bold: true, size: 28 })], pageBreakBefore: true, spacing: { after: 200 } }), table(['Amendment element', 'Value'], amendmentRows(opts.amendment).filter((r) => r[1])),
+      new Paragraph({ children: [new TextRun({ text: 'Overview of changes in the current amendment', bold: true, size: 24 })], spacing: { before: 240, after: 120 } }), table(['Section', 'Description of change', 'Brief rationale'], changeRows(opts.amendment).map((r) => r.slice(0, 3)))] : []),
+    new Paragraph({ children: [new TextRun({ text: 'Table of contents', bold: true, size: 28 })], pageBreakBefore: true, spacing: { after: 200 } }),
     new TableOfContents('Table of contents', { hyperlink: true, headingStyleRange: '1-2' }),
-    P('Right-click the table and choose Update Field to fill it.', { italics: true, size: 16 }),
   ]
   const header = new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: `${id} · version ${ver}`, size: 16, color: '666666' })] })] })
   const footer = new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ children: ['Page ', PageNumber.CURRENT, ' of ', PageNumber.TOTAL_PAGES], size: 16 })] })] })
   return new Document({
     creator: 'Protocol Builder', title: `${id} protocol ${ver}`, description: 'Fictional training protocol in the ICH M11 structure',
-    features: { updateFields: true },
+    pageNumbers: estimatePageNumbers,
     styles: { default: { document: { run: { font: 'Calibri', size: 21 } } } },
     sections: [
       { properties: {}, headers: { default: header }, footers: { default: footer }, children: [...titlePage, new Paragraph({ text: '', pageBreakBefore: true }), ...body] },

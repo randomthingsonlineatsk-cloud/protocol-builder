@@ -32,7 +32,7 @@ export default function Export() {
       <Panel title="Readable protocol" sub="Title page, amendment details, table of contents, every section in order and the schedule grid. Save as PDF from the print dialog, or download a Word file.">
         <div className="flex flex-wrap gap-2"><Btn onClick={printIt}>Open the print layout</Btn>
           <Btn tone="grey" onClick={async () => { const { protocolDocxBlob } = await import('../domain/docx'); const b = await protocolDocxBlob(d, docOpts(p!)); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `${id}-protocol-${ver}.docx`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000) }}>Word document (DOCX)</Btn></div>
-        <p className="text-xs text-lab-text-muted">The Word file has the title page, amendment details and summary of changes, a table of contents (Word fills it when you update fields), every section and the schedule of activities in landscape.</p>
+        <p className="text-xs text-lab-text-muted">The Word file has the title page, amendment details and summary of changes, a table of contents already filled in with page numbers, every section and the schedule of activities in landscape.</p>
       </Panel>
       <Panel title="Project file" sub="Everything in this project, to keep or to open in another browser.">
         <Btn onClick={() => download(`${p!.name.replace(/[^\w.-]+/g, '_')}.protocol-builder.json`, projectFile(p!))}>Export project file</Btn>
