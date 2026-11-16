@@ -3,7 +3,9 @@
 // activities grid. Headers repeat the protocol identifier and version.
 import { TOC, TITLE_ELEMENTS, DESIGN_ELEMENTS } from './m11'
 import { CODELISTS } from './m11'
-import type { ProtocolData } from './types'
+import CT from './ct-usdm.json'
+import type { ProtocolData, Amendment } from './types'
+import { categoryById } from './amend'
 
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!)
 const para = (s?: string) => (s ?? '').split(/\n{2,}/).filter((x) => x.trim()).map((x) => `<p>${esc(x)}</p>`).join('')
@@ -16,7 +18,13 @@ export function soaGrid(d: ProtocolData) {
   return table(head, rows) + d.procedures.filter((p) => p.footnote).map((p) => `<p class="fn">${esc(p.footnote)}</p>`).join('')
 }
 
-export function protocolHtml(d: ProtocolData) {
+export interface DocOpts { amendment?: Amendment; prior?: Amendment[] }
+export const reasonName = (c: string) => (CT.codelists as unknown as Record<string, { terms: [string, string, string][] }>).C207415.terms.find((t) => t[0] === c)?.[2] ?? c
+export function amendmentRows(a: Amendment): [string, string][] {
+  return [['Amendment identifier', a.identifier], ['Amendment scope', a.scope + (a.scopeDetail ? ` (${a.scopeDetail})` : '')], ['Approximate % enrolled at sponsor approval', a.enrolledPct ? `${a.enrolledPct}%` : ''], ['Primary reason', reasonName(a.primaryReason)], ['Secondary reasons', a.secondaryReasons.map(reasonName).join('; ')], ['Amendment summary', a.summary], ['Substantial impact on safety or rights', a.safetyRights], ['Impact on reliability and robustness of the data', a.dataImpact]]
+}
+export const changeRows = (a: Amendment) => a.changes.map((c) => [c.sections.join(', '), c.description, c.rationale, categoryById(c.category)?.label ?? ''])
+export function protocolHtml(d: ProtocolData, opts: DocOpts = {}) {
   const id = d.title['Sponsor Protocol Identifier'] ?? '', ver = d.title['Version Number'] ?? ''
   const body: string[] = []
   for (const s of TOC) {
@@ -39,7 +47,7 @@ export function protocolHtml(d: ProtocolData) {
     if (s.num === '5.2' || s.num === '5.3') content = `<ol class="crit">${d.criteria.filter((c) => c.category === (s.num === '5.2' ? 'Inclusion' : 'Exclusion')).map((c) => `<li><b>${esc(c.code)}</b> ${esc(c.text)}</li>`).join('')}</ol>`
     if (s.num === '6.1') content = table(['Intervention', 'Role', 'Dose', 'Route', 'Frequency', 'Duration'], d.interventions.map((i) => [esc(i.name), esc(i.role), esc(i.dose), esc(i.route), esc(i.frequency), i.durationWeeks ? `${i.durationWeeks} weeks` : '']))
     if (s.num === '10.2') content = table(['Analysis set', 'Definition'], d.analysisSets.map((a) => [esc(a.name), esc(a.text)]))
-    if (s.num === '12.3') content = `<p>${d.title['Original Protocol Indicator'] === 'No' ? 'This protocol has been amended.' : 'This protocol has not been amended.'}</p>`
+    if (s.num === '12.3') content = `<p>${!opts.prior?.length ? (d.title['Original Protocol Indicator'] === 'No' ? 'This is the first protocol amendment.' : 'This protocol has not been amended.') : 'This protocol has been amended previously. Details of prior amendments are below.'}</p>` + (opts.prior ?? []).map((a) => `<h4>Amendment ${esc(a.identifier)}</h4><p>${esc(a.summary)}</p>` + table(['Section', 'Change', 'Rationale'], changeRows(a).map((r) => r.slice(0, 3).map(esc)))).join('')
     body.push(`<${h} id="s${s.num}">${esc(s.num)} ${esc(s.title)}</${h}>${content}${para(d.narrative[s.num])}`)
   }
   const tp = table(['', ''], TITLE_ELEMENTS.filter((e) => d.title[e.term] && e.term !== 'Full Title').map((e) => [esc(e.term), esc(d.title[e.term])]))
@@ -52,6 +60,7 @@ export function protocolHtml(d: ProtocolData) {
   .note { font: 8pt sans-serif; color: #555 } ol.crit { list-style: none; padding: 0 } ol.crit li { margin-bottom: 1mm }
   </style></head><body>
   <section class="tp"><p class="note">Fictional protocol written in the Protocol Builder (training only). ICH M11 CeSHarP structure.</p><h1>${esc(d.title['Full Title'])}</h1>${tp}</section>
+  ${opts.amendment ? `<section class="tp"><h2>Amendment details</h2>${table(['', ''], amendmentRows(opts.amendment).filter((r) => r[1]).map((r) => r.map(esc)))}<h3>Overview of changes in the current amendment</h3>${table(['Section', 'Description of change', 'Brief rationale'], changeRows(opts.amendment).map((r) => r.slice(0, 3).map(esc)))}</section>` : ''}
   <nav class="toc"><h2>Table of contents</h2>${TOC.filter((s) => s.num !== 'TP' && s.num.split('.').length <= 2).map((s) => `<a href="#s${s.num}">${esc(s.num)} ${esc(s.title)}</a>`).join('')}</nav>
   ${body.join('\n')}
   </body></html>`

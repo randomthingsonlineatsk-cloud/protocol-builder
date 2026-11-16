@@ -1,3 +1,4 @@
+import { dataForEdit } from '../domain/amend'
 import { useStore } from '../state'
 import { current } from '../domain/project'
 import { findings } from '../domain/rules'
@@ -10,7 +11,7 @@ const PURPOSES = ['endpoint', 'safety', 'eligibility', 'conduct'] as const
 export default function Schedule() {
   const { p, act } = useStore()
   const d = current(p!)
-  const A = (fn: (d: ProtocolData) => void) => act((x) => fn(x.versions[x.versions.length - 1].data))
+  const A = (fn: (d: ProtocolData) => void) => act((x) => fn(dataForEdit(x)))
   const vs = d.visits.slice().sort((a, b) => a.day - b.day)
   const fs = findings(d).filter((f) => !p!.marks[f.id] && (f.rule.startsWith('PB-A') || f.rule.startsWith('PB-P0') || f.rule === 'PB-I03' || f.rule === 'PB-S04'))
   const b = burden(d)

@@ -1,6 +1,6 @@
 import { useStore } from '../state'
-import { current, protocolId, projectFile, handoff, status } from '../domain/project'
-import { usdmOf, teachingSubset, checkUsdm } from '../domain/usdm'
+import { current, protocolId, projectFile, handoff, status, usdmOfProject, docOpts } from '../domain/project'
+import { teachingSubset, checkUsdm } from '../domain/usdm'
 import { protocolHtml } from '../domain/print'
 import { download } from '../domain/store'
 import { Btn, Panel, Pill } from './ui'
@@ -11,13 +11,13 @@ const JOURNEY = 'https://randomthingsonlineatsk-cloud.github.io/pharmolecule/jou
 export default function Export() {
   const { p } = useStore()
   const d = current(p!), id = protocolId(p!).replace(/[^\w.-]+/g, '_'), ver = d.title['Version Number'] || '0'
-  const u = usdmOf(d), issues = checkUsdm(u), errors = issues.filter((i) => i.level === 'error').length
+  const u = usdmOfProject(p!), issues = checkUsdm(u), errors = issues.filter((i) => i.level === 'error').length
   const st = status(p!)
   const json = (x: unknown) => JSON.stringify(x, null, 2)
   const printIt = () => {
     const w = window.open('', '_blank')
     if (!w) return
-    w.document.write(protocolHtml(d)); w.document.close(); setTimeout(() => w.print(), 400)
+    w.document.write(protocolHtml(d, docOpts(p!))); w.document.close(); setTimeout(() => w.print(), 400)
   }
   return (
     <div className="grid lg:grid-cols-2 gap-4">
@@ -29,9 +29,10 @@ export default function Export() {
         </div>
         <p className="text-xs text-lab-text-muted">The teaching subset holds only what the <a className="underline text-lab-fda" href={EDC} target="_blank" rel="noreferrer">EDC Study Build Lab</a> reads to draft a database build (study, titles, identifiers, criteria, biomedical concepts, encounters, activities and the schedule timeline). Its “Generate a build from a USDM file” accepts either file.</p>
       </Panel>
-      <Panel title="Readable protocol" sub="Title page, table of contents, every section in order, the schedule grid. Use the print dialog’s “Save as PDF”.">
-        <Btn onClick={printIt}>Open the print layout</Btn>
-        <p className="text-xs text-lab-text-muted">A Word (DOCX) export comes in a later version.</p>
+      <Panel title="Readable protocol" sub="Title page, amendment details, table of contents, every section in order and the schedule grid. Save as PDF from the print dialog, or download a Word file.">
+        <div className="flex flex-wrap gap-2"><Btn onClick={printIt}>Open the print layout</Btn>
+          <Btn tone="grey" onClick={async () => { const { protocolDocxBlob } = await import('../domain/docx'); const b = await protocolDocxBlob(d, docOpts(p!)); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `${id}-protocol-${ver}.docx`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000) }}>Word document (DOCX)</Btn></div>
+        <p className="text-xs text-lab-text-muted">The Word file has the title page, amendment details and summary of changes, a table of contents (Word fills it when you update fields), every section and the schedule of activities in landscape.</p>
       </Panel>
       <Panel title="Project file" sub="Everything in this project, to keep or to open in another browser.">
         <Btn onClick={() => download(`${p!.name.replace(/[^\w.-]+/g, '_')}.protocol-builder.json`, projectFile(p!))}>Export project file</Btn>

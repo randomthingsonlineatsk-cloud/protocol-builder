@@ -1,10 +1,11 @@
+import { dataForEdit } from '../domain/amend'
 import { useState } from 'react'
 import { useStore } from '../state'
 import { useNav } from '../App'
 import { current } from '../domain/project'
 import { TOC, TITLE_ELEMENTS, DESIGN_ELEMENTS, CODELISTS, type ElementDef, type SectionDef } from '../domain/m11'
 import { findings, REQUIRED_TEXT } from '../domain/rules'
-import { sizeFromFacts } from '../domain/stats'
+import { SampleEditor, MultiplicityEditor, InterimEditor } from './StatsEditors'
 import { soaGrid } from '../domain/print'
 import type { ProtocolData, Arm, Intervention, Criterion, AnalysisSet } from '../domain/types'
 import { Btn, Panel, Pill, Select, TextArea, Table, inputCls } from './ui'
@@ -104,7 +105,7 @@ function Interventions({ d, act }: { d: ProtocolData; act: Act }) {
 function Analysis({ d, act }: { d: ProtocolData; act: Act }) {
   const set = (i: number, k: keyof AnalysisSet, v: string) => act((x) => { x.analysisSets[i][k] = v })
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <p className="font-mono text-xs">Analysis sets (10.2)</p>
       {d.analysisSets.map((a, i) => (
         <div key={i} className="grid md:grid-cols-[6rem_12rem_1fr_auto] gap-2">
@@ -114,44 +115,16 @@ function Analysis({ d, act }: { d: ProtocolData; act: Act }) {
           <Btn tone="red" onClick={() => act((x) => { x.analysisSets.splice(i, 1) })}>Remove</Btn>
         </div>))}
       <Btn onClick={() => act((x) => { x.analysisSets.push({ id: `AS${x.analysisSets.length + 1}`, name: '', text: '' }) })}>Add an analysis set</Btn>
-      <label className="block text-xs text-lab-text-muted pt-2">Multiplicity strategy (10.10)<TextArea value={d.multiplicity} onChange={(e) => act((x) => { x.multiplicity = e.target.value })} /></label>
+      <p className="font-mono text-xs pt-2">Interim analyses (10.9)</p>
+      <InterimEditor d={d} act={act} />
+      <p className="font-mono text-xs pt-2">Multiplicity (10.10)</p>
+      <MultiplicityEditor d={d} act={act} />
+      <label className="block text-xs text-lab-text-muted">Multiplicity strategy as written in 10.10<TextArea value={d.multiplicity} onChange={(e) => act((x) => { x.multiplicity = e.target.value })} /></label>
     </div>
   )
 }
 
-function Sample({ d, act }: { d: ProtocolData; act: Act }) {
-  const f = d.facts
-  let res: ReturnType<typeof sizeFromFacts> | null = null, err = ''
-  try { res = sizeFromFacts(f) } catch (e) { err = (e as Error).message }
-  const a = f.assumption
-  return (
-    <div className="space-y-3">
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-        <label className="text-xs text-lab-text-muted">Comparison<Select value={a.kind} onChange={(e) => act((x) => { x.facts.assumption = e.target.value === 'means' ? { kind: 'means', delta: 1, sd: 2 } : { kind: 'proportions', p0: 0.2, p1: 0.4 } })} options={[{ value: 'proportions', label: 'Two proportions' }, { value: 'means', label: 'Two means' }]} /></label>
-        {a.kind === 'proportions' ? <>
-          <Num label="Control proportion p0" step={0.01} value={a.p0} set={(n) => act((x) => { if (x.facts.assumption.kind === 'proportions') x.facts.assumption.p0 = n })} />
-          <Num label="Active proportion p1" step={0.01} value={a.p1} set={(n) => act((x) => { if (x.facts.assumption.kind === 'proportions') x.facts.assumption.p1 = n })} />
-        </> : <>
-          <Num label="Difference δ" step={0.01} value={a.delta} set={(n) => act((x) => { if (x.facts.assumption.kind === 'means') x.facts.assumption.delta = n })} />
-          <Num label="Standard deviation σ" step={0.01} value={a.sd} set={(n) => act((x) => { if (x.facts.assumption.kind === 'means') x.facts.assumption.sd = n })} />
-        </>}
-        <Num label="Power" step={0.05} value={f.power} set={(n) => act((x) => { x.facts.power = n })} />
-        <Num label="Alpha" step={0.005} value={f.alpha} set={(n) => act((x) => { x.facts.alpha = n })} />
-        <label className="text-xs text-lab-text-muted">Sides<Select value={String(f.sided)} onChange={(e) => act((x) => { x.facts.sided = Number(e.target.value) as 1 | 2 })} options={[{ value: '2', label: 'Two-sided' }, { value: '1', label: 'One-sided' }]} /></label>
-        <Num label="Dropout (%)" value={f.dropoutPct} set={(n) => act((x) => { x.facts.dropoutPct = n })} />
-        <Num label="Per arm (stated)" value={f.perArm} set={(n) => act((x) => { x.facts.perArm = n })} />
-        <Num label="Total participants (stated)" value={f.participants} set={(n) => act((x) => { x.facts.participants = n })} />
-      </div>
-      {res ? <div className="rounded border border-lab-line bg-lab-panel-strong/50 p-2 text-xs font-mono space-y-1"><p>{res.formula}</p><p>{res.working}</p><p>× {d.arms.length} arms = {res.perArm * d.arms.length} participants</p></div> : <p className="text-xs text-lab-red">{err}</p>}
-      <Btn tone="grey" disabled={!res} onClick={() => act((x) => { if (!res) return; x.facts.perArm = res.perArm; x.facts.participants = res.perArm * x.arms.length })}>Use these numbers</Btn>
-      <label className="block text-xs text-lab-text-muted">Sample size statement (10.11), as it appears in the protocol<TextArea value={d.statements['10.11'] ?? ''} onChange={(e) => act((x) => { x.statements['10.11'] = e.target.value; x.narrative['10.11'] = e.target.value })} /></label>
-      <Btn tone="grey" onClick={() => act((x) => {
-        const s = `A sample size of ${x.facts.participants} randomised participants (${x.facts.perArm} per arm) gives ${Math.round(x.facts.power * 100)}% power to detect ${x.facts.assumption.kind === 'proportions' ? `a difference in response of ${Math.round(x.facts.assumption.p1 * 100)}% against ${Math.round(x.facts.assumption.p0 * 100)}%` : `a difference of ${x.facts.assumption.delta} (standard deviation ${x.facts.assumption.sd})`} (${x.facts.sided === 2 ? 'two' : 'one'}-sided alpha ${x.facts.alpha}), allowing for ${x.facts.dropoutPct}% dropout.`
-        x.statements['10.11'] = s; x.narrative['10.11'] = s
-      })}>Write the statement from the numbers</Btn>
-    </div>
-  )
-}
+const Sample = SampleEditor
 
 function Structured({ s, d, act }: { s: SectionDef; d: ProtocolData; act: Act }) {
   const { go } = useNav()
@@ -174,7 +147,7 @@ export default function Sections() {
   const d = current(p!)
   const fs = findings(d).filter((f) => !p!.marks[f.id])
   const s = TOC.find((x) => x.num === num)!
-  const actD: Act = (fn) => act((x) => fn(x.versions[x.versions.length - 1].data))
+  const actD: Act = (fn) => act((x) => fn(dataForEdit(x)))
   const mark = (n: string) => { const has = fs.some((f) => f.sections.includes(n)); const empty = REQUIRED_TEXT.includes(n) && !(d.narrative[n] ?? '').trim(); return has ? 'bg-lab-red' : empty ? 'bg-lab-amber' : 'bg-lab-cdsco' }
   const mine = fs.filter((f) => f.sections.includes(num) || (num !== 'TP' && f.sections.some((x) => x.startsWith(num + '.'))))
   return (

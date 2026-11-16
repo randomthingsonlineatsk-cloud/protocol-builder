@@ -3456,6 +3456,71 @@
 "Year"
 ]
 ]
+},
+"C215481": {
+"name": "Study Amendment Impact Type Value Set Terminology",
+"terms": [
+[
+"C215667",
+"Study Data Reliability",
+"Study Data Reliability"
+],
+[
+"C215668",
+"Study Data Robustness",
+"Study Data Robustness"
+],
+[
+"C215666",
+"Study Subject Rights",
+"Study Subject Rights"
+],
+[
+"C215665",
+"Study Subject Safety",
+"Study Subject Safety"
+]
+]
+},
+"C207412": {
+"name": "Geographic Scope Type Value Set Terminology",
+"terms": [
+[
+"C25464",
+"Country",
+"Country"
+],
+[
+"C68846",
+"Global",
+"Global"
+],
+[
+"C41129",
+"Region",
+"Region"
+]
+]
+},
+"C207413": {
+"name": "Governance Date Type Value Set Terminology",
+"terms": [
+[
+"C71476",
+"Approval Date",
+"Approval Date"
+],
+[
+"C215663",
+"Effective Date",
+"Effective Date"
+],
+[
+"C215664",
+"Issued Date",
+"Issued Date"
+]
+]
 }
 }
 }

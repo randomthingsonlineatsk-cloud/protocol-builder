@@ -6,9 +6,12 @@ import { findings } from './rules'
 import { newProject, current } from './project'
 import { usdmOf, checkUsdm } from './usdm'
 import { REQUIRED_TEXT } from './rules'
+import { planProblems } from './stats'
+import { approve, amendmentFindings, grade as gradeChange, REGIONS, CATEGORIES } from './amend'
+import type { Region } from './types'
 
 export interface Question { id: string; q: string; options: string[]; answer: string; section: string }
-export interface MissionDef { id: string; title: string; brief: string; core: boolean; steps: string[]; pass: number; expert: number; start: () => Project; questions?: Question[] }
+export interface MissionDef { id: string; title: string; brief: string; core: boolean; steps: string[]; pass: number; expert: number; start: () => Project; questions?: Question[]; classify?: { text: string; category: string }[] }
 
 // ---------- M1: read a protocol ----------
 const Q = (id: string, q: string, answer: string, wrong: string[], section: string): Question => ({ id, q, answer, options: [answer, ...wrong].sort((a, b) => a.localeCompare(b)), section })
@@ -61,6 +64,40 @@ export function plantedVasclear(): ProtocolData { const d = EXAMPLES['HLV-204-20
 function m2Start(): ProtocolData { const d = nfrData(); d.objectives = []; d.endpoints = []; d.estimands = []; for (const s of ['4.2.1', '10.4', '10.5', '10.10']) d.narrative[s] = ''; return d }
 function m3Start(): ProtocolData { const d = nfrData(); d.procedures = d.procedures.map((p) => (p.visits === 'continuous' ? p : { ...p, visits: [] })); return d }
 export const m3Target = () => burden(nfrData()).minutes
+function m6Start(): ProtocolData {
+  const d = EXAMPLES['HRP-301'].data()
+  d.facts.perArm = 0; d.facts.participants = 0; d.facts.assumption = { kind: 'proportions' }
+  d.statements['10.11'] = ''; d.narrative['10.11'] = ''; d.multiplicity = ''; d.narrative['10.10'] = ''
+  d.design['Target/Maximum Number of Participants'] = ''; d.design['Number of Participants Randomly Assigned'] = ''
+  return d
+}
+function m7Start(): Project {
+  const d = EXAMPLES['HRP-301'].data()
+  d.procedures.find((x) => x.id === 'P07')!.visits = ['SCR', 'W4', 'W8', 'W16', 'FU']
+  d.procedures.find((x) => x.id === 'P07')!.footnote = undefined
+  d.narrative['7.1'] = 'The trial intervention is stopped permanently for pregnancy, a serious adverse reaction, or if the investigator judges it in the participant’s interest. Participants who stop the intervention stay in the trial and attend every visit, so their data can be used.'
+  d.narrative['2.2.1'] = d.narrative['2.2.1'].replace(' liver tests at every visit (P07); discontinuation for ALT above 5 × ULN (7.1).', ' liver tests at screening and Weeks 4, 8 and 16 (P07).')
+  const p = newProject('M7: VERDANT-1 amendment after a liver signal', d, 'mission', 'Phase 3')
+  approve(p, '2026-01-20')
+  return p
+}
+export const M8_CHANGES = [
+  { text: 'Add ALT, AST and bilirubin at Weeks 2 and 12 after the data monitoring committee reports a hepatic signal.', category: 'safety-add' },
+  { text: 'Stop the Week 16 ECG because the phase 2 data showed no QT effect.', category: 'safety-drop' },
+  { text: 'Stop dosing in every participant at once after two unexpected deaths, before any amendment can be approved.', category: 'urgent' },
+  { text: 'Add a lumiravostat 50 mg arm.', category: 'exposure' },
+  { text: 'Increase the sample size from 324 to 420 participants.', category: 'size' },
+  { text: 'Make HECSI-75 the primary endpoint instead of IGA-CHE success.', category: 'design' },
+  { text: 'Drop the exclusion of systemic immunosuppressants in the 4 weeks before Day 1.', category: 'design' },
+  { text: 'Add a pharmacokinetic blood sample at Week 4.', category: 'schedule' },
+  { text: 'Add a site in Pune with a new principal investigator.', category: 'site' },
+  { text: 'Reword the informed consent form to explain liver monitoring more clearly; the protocol does not change.', category: 'icf' },
+  { text: 'Correct a typing error in section 8.2.', category: 'admin' },
+  { text: 'Change the sponsor’s medical monitor and their telephone number.', category: 'contact' },
+  { text: 'Use a different courier for central laboratory samples.', category: 'logistic' },
+  { text: 'Add an open-label extension for participants who complete Week 20, run under its own protocol.', category: 'new-study' },
+  { text: 'Analyse the primary endpoint with a stratified Cochran-Mantel-Haenszel test instead of Fisher’s exact test.', category: 'design' },
+]
 export function burden(d: ProtocolData) {
   let minutes = 0, blood = 0, slots = 0
   for (const p of d.procedures) if (p.visits !== 'continuous') { slots += p.visits.length; minutes += (p.minutes ?? 5) * p.visits.length; blood += (p.bloodMl ?? 0) * p.visits.length }
@@ -78,6 +115,12 @@ export const MISSIONS: MissionDef[] = [
     start: () => newProject('M4: HRP-201 phase 2 protocol', fromLibrary('lumiravostat', 'che', 'dose', 'Phase 2', 'HRP-201'), 'mission', 'Phase 2') },
   { id: 'M5', title: 'Fix a protocol with 20 planted inconsistencies', core: true, pass: 70, expert: 100, brief: 'VASCLEAR-2 came back from medical review with 20 inconsistencies across the synopsis, the estimands, the schedule, the criteria, the intervention and the statistics. Find and fix them without making new ones.', steps: ['Open Checks to see the findings.', 'Fix each one at its source (not by marking it justified).', 'Submit when no findings are left.'],
     start: () => newProject('M5: fix VASCLEAR-2', plantedVasclear(), 'mission', 'Phase 2') },
+  { id: 'M6', title: 'Size the study and control multiplicity', core: true, pass: 70, expert: 100, brief: 'VERDANT-1 compares two doses of lumiravostat with placebo on three efficacy estimands (IGA-CHE success, HECSI-75, itch), so it tests six hypotheses. Size it for IGA-CHE success of 35% on each dose against 15% on placebo, two-sided alpha 0.05, 90% power, with 10% of participants having no Week 16 assessment, and control the familywise error rate across all six hypotheses.', steps: ['Section 10.11: choose the design and enter the assumptions; use the numbers and write the statement.', 'Fill the reused number of participants in 1.1.2.', 'Section 10: build a multiplicity plan for the six hypotheses (try p-values to see it work) and write 10.10 from it.', 'Clear the statistics findings, then submit.'],
+    start: () => newProject('M6: VERDANT-1 sample size and multiplicity', m6Start(), 'mission', 'Phase 3') },
+  { id: 'M7', title: 'Write an amendment after a safety signal', core: true, pass: 70, expert: 100, brief: 'Version 1.0 of VERDANT-1 is approved and running. The data monitoring committee reports three participants on 25 mg with ALT above 5 × ULN between Weeks 2 and 4. The sponsor decides to take liver tests at every visit (adding Weeks 2 and 12) and to stop the trial intervention for ALT above 5 × ULN, or above 3 × ULN with bilirubin above 2 × ULN. Write amendment 1.', steps: ['Versions and amendments: start the amendment (version 2.0).', 'Change the schedule (central laboratory at every visit), section 7.1 (the stopping rule) and section 2.2.1 (the risk and its mitigation).', 'Fill the amendment details: primary reason, summary, impact on safety and data.', 'Draft the summary of changes from the tracked changes, give each a rationale and a kind, and classify each for the US, EU and India. Then submit.'],
+    start: () => m7Start() },
+  { id: 'M8', title: 'Classify 15 changes for the US, EU and India', core: false, pass: 70, expert: 93, brief: 'Fifteen proposed changes to the phase 3 VERDANT-1 protocol. For each, decide how it is handled under 21 CFR 312.30, the EU Clinical Trials Regulation and India’s NDCT Rules 2019.', steps: ['Classify every change for each region on the mission bar.', 'Submit, then read the reasons for any you missed.'], classify: M8_CHANGES,
+    start: () => newProject('M8: classify 15 changes', EXAMPLES['HRP-301'].data(), 'mission', 'Phase 3') },
 ]
 export const missionById = (id: string) => MISSIONS.find((m) => m.id === id)!
 export function startMission(id: string): Project { const m = missionById(id); const p = m.start(); p.mission = { id, startedUtc: new Date().toISOString(), answers: {} }; return p }
@@ -119,6 +162,36 @@ export function grade(p: Project): Score {
     detail = [line('No high findings', !fs.some((f) => f.severity === 'high'), 40), line(`At most 3 open medium findings (${med})`, med <= 3, 20),
       line('Every primary objective has an estimand, and there are at least two arms', d.objectives.some((o) => o.level === 'Primary') && !fs.some((f) => f.rule === 'PB-E01') && d.arms.length >= 2, 15),
       line(`The USDM export has no errors (${issues.length})`, issues.length === 0 && d.visits.length > 0, 15), line(`Required sections written (${Math.round(textOk * 100)}%)`, textOk >= 0.9 ? 1 : textOk * 0.5, 10)]
+  }
+  if (id === 'M6') {
+    const plan = d.multiplicityPlan
+    detail = [line(`108 per arm and 324 participants (you have ${d.facts.perArm} and ${d.facts.participants})`, d.facts.perArm === 108 && d.facts.participants === 324, 30),
+      line('The sample size statement agrees with the numbers (PB-T01, PB-T02)', !!(d.statements['10.11'] ?? '').trim() && !fs.some((f) => f.rule === 'PB-T01' || f.rule === 'PB-T02'), 15),
+      line('1.1.2 shows the same number (PB-S01)', !!d.design['Number of Participants Randomly Assigned'] && !fs.some((f) => f.rule === 'PB-S01'), 10),
+      line('A valid multiplicity plan covering all six hypotheses', !!plan && plan.method !== 'none' && !planProblems(plan).length && plan.hypotheses.length >= 6, 25),
+      line('Section 10.10 written, with no multiplicity findings (PB-T03)', !!d.multiplicity.trim() && !fs.some((f) => f.rule === 'PB-T03'), 10),
+      line('No high findings', !fs.some((f) => f.severity === 'high'), 10)]
+  }
+  if (id === 'M7') {
+    const v = p.versions[p.versions.length - 1], a = v.amendment, prev = p.versions[p.versions.length - 2]
+    const lab = d.procedures.find((x) => x.id === 'P07'), visits = lab && lab.visits !== 'continuous' ? lab.visits : []
+    const t71 = d.narrative['7.1'] ?? ''
+    const am = amendmentFindings(p), lab13 = a?.changes.find((c) => c.sections.includes('1.3'))
+    const g13 = lab13 ? gradeChange(lab13, v.data.title['Trial Phase'] ?? '') : []
+    detail = [line('Amendment 1 started as version 2.0', !!a && p.versions.length >= 2, 10),
+      line('Central laboratory at every visit, including Weeks 2 and 12', ['SCR', 'W2', 'W4', 'W8', 'W12', 'W16'].every((x) => visits.includes(x)), 15),
+      line('Section 7.1 gives the liver stopping rule (ALT, × ULN)', /ALT/.test(t71) && /ULN/i.test(t71) && /5/.test(t71), 15),
+      line('Section 2.2.1 updated', !!prev && (prev.data.narrative['2.2.1'] ?? '') !== (d.narrative['2.2.1'] ?? ''), 5),
+      line('Primary reason: New Safety Information Available (C207609)', a?.primaryReason === 'C207609', 10),
+      line('Summary and impacts given (substantial impact on safety: Yes)', !!a?.summary.trim() && a?.safetyRights === 'Yes' && !!a?.dataImpact, 10),
+      line('Every changed section is in the summary of changes, each with a rationale', !!a && !am.some((f) => /^AM-0[128]/.test(f.id)), 10),
+      line('The schedule change is a safety-monitoring change, classified for all three regions', !!lab13 && lab13.category === 'safety-add' && g13.every((x) => x.ok || x.justified), 15),
+      line('No high consistency findings', !fs.some((f) => f.severity === 'high'), 10)]
+  }
+  if (id === 'M8') {
+    const ans = p.mission!.answers ?? {}
+    detail = M8_CHANGES.flatMap((c, i) => REGIONS.map((r) => { const key = CATEGORIES.find((k) => k.id === c.category)!.key('Phase 3')[r.id]; return { label: `${i + 1} ${r.id}: ${c.text}`, got: ans[`${i}:${r.id}`] === key ? 1 : 0, of: 1 } }))
+    return { score: Math.round((100 * detail.filter((x) => x.got).length) / detail.length), detail }
   }
   if (id === 'M5') {
     const ids = new Set(fs.map((f) => f.id)), planted = new Set(PLANTS.flatMap((x) => x.ids))

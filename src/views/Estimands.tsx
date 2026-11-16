@@ -1,3 +1,4 @@
+import { dataForEdit } from '../domain/amend'
 import { useStore } from '../state'
 import { current } from '../domain/project'
 import { findings } from '../domain/rules'
@@ -14,7 +15,7 @@ const multi = (e: React.ChangeEvent<HTMLSelectElement>) => [...e.target.selected
 export default function Estimands() {
   const { p, act } = useStore()
   const d = current(p!)
-  const A = (fn: (d: ProtocolData) => void) => act((x) => fn(x.versions[x.versions.length - 1].data))
+  const A = (fn: (d: ProtocolData) => void) => act((x) => fn(dataForEdit(x)))
   const fs = findings(d).filter((f) => !p!.marks[f.id] && (f.rule.startsWith('PB-E') || f.rule === 'PB-A01' || f.rule === 'PB-A03' || f.rule === 'PB-I04'))
   const setO = (i: number, k: keyof Objective, v: unknown) => A((x) => { (x.objectives[i] as unknown as Record<string, unknown>)[k] = v })
   const setE = (i: number, k: keyof Endpoint, v: unknown) => A((x) => { (x.endpoints[i] as unknown as Record<string, unknown>)[k] = v })
