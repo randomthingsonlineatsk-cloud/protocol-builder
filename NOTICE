@@ -16,11 +16,16 @@ not their text or regulatory advice. No commercial protocol authoring system is 
 app is not a validated system and must not hold real study data. Everything stays in the
 browser.
 
-Code list values and their NCI Thesaurus C-codes are taken from the ICH M11 technical
-specification (Step 4, 19 November 2025) and the NCI Thesaurus. A few USDM terms whose codes the
-app does not hold are exported as teaching terms in the app's own code system, and the export
-says so. The export checks are modelled on the kinds of rule in the CDISC DDF conformance rule
-catalogue; their identifiers are the app's own.
+The ICH M11 code list values and their NCI Thesaurus C-codes are taken from the ICH M11
+technical specification (Step 4, 19 November 2025). The USDM export codes every value with CDISC
+Controlled Terminology (release 2026-03-27) and links CDISC Biomedical Concepts; the subset of
+both that the app uses (src/domain/ct-usdm.json, src/domain/bc-cdisc.json) was extracted from the
+library cache of the usdm4 Python package (MIT License, Copyright (c) data4knowledge), which
+packages them from the NCI EVS CDISC terminology files and the CDISC Library. CDISC terminology is
+published by CDISC and NCI EVS; Biomedical Concepts are published by CDISC. The app's own export
+checks are modelled on the kinds of rule in the CDISC DDF conformance rule catalogue; their
+identifiers are the app's own. tools/validate_usdm.py runs the usdm4 library's DDF rules on the
+exports for developers; it is not part of the app.
 
 This software bundles React and React DOM (MIT License, Copyright (c) Meta Platforms, Inc.
 and affiliates), class-variance-authority (Apache License 2.0), clsx (MIT), tailwind-merge

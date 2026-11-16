@@ -20,11 +20,11 @@ export interface Criterion { code: string; category: 'Inclusion' | 'Exclusion'; 
 export interface Visit { id: string; name: string; day: number; lo: number; hi: number; epoch: string; type: 'On site' | 'Remote' | 'Phone' | 'Home nurse' } // USDM Encounter + ScheduledActivityInstance + Timing
 export interface Procedure { // USDM Activity + BiomedicalConcept
   id: string; name: string; section: string; concept: string; form: string
-  visits: string[] | 'continuous'; from?: string; footnote?: string; purpose: ('endpoint' | 'safety' | 'eligibility' | 'conduct')[]; bloodMl?: number; minutes?: number
+  visits: string[] | 'continuous'; from?: string; footnote?: string; bcs?: string[]; purpose: ('endpoint' | 'safety' | 'eligibility' | 'conduct')[]; bloodMl?: number; minutes?: number
 }
 export interface Arm { id: string; name: string; type: 'Investigational' | 'Placebo' | 'Active comparator' | 'No intervention'; intervention: string; ratio: number } // USDM StudyArm
 export interface Epoch { id: string; name: string; type: 'Screening' | 'Treatment' | 'Follow-up' | 'Run-in' | 'Washout' } // USDM StudyEpoch
-export interface Intervention { id: string; name: string; role: 'Investigational' | 'Placebo' | 'Rescue' | 'Auxiliary'; dose: string; doseValue: number; doseUnit: string; route: string; frequency: string; durationWeeks: number } // USDM StudyIntervention
+export interface Intervention { id: string; name: string; role: 'Investigational' | 'Placebo' | 'Rescue' | 'Auxiliary'; dose: string; doseValue: number; doseUnit: string; route: string; frequency: string; durationWeeks: number; form?: string } // USDM StudyIntervention
 
 // The numbers the protocol states once and reuses (M11 reuse rules). The synopsis shows them;
 // a mission can plant a different value in one place to make an inconsistency.

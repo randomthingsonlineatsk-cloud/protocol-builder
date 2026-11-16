@@ -1,0 +1,3461 @@
+{
+"source": "CDISC Controlled Terminology (NCI EVS), release 2026-03-27 for the USDM value sets, as packaged in the usdm4 library cache",
+"version": "2026-03-27",
+"codelists": {
+"C66737": {
+"name": "Trial Phase Response",
+"terms": [
+[
+"C54721",
+"EARLY PHASE I",
+"Early Phase 1 Trial"
+],
+[
+"C48660",
+"NOT APPLICABLE",
+"Not Applicable"
+],
+[
+"C15600",
+"PHASE I TRIAL",
+"Phase I Trial"
+],
+[
+"C15693",
+"PHASE I/II TRIAL",
+"Phase I/II Trial"
+],
+[
+"C198366",
+"PHASE I/II/III TRIAL",
+"Phase I/II/III Trial"
+],
+[
+"C198367",
+"PHASE I/III TRIAL",
+"Phase I/III Trial"
+],
+[
+"C199990",
+"PHASE IA TRIAL",
+"Phase Ia Trial"
+],
+[
+"C199989",
+"PHASE IB TRIAL",
+"Phase Ib Trial"
+],
+[
+"C15601",
+"PHASE II TRIAL",
+"Phase II Trial"
+],
+[
+"C15694",
+"PHASE II/III TRIAL",
+"Phase II/III Trial"
+],
+[
+"C49686",
+"PHASE IIA TRIAL",
+"Phase IIa Trial"
+],
+[
+"C49688",
+"PHASE IIB TRIAL",
+"Phase IIb Trial"
+],
+[
+"C15602",
+"PHASE III TRIAL",
+"Phase III Trial"
+],
+[
+"C49687",
+"PHASE IIIA TRIAL",
+"Phase IIIa Trial"
+],
+[
+"C49689",
+"PHASE IIIB TRIAL",
+"Phase IIIb Trial"
+],
+[
+"C15603",
+"PHASE IV TRIAL",
+"Phase IV Trial"
+],
+[
+"C47865",
+"PHASE V TRIAL",
+"Phase V Trial"
+]
+]
+},
+"C99076": {
+"name": "Intervention Model Response",
+"terms": [
+[
+"C82637",
+"CROSS-OVER",
+"Crossover Study"
+],
+[
+"C82638",
+"FACTORIAL",
+"Factorial Study"
+],
+[
+"C82639",
+"PARALLEL",
+"Parallel Study"
+],
+[
+"C142568",
+"SEQUENTIAL",
+"Group Sequential Design"
+],
+[
+"C82640",
+"SINGLE GROUP",
+"Single Group Study"
+]
+]
+},
+"C66736": {
+"name": "Trial Intent Type Response",
+"terms": [
+[
+"C15714",
+"BASIC SCIENCE",
+"Basic Research"
+],
+[
+"C49654",
+"CURE",
+"Cure Study"
+],
+[
+"C139174",
+"DEVICE FEASIBILITY",
+"Device Feasibility Study"
+],
+[
+"C49653",
+"DIAGNOSIS",
+"Diagnosis Study"
+],
+[
+"C170629",
+"DISEASE MODIFYING",
+"Disease Modifying Treatment Study"
+],
+[
+"C15245",
+"HEALTH SERVICES RESEARCH",
+"Health Services Research"
+],
+[
+"C49655",
+"MITIGATION",
+"Adverse Effect Mitigation Study"
+],
+[
+"C49657",
+"PREVENTION",
+"Prevention Study"
+],
+[
+"C71485",
+"SCREENING",
+"Screening Study"
+],
+[
+"C71486",
+"SUPPORTIVE CARE",
+"Supportive Care Study"
+],
+[
+"C49656",
+"TREATMENT",
+"Treatment Study"
+]
+]
+},
+"C99077": {
+"name": "Study Type Response",
+"terms": [
+[
+"C98722",
+"EXPANDED ACCESS",
+"Expanded Access Study"
+],
+[
+"C98388",
+"INTERVENTIONAL",
+"Interventional Study"
+],
+[
+"C16084",
+"OBSERVATIONAL",
+"Observational Study"
+],
+[
+"C129000",
+"PATIENT REGISTRY",
+"Patient Registry Study"
+]
+]
+},
+"C99078": {
+"name": "Intervention Type Response",
+"terms": [
+[
+"C15184",
+"BEHAVIORAL THERAPY",
+"Behavioral Intervention"
+],
+[
+"C307",
+"BIOLOGIC",
+"Biological Agent"
+],
+[
+"C54696",
+"COMBINATION PRODUCT",
+"Combination Product"
+],
+[
+"C16830",
+"DEVICE",
+"Medical Device"
+],
+[
+"C18020",
+"DIAGNOSTIC TEST",
+"Diagnostic Procedure"
+],
+[
+"C1505",
+"DIETARY SUPPLEMENT",
+"Dietary Supplement"
+],
+[
+"C1909",
+"DRUG",
+"Pharmacologic Substance"
+],
+[
+"C15238",
+"GENETIC",
+"Gene Therapy"
+],
+[
+"C218507",
+"NON-SURGICAL PROCEDURE",
+"Non-Surgical Procedure"
+],
+[
+"C98769",
+"PROCEDURE",
+"Physical Medical Procedure"
+],
+[
+"C15313",
+"RADIATION",
+"Radiation Therapy"
+],
+[
+"C15329",
+"SURGERY",
+"Surgical Procedure"
+],
+[
+"C923",
+"VACCINE",
+"Vaccine"
+]
+]
+},
+"C99079": {
+"name": "Epoch",
+"terms": [
+[
+"C125938",
+"BASELINE",
+"Baseline Epoch"
+],
+[
+"C102255",
+"BLINDED TREATMENT",
+"Blinded Treatment Epoch"
+],
+[
+"C123452",
+"CONTINUATION TREATMENT",
+"Continuation Therapy Epoch"
+],
+[
+"C202578",
+"FOLLOW-UP",
+"Follow-Up Epoch"
+],
+[
+"C123453",
+"INDUCTION TREATMENT",
+"Induction Therapy Epoch"
+],
+[
+"C209541",
+"INTERVENTION",
+"Investigational Intervention Epoch"
+],
+[
+"C202577",
+"LONG-TERM FOLLOW-UP",
+"Long-term Follow-up Epoch"
+],
+[
+"C165873",
+"OBSERVATION",
+"Observation Study Epoch"
+],
+[
+"C102256",
+"OPEN LABEL TREATMENT",
+"Open Label Treatment Epoch"
+],
+[
+"C199844",
+"PRE-SCREENING",
+"Pre-Screening Epoch"
+],
+[
+"C210380",
+"PRODUCT EXPOSURE",
+"Product Exposure Epoch"
+],
+[
+"C98779",
+"RUN-IN",
+"Run-in Period"
+],
+[
+"C202487",
+"SCREENING",
+"Screening Epoch"
+],
+[
+"C101526",
+"TREATMENT",
+"Treatment Epoch"
+],
+[
+"C42872",
+"WASHOUT",
+"Washout Period"
+]
+]
+},
+"C127262": {
+"name": "Environmental Setting",
+"terms": [
+[
+"C127785",
+"CHILD CARE CENTER",
+"Childcare Center"
+],
+[
+"C211570",
+"CLINIC",
+"Clinic"
+],
+[
+"C48953",
+"FARM",
+"Farm"
+],
+[
+"C102650",
+"FIELD",
+"In the Field"
+],
+[
+"C21541",
+"HEALTH FACILITY",
+"Healthcare Facility"
+],
+[
+"C18002",
+"HOME",
+"Home"
+],
+[
+"C16696",
+"HOSPITAL",
+"Hospital"
+],
+[
+"C102647",
+"HOUSEHOLD ENVIRONMENT",
+"Household Environment"
+],
+[
+"C41206",
+"INSTITUTION",
+"Institution"
+],
+[
+"C181529",
+"MOTOR VEHICLE",
+"Motor Vehicle"
+],
+[
+"C102679",
+"NON-HOUSEHOLD ENVIRONMENT",
+"Non-household Environment"
+],
+[
+"C181530",
+"NOT IN CLINIC",
+"Not In Clinic"
+],
+[
+"C16281",
+"OUTPATIENT CLINIC",
+"Ambulatory Care Facility"
+],
+[
+"C85862",
+"PRISON",
+"Correctional Institution"
+],
+[
+"C17118",
+"SCHOOL",
+"School"
+],
+[
+"C85863",
+"SHELTER",
+"Shelter"
+],
+[
+"C102712",
+"SOCIAL SETTING",
+"Social Setting"
+],
+[
+"C17556",
+"WORKSITE",
+"Worksite"
+]
+]
+},
+"C171445": {
+"name": "Mode of Subject Contact",
+"terms": [
+[
+"C25170",
+"E-MAIL",
+"E-mail"
+],
+[
+"C175574",
+"IN PERSON",
+"In Person"
+],
+[
+"C177933",
+"IVRS",
+"Interactive Voice Response System"
+],
+[
+"C70805",
+"LETTER",
+"Letter"
+],
+[
+"C171525",
+"REMOTE AUDIO VIDEO",
+"Audio-Videoconferencing"
+],
+[
+"C171524",
+"REMOTE AUDIO",
+"Audioconferencing"
+],
+[
+"C171533",
+"SHIPMENT CONFIRMED BY SIGNATURE",
+"Shipment Confirmed by Signature"
+],
+[
+"C171537",
+"TELEPHONE CALL",
+"Telephone Call"
+],
+[
+"C157352",
+"TEXT MESSAGE",
+"Text Message"
+]
+]
+},
+"C66729": {
+"name": "Route of Administration Response",
+"terms": [
+[
+"C38192",
+"AURICULAR (OTIC)",
+"Auricular Route of Administration"
+],
+[
+"C38193",
+"BUCCAL",
+"Buccal Route of Administration"
+],
+[
+"C38194",
+"CONJUNCTIVAL",
+"Conjunctival Route of Administration"
+],
+[
+"C38675",
+"CUTANEOUS",
+"Cutaneous Route of Administration"
+],
+[
+"C38197",
+"DENTAL",
+"Dental Route of Administration"
+],
+[
+"C78373",
+"DIETARY",
+"Dietary Route of Administration"
+],
+[
+"C38633",
+"ELECTRO-OSMOSIS",
+"Electro-osmosis Route of Administration"
+],
+[
+"C38205",
+"ENDOCERVICAL",
+"Endocervical Route of Administration"
+],
+[
+"C38206",
+"ENDOSINUSIAL",
+"Endosinusial Route of Administration"
+],
+[
+"C38208",
+"ENDOTRACHEAL",
+"Endotracheal Route of Administration"
+],
+[
+"C38209",
+"ENTERAL",
+"Enteral Route of Administration"
+],
+[
+"C38210",
+"EPIDURAL",
+"Epidural Route of Administration"
+],
+[
+"C38211",
+"EXTRA-AMNIOTIC",
+"Extraamniotic Route of Administration"
+],
+[
+"C38212",
+"EXTRACORPOREAL",
+"Extracorporeal Circulation Route of Administration"
+],
+[
+"C202447",
+"GASTROJEJUNAL",
+"Gastrojejunal Route of Administration"
+],
+[
+"C38200",
+"HEMODIALYSIS",
+"Administration via Hemodialysis"
+],
+[
+"C85516",
+"IMMERSION",
+"Immersion Route of Exposure"
+],
+[
+"C38215",
+"INFILTRATION",
+"Infiltration Route of Administration"
+],
+[
+"C38219",
+"INTERSTITIAL",
+"Interstitial Route of Administration"
+],
+[
+"C38220",
+"INTRA-ABDOMINAL",
+"Intraabdominal Route of Administration"
+],
+[
+"C38221",
+"INTRA-AMNIOTIC",
+"Intraamniotic Route of Administration"
+],
+[
+"C38222",
+"INTRA-ARTERIAL",
+"Intraarterial Route of Administration"
+],
+[
+"C38223",
+"INTRA-ARTICULAR",
+"Intraarticular Route of Administration"
+],
+[
+"C38224",
+"INTRABILIARY",
+"Intrabiliary Route of Administration"
+],
+[
+"C38225",
+"INTRABRONCHIAL",
+"Intrabronchial Route of Administration"
+],
+[
+"C38226",
+"INTRABURSAL",
+"Intrabursal Route of Administration"
+],
+[
+"C64984",
+"INTRACAMERAL",
+"Intracameral Route of Administration"
+],
+[
+"C38227",
+"INTRACARDIAC",
+"Intracardiac Route of Administration"
+],
+[
+"C38228",
+"INTRACARTILAGINOUS",
+"Intracartilaginous Route of Administration"
+],
+[
+"C38229",
+"INTRACAUDAL",
+"Intracaudal Route of Administration"
+],
+[
+"C38230",
+"INTRACAVERNOUS",
+"Intracavernous Route of Administration"
+],
+[
+"C38231",
+"INTRACAVITARY",
+"Intracavitary Route of Administration"
+],
+[
+"C38232",
+"INTRACEREBRAL",
+"Intracerebral Route of Administration"
+],
+[
+"C38233",
+"INTRACISTERNAL",
+"Intracisternal Route of Administration"
+],
+[
+"C184707",
+"INTRACOCHLEAR",
+"Intracochlear Route of Administration"
+],
+[
+"C38234",
+"INTRACORNEAL",
+"Intracorneal Route of Administration"
+],
+[
+"C38217",
+"INTRACORONAL, DENTAL",
+"Intracoronal Dental Route of Administration"
+],
+[
+"C38218",
+"INTRACORONARY",
+"Intracoronary Route of Administration"
+],
+[
+"C38235",
+"INTRACORPORUS CAVERNOSUM",
+"Intracorpus Cavernosum Route of Administration"
+],
+[
+"C38238",
+"INTRADERMAL",
+"Intradermal Route of Administration"
+],
+[
+"C38239",
+"INTRADISCAL",
+"Intradiscal Route of Administration"
+],
+[
+"C38240",
+"INTRADUCTAL",
+"Intraductal Route of Administration"
+],
+[
+"C38241",
+"INTRADUODENAL",
+"Intraduodenal Route of Administration"
+],
+[
+"C38242",
+"INTRADURAL",
+"Intradural Route of Administration"
+],
+[
+"C38243",
+"INTRAEPIDERMAL",
+"Intraepidermal Route of Administration"
+],
+[
+"C38245",
+"INTRAESOPHAGEAL",
+"Intraesophageal Route of Administration"
+],
+[
+"C38246",
+"INTRAGASTRIC",
+"Intragastric Route of Administration"
+],
+[
+"C38247",
+"INTRAGINGIVAL",
+"Intragingival Route of Administration"
+],
+[
+"C38248",
+"INTRAHEPATIC",
+"Intrahepatic Route of Administration"
+],
+[
+"C38249",
+"INTRAILEAL",
+"Intraileal Route of Administration"
+],
+[
+"C102399",
+"INTRAJEJUNAL",
+"Intrajejunal Route of Administration"
+],
+[
+"C38250",
+"INTRALESIONAL",
+"Intralesional Route of Administration"
+],
+[
+"C38251",
+"INTRALUMINAL",
+"Intraluminal Route of Administration"
+],
+[
+"C38252",
+"INTRALYMPHATIC",
+"Intralymphatic Route of Administration"
+],
+[
+"C79137",
+"INTRAMAMMARY",
+"Intramammary Route of Administration"
+],
+[
+"C156590",
+"INTRAMANDIBULAR",
+"Intramandibular Route of Administration"
+],
+[
+"C38253",
+"INTRAMEDULLARY",
+"Intramedullary Route of Administration"
+],
+[
+"C38254",
+"INTRAMENINGEAL",
+"Intrameningeal Route of Administration"
+],
+[
+"C28161",
+"INTRAMUSCULAR",
+"Intramuscular Route of Administration"
+],
+[
+"C79141",
+"INTRANODAL",
+"Intranodal Route of Administration"
+],
+[
+"C38255",
+"INTRAOCULAR",
+"Intraocular Route of Administration"
+],
+[
+"C64987",
+"INTRAOSSEOUS",
+"Intraosseous Route of Administration"
+],
+[
+"C38256",
+"INTRAOVARIAN",
+"Intraovarian Route of Administration"
+],
+[
+"C102400",
+"INTRAPALATAL",
+"Intrapalatal Route of Administration"
+],
+[
+"C119548",
+"INTRAPARENCHYMAL",
+"Intraparenchymal Route of Administration"
+],
+[
+"C38257",
+"INTRAPERICARDIAL",
+"Intrapericardial Route of Administration"
+],
+[
+"C38258",
+"INTRAPERITONEAL",
+"Intraperitoneal Route of Administration"
+],
+[
+"C38259",
+"INTRAPLEURAL",
+"Intrapleural Route of Administration"
+],
+[
+"C38260",
+"INTRAPROSTATIC",
+"Intraprostatic Route of Administration"
+],
+[
+"C38261",
+"INTRAPULMONARY",
+"Intrapulmonary Route of Administration"
+],
+[
+"C79139",
+"INTRARUMINAL",
+"Intraruminal Route of Administration"
+],
+[
+"C38262",
+"INTRASINAL",
+"Intrasinal Route of Administration"
+],
+[
+"C38263",
+"INTRASPINAL",
+"Intraspinal Route of Administration"
+],
+[
+"C65138",
+"INTRASTOMAL",
+"Administration via Stoma"
+],
+[
+"C142365",
+"INTRASURGICAL SITE",
+"Intrasurgical Site Route of Administration"
+],
+[
+"C38264",
+"INTRASYNOVIAL",
+"Intrasynovial Route of Administration"
+],
+[
+"C38265",
+"INTRATENDINOUS",
+"Intratendinous Route of Administration"
+],
+[
+"C38266",
+"INTRATESTICULAR",
+"Intratesticular Route of Administration"
+],
+[
+"C128995",
+"INTRATHALAMIC",
+"Intrathalamic Route of Administration"
+],
+[
+"C38267",
+"INTRATHECAL",
+"Intrathecal Route of Administration"
+],
+[
+"C38207",
+"INTRATHORACIC",
+"Endothoracic Route of Administration"
+],
+[
+"C38268",
+"INTRATUBULAR",
+"Intratubular Route of Administration"
+],
+[
+"C38269",
+"INTRATUMOR",
+"Intratumoral Route of Administration"
+],
+[
+"C38270",
+"INTRATYMPANIC",
+"Intratympanic Route of Administration"
+],
+[
+"C38272",
+"INTRAUTERINE",
+"Intrauterine Route of Administration"
+],
+[
+"C128996",
+"INTRAVAGINAL",
+"Intravaginal Route of Administration"
+],
+[
+"C38273",
+"INTRAVASCULAR",
+"Intravascular Route of Administration"
+],
+[
+"C38274",
+"INTRAVENOUS BOLUS",
+"Intravenous Bolus"
+],
+[
+"C38279",
+"INTRAVENOUS DRIP",
+"Intravenous Drip"
+],
+[
+"C38276",
+"INTRAVENOUS",
+"Intravenous Route of Administration"
+],
+[
+"C38277",
+"INTRAVENTRICULAR",
+"Intraventricular Route of Administration"
+],
+[
+"C38278",
+"INTRAVESICAL",
+"Intravesical Route of Administration"
+],
+[
+"C38280",
+"INTRAVITREAL",
+"Intravitreal Route of Administration"
+],
+[
+"C38203",
+"IONTOPHORESIS",
+"Iontophoresis Route of Administration"
+],
+[
+"C38281",
+"IRRIGATION",
+"Irrigation Route of Administration"
+],
+[
+"C38282",
+"LARYNGEAL",
+"Laryngeal Route of Administration"
+],
+[
+"C150889",
+"MICRODIALYSIS",
+"Microdialysis Route of Administration"
+],
+[
+"C38284",
+"NASAL",
+"Nasal Route of Administration"
+],
+[
+"C188189",
+"NASODUODENAL",
+"Nasoduodenal Route of Administration"
+],
+[
+"C38285",
+"NASOGASTRIC",
+"Nasogastric Route of Administration"
+],
+[
+"C191350",
+"NASOJEJUNAL",
+"Nasojejunal Route of Administration"
+],
+[
+"C48623",
+"NOT APPLICABLE",
+"Route of Administration Not Applicable"
+],
+[
+"C38286",
+"OCCLUSIVE DRESSING TECHNIQUE",
+"Occlusive Dressing Technique"
+],
+[
+"C38287",
+"OPHTHALMIC",
+"Ophthalmic Route of Administration"
+],
+[
+"C78374",
+"ORAL GAVAGE",
+"Oral Gavage Route of Administration"
+],
+[
+"C38288",
+"ORAL",
+"Oral Route of Administration"
+],
+[
+"C188195",
+"OROGASTRIC",
+"Orogastric Route of Administration"
+],
+[
+"C64906",
+"OROMUCOSAL",
+"Oromucosal Route of Administration"
+],
+[
+"C38289",
+"OROPHARYNGEAL",
+"Oropharyngeal Route of Administration"
+],
+[
+"C38291",
+"PARENTERAL",
+"Parenteral Route of Administration"
+],
+[
+"C38676",
+"PERCUTANEOUS",
+"Percutaneous Route of Administration"
+],
+[
+"C38292",
+"PERIARTICULAR",
+"Periarticular Route of Administration"
+],
+[
+"C38677",
+"PERIDURAL",
+"Peridural Route of Administration"
+],
+[
+"C38293",
+"PERINEURAL",
+"Perineural Route of Administration"
+],
+[
+"C38294",
+"PERIODONTAL",
+"Periodontal Route of Administration"
+],
+[
+"C112396",
+"PERIVENOUS",
+"Perivenous Route of Administration"
+],
+[
+"C172600",
+"PHARYNGEAL",
+"Pharyngeal Route of Administration"
+],
+[
+"C38295",
+"RECTAL",
+"Rectal Route of Administration"
+],
+[
+"C38216",
+"RESPIRATORY (INHALATION)",
+"Inhalation Route of Administration"
+],
+[
+"C38296",
+"RETROBULBAR",
+"Retrobulbar Route of Administration"
+],
+[
+"C38198",
+"SOFT TISSUE",
+"Soft Tissue Route of Administration"
+],
+[
+"C38297",
+"SUBARACHNOID",
+"Subarachnoid Route of Administration"
+],
+[
+"C38298",
+"SUBCONJUNCTIVAL",
+"Subconjunctival Route of Administration"
+],
+[
+"C38299",
+"SUBCUTANEOUS",
+"Subcutaneous Route of Administration"
+],
+[
+"C181523",
+"SUBDURAL",
+"Subdural Route of Administration"
+],
+[
+"C38300",
+"SUBLINGUAL",
+"Sublingual Route of Administration"
+],
+[
+"C38301",
+"SUBMUCOSAL",
+"Submucosal Route of Administration"
+],
+[
+"C79143",
+"SUBRETINAL",
+"Subretinal Route of Administration"
+],
+[
+"C94636",
+"SUBTENON",
+"Subtenon Route of Administration"
+],
+[
+"C128997",
+"SUPRACHOROIDAL",
+"Suprachoroidal Route of Administration"
+],
+[
+"C38304",
+"TOPICAL",
+"Topical Route of Administration"
+],
+[
+"C38305",
+"TRANSDERMAL",
+"Transdermal Route of Administration"
+],
+[
+"C221683",
+"TRANSFORAMINAL",
+"Transforaminal Route of Administration"
+],
+[
+"C111326",
+"TRANSMAMMARY",
+"Transmammary Route of Administration"
+],
+[
+"C38283",
+"TRANSMUCOSAL",
+"Mucosal Route of Administration"
+],
+[
+"C38307",
+"TRANSPLACENTAL",
+"Transplacental Route of Administration"
+],
+[
+"C38308",
+"TRANSTRACHEAL",
+"Transtracheal Route of Administration"
+],
+[
+"C38309",
+"TRANSTYMPANIC",
+"Transtympanic Route of Administration"
+],
+[
+"C38310",
+"UNASSIGNED",
+"Unassigned Route of Administration"
+],
+[
+"C38311",
+"UNKNOWN",
+"Unknown Route of Administration"
+],
+[
+"C38312",
+"URETERAL",
+"Ureteral Route of Administration"
+],
+[
+"C38271",
+"URETHRAL",
+"Intraurethral Route of Administration"
+],
+[
+"C38313",
+"VAGINAL",
+"Vaginal Route of Administration"
+]
+]
+},
+"C71113": {
+"name": "Frequency",
+"terms": [
+[
+"C64526",
+"1 TIME PER WEEK",
+"Once Weekly"
+],
+[
+"C139179",
+"10 DAYS PER MONTH",
+"Ten Days Per Month"
+],
+[
+"C176288",
+"2 TIMES PER CYCLE",
+"Two Times Per Cycle"
+],
+[
+"C64497",
+"2 TIMES PER WEEK",
+"Twice Weekly"
+],
+[
+"C98861",
+"2 TIMES PER YEAR",
+"Two Times Yearly"
+],
+[
+"C176289",
+"3 TIMES PER CYCLE",
+"Three Times Per Cycle"
+],
+[
+"C98859",
+"3 TIMES PER MONTH",
+"Three Times Monthly"
+],
+[
+"C64528",
+"3 TIMES PER WEEK",
+"Three Times Weekly"
+],
+[
+"C98860",
+"3 TIMES PER YEAR",
+"Three Times Yearly"
+],
+[
+"C98852",
+"4 TIMES PER MONTH",
+"Four Times Monthly"
+],
+[
+"C64531",
+"4 TIMES PER WEEK",
+"Four Times Weekly"
+],
+[
+"C98853",
+"4 TIMES PER YEAR",
+"Four Times Yearly"
+],
+[
+"C98849",
+"5 TIMES PER DAY",
+"Five Times Daily"
+],
+[
+"C98850",
+"5 TIMES PER MONTH",
+"Five Times Monthly"
+],
+[
+"C85552",
+"5 TIMES PER WEEK",
+"Five Times Weekly"
+],
+[
+"C98851",
+"5 TIMES PER YEAR",
+"Five Times Yearly"
+],
+[
+"C98855",
+"6 TIMES PER DAY",
+"Six Times Daily"
+],
+[
+"C98856",
+"6 TIMES PER MONTH",
+"Six Times Monthly"
+],
+[
+"C98857",
+"6 TIMES PER WEEK",
+"Six Times Weekly"
+],
+[
+"C98858",
+"6 TIMES PER YEAR",
+"Six Times Yearly"
+],
+[
+"C139180",
+"7 TIMES PER DAY",
+"Seven Times Per Day"
+],
+[
+"C98854",
+"7 TIMES PER WEEK",
+"Seven Times Weekly"
+],
+[
+"C139181",
+"8 TIMES PER DAY",
+"Eight Times Per Day"
+],
+[
+"C139182",
+"9 TIMES PER DAY",
+"Nine Times Per Day"
+],
+[
+"C64636",
+"AD LIBITUM",
+"As Much as Desired"
+],
+[
+"C64496",
+"BID",
+"Twice Daily"
+],
+[
+"C71129",
+"BIM",
+"Twice Per Month"
+],
+[
+"C53279",
+"CONTINUOUS",
+"Continue"
+],
+[
+"C189433",
+"EVERY 10 WEEKS",
+"Every Ten Weeks"
+],
+[
+"C189435",
+"EVERY 10 YEARS",
+"Every Ten Years"
+],
+[
+"C161332",
+"EVERY 12 WEEKS",
+"Every Twelve Weeks"
+],
+[
+"C189434",
+"EVERY 13 WEEKS",
+"Every Thirteen Weeks"
+],
+[
+"C161336",
+"EVERY 16 WEEKS",
+"Every Sixteen Weeks"
+],
+[
+"C71127",
+"EVERY 2 WEEKS",
+"Every Two Weeks"
+],
+[
+"C64535",
+"EVERY 3 WEEKS",
+"Every Three Weeks"
+],
+[
+"C161333",
+"EVERY 3 YEARS",
+"Every Three Years"
+],
+[
+"C64529",
+"EVERY 4 WEEKS",
+"Every Four Weeks"
+],
+[
+"C189432",
+"EVERY 4 YEARS",
+"Every Four Years"
+],
+[
+"C103390",
+"EVERY 5 WEEKS",
+"Every Five Weeks"
+],
+[
+"C161334",
+"EVERY 5 YEARS",
+"Every Five Years"
+],
+[
+"C89788",
+"EVERY 6 WEEKS",
+"Every Six Weeks"
+],
+[
+"C116149",
+"EVERY 7 WEEKS",
+"Every Seven Weeks"
+],
+[
+"C103389",
+"EVERY 8 WEEKS",
+"Every Eight Weeks"
+],
+[
+"C201379",
+"EVERY 8 YEARS",
+"Every Eight Years"
+],
+[
+"C154484",
+"EVERY AFTERNOON",
+"Every Afternoon"
+],
+[
+"C160957",
+"EVERY EVENING",
+"Every Evening"
+],
+[
+"C67069",
+"EVERY WEEK",
+"Weekly"
+],
+[
+"C71325",
+"INTERMITTENT",
+"Intermittent"
+],
+[
+"C64954",
+"OCCASIONAL",
+"Infrequent"
+],
+[
+"C64576",
+"ONCE",
+"Once"
+],
+[
+"C74924",
+"PA",
+"Per Year"
+],
+[
+"C64499",
+"PRN",
+"As Needed"
+],
+[
+"C64500",
+"Q10H",
+"Every Ten Hours"
+],
+[
+"C64501",
+"Q11H",
+"Every Eleven Hours"
+],
+[
+"C64502",
+"Q12H",
+"Every Twelve Hours"
+],
+[
+"C64503",
+"Q13H",
+"Every Thirteen Hours"
+],
+[
+"C64504",
+"Q14H",
+"Every Fourteen Hours"
+],
+[
+"C64505",
+"Q15H",
+"Every Fifteen Hours"
+],
+[
+"C64506",
+"Q16H",
+"Every Sixteen Hours"
+],
+[
+"C64507",
+"Q17H",
+"Every Seventeen Hours"
+],
+[
+"C64508",
+"Q18H",
+"Every Eighteen Hours"
+],
+[
+"C64509",
+"Q19H",
+"Every Nineteen Hours"
+],
+[
+"C64511",
+"Q20H",
+"Every Twenty Hours"
+],
+[
+"C64512",
+"Q21H",
+"Every Twenty-One Hours"
+],
+[
+"C64513",
+"Q22H",
+"Every Twenty-Two Hours"
+],
+[
+"C64514",
+"Q23H",
+"Every Twenty-Three Hours"
+],
+[
+"C64515",
+"Q24H",
+"Every Twenty-Four Hours"
+],
+[
+"C64516",
+"Q2H",
+"Every Two Hours"
+],
+[
+"C64536",
+"Q2M",
+"Every Two Months"
+],
+[
+"C89791",
+"Q36H",
+"Every Thirty-six Hours"
+],
+[
+"C64533",
+"Q3D",
+"Every Three Days"
+],
+[
+"C64517",
+"Q3H",
+"Every Three Hours"
+],
+[
+"C64537",
+"Q3M",
+"Every Three Months"
+],
+[
+"C139183",
+"Q45MIN",
+"Every Forty-Five Minutes"
+],
+[
+"C89790",
+"Q48H",
+"Every Forty-eight Hours"
+],
+[
+"C64534",
+"Q4D",
+"Every Four Days"
+],
+[
+"C64518",
+"Q4H",
+"Every Four Hours"
+],
+[
+"C64538",
+"Q4M",
+"Every Four Months"
+],
+[
+"C71124",
+"Q5D",
+"Every Five Days"
+],
+[
+"C64519",
+"Q5H",
+"Every Five Hours"
+],
+[
+"C161335",
+"Q6D",
+"Every Six Days"
+],
+[
+"C64520",
+"Q6H",
+"Every Six Hours"
+],
+[
+"C89789",
+"Q6M",
+"Every Six Months"
+],
+[
+"C174288",
+"Q72H",
+"Every Seventy Two Hours"
+],
+[
+"C139177",
+"Q7D",
+"Every Seven Days"
+],
+[
+"C64521",
+"Q7H",
+"Every Seven Hours"
+],
+[
+"C64523",
+"Q8H",
+"Every Eight Hours"
+],
+[
+"C189436",
+"Q96H",
+"Every Ninety-Six Hours"
+],
+[
+"C64524",
+"Q9H",
+"Every Nine Hours"
+],
+[
+"C64595",
+"QAM",
+"QAM"
+],
+[
+"C25473",
+"QD",
+"Daily"
+],
+[
+"C64510",
+"QH",
+"Every Hour"
+],
+[
+"C64593",
+"QHS",
+"Hour of Sleep"
+],
+[
+"C64530",
+"QID",
+"Four Times Daily"
+],
+[
+"C64498",
+"QM",
+"Monthly"
+],
+[
+"C139178",
+"QN",
+"Every Night"
+],
+[
+"C64525",
+"QOD",
+"Every Other Day"
+],
+[
+"C64596",
+"QPM",
+"QPM"
+],
+[
+"C156502",
+"THRICE",
+"Thrice"
+],
+[
+"C64527",
+"TID",
+"Three Times Daily"
+],
+[
+"C65134",
+"TWICE",
+"Twice"
+],
+[
+"C17998",
+"UNKNOWN",
+"Unknown"
+]
+]
+},
+"C188723": {
+"name": "Study Definition Document Version Value Set Terminology",
+"terms": [
+[
+"C25425",
+"Approved",
+"Approval"
+],
+[
+"C85255",
+"Draft",
+"Draft"
+],
+[
+"C25508",
+"Final",
+"Final"
+],
+[
+"C63553",
+"Obsolete",
+"Obsolete"
+],
+[
+"C188862",
+"Pending Review",
+"Pending Review"
+]
+]
+},
+"C215477": {
+"name": "Study Definition Document Type Value Set Terminology",
+"terms": [
+[
+"C70817",
+"Protocol",
+"Study Protocol"
+]
+]
+},
+"C188724": {
+"name": "Organization Type Value Set Terminology",
+"terms": [
+[
+"C18240",
+"Academic Institution",
+"Academia"
+],
+[
+"C93453",
+"Clinical Study Registry",
+"Study Registry"
+],
+[
+"C54148",
+"Contract Research Organization",
+"Contract Research Organization"
+],
+[
+"C199144",
+"Government Institute",
+"Governmental Agency or Group"
+],
+[
+"C21541",
+"Healthcare Facility",
+"Healthcare Facility"
+],
+[
+"C37984",
+"Laboratory",
+"Laboratory"
+],
+[
+"C215661",
+"Medical Device Company",
+"Medical Device Company"
+],
+[
+"C54149",
+"Pharmaceutical Company",
+"Drug Company"
+],
+[
+"C188863",
+"Regulatory Agency",
+"Regulatory Agency"
+]
+]
+},
+"C188725": {
+"name": "Objective Level Value Set Terminology",
+"terms": [
+[
+"C163559",
+"Exploratory Objective",
+"Trial Exploratory Objective"
+],
+[
+"C85826",
+"Study Primary Objective",
+"Trial Primary Objective"
+],
+[
+"C85827",
+"Study Secondary Objective",
+"Trial Secondary Objective"
+]
+]
+},
+"C188726": {
+"name": "Endpoint Level Value Set Terminology",
+"terms": [
+[
+"C170559",
+"Exploratory Endpoint",
+"Exploratory Endpoint"
+],
+[
+"C94496",
+"Primary Endpoint",
+"Primary Endpoint"
+],
+[
+"C139173",
+"Secondary Endpoint",
+"Secondary Endpoint"
+]
+]
+},
+"C188727": {
+"name": "Study Arm Data Origin Type Value Set Terminology",
+"terms": [
+[
+"C188866",
+"Data Generated Within Study",
+"Data Generated Within Study"
+],
+[
+"C188864",
+"Historical Data",
+"Historical Data"
+],
+[
+"C165830",
+"Real World Data",
+"Real-world Data"
+],
+[
+"C176263",
+"Synthetic Data",
+"Synthetic Data"
+]
+]
+},
+"C188728": {
+"name": "Encounter Type Value Set Terminology",
+"terms": [
+[
+"C25716",
+"Visit",
+"Visit"
+]
+]
+},
+"C201264": {
+"name": "Timing Type Value Set Terminology",
+"terms": [
+[
+"C201356",
+"After",
+"After Timing Type"
+],
+[
+"C201357",
+"Before",
+"Before Timing Type"
+],
+[
+"C201358",
+"Fixed Reference",
+"Fixed Reference Timing Type"
+]
+]
+},
+"C201265": {
+"name": "Timing Relative To From Value Set Terminology",
+"terms": [
+[
+"C201352",
+"End to End",
+"End to End"
+],
+[
+"C201353",
+"End to Start",
+"End to Start"
+],
+[
+"C201354",
+"Start to End",
+"Start to End"
+],
+[
+"C201355",
+"Start to Start",
+"Start to Start"
+]
+]
+},
+"C207419": {
+"name": "Study Title Type Value Set Terminology",
+"terms": [
+[
+"C207615",
+"Brief Study Title",
+"Brief Study Title"
+],
+[
+"C207616",
+"Official Study Title",
+"Official Study Title"
+],
+[
+"C207617",
+"Public Study Title",
+"Public Study Title"
+],
+[
+"C207618",
+"Scientific Study Title",
+"Scientific Study Title"
+],
+[
+"C207646",
+"Study Acronym",
+"Study Acronym"
+]
+]
+},
+"C207415": {
+"name": "Study Amendment Reason Code Value Set Terminology",
+"terms": [
+[
+"C207600",
+"Change In Standard Of Care",
+"Change In Standard Of Care"
+],
+[
+"C207601",
+"Change In Strategy",
+"Change In Strategy"
+],
+[
+"C207602",
+"IMP Addition",
+"IMP Addition"
+],
+[
+"C207603",
+"Inconsistency And/or Error In The Protocol",
+"Inconsistency and/or Error In The Protocol"
+],
+[
+"C207604",
+"Investigator/Site Feedback",
+"Investigator/Site Feedback"
+],
+[
+"C207605",
+"IRB/IEC Feedback",
+"IRB/IEC Feedback"
+],
+[
+"C207606",
+"Manufacturing Change",
+"Manufacturing Change"
+],
+[
+"C207607",
+"New Data Available (Other Than Safety Data)",
+"New Data Available (Other Than Safety Data)"
+],
+[
+"C207608",
+"New Regulatory Guidance",
+"New Regulatory Guidance"
+],
+[
+"C207609",
+"New Safety Information Available",
+"New Safety Information Available"
+],
+[
+"C48660",
+"NOT APPLICABLE",
+"Not Applicable"
+],
+[
+"C17649",
+"OTHER",
+"Other"
+],
+[
+"C207610",
+"Protocol Design Error",
+"Protocol Design Error"
+],
+[
+"C207611",
+"Recruitment Difficulty",
+"Recruitment Difficulty"
+],
+[
+"C207612",
+"Regulatory Agency Request To Amend",
+"Regulatory Agency Request To Amend"
+]
+]
+},
+"C66735": {
+"name": "Trial Blinding Schema Response",
+"terms": [
+[
+"C15228",
+"DOUBLE BLIND",
+"Double Blind Study"
+],
+[
+"C187674",
+"OBSERVER BLIND",
+"Observer Blind Study"
+],
+[
+"C156592",
+"OPEN LABEL TO TREATMENT AND DOUBLE BLIND TO IMP DOSE",
+"Open Label for Treatment And Double Blind to Dose"
+],
+[
+"C49659",
+"OPEN LABEL",
+"Open Label Study"
+],
+[
+"C28233",
+"SINGLE BLIND",
+"Single Blind Study"
+]
+]
+},
+"C174222": {
+"name": "Study Arm Type Value Set Terminology",
+"terms": [
+[
+"C174267",
+"Active Comparator Arm",
+"Active Comparator Arm"
+],
+[
+"C174226",
+"Control Arm",
+"Control Arm"
+],
+[
+"C174266",
+"Experimental Arm",
+"Investigational Arm"
+],
+[
+"C174270",
+"No Intervention Arm",
+"No Intervention Arm"
+],
+[
+"C174268",
+"Placebo Comparator Arm",
+"Placebo Control Arm"
+],
+[
+"C174269",
+"Sham Comparator Arm",
+"Sham Comparator Arm"
+],
+[
+"C15538",
+"Treatment Arm",
+"Protocol Treatment Arm"
+]
+]
+},
+"C207417": {
+"name": "Study Intervention Role Value Set Terminology",
+"terms": [
+[
+"C68609",
+"Active Comparator",
+"Active Comparator"
+],
+[
+"C207614",
+"Additional Required Treatment",
+"Additional Required Medicinal Product"
+],
+[
+"C165822",
+"Background Treatment",
+"Background Treatment"
+],
+[
+"C158128",
+"Challenge Agent",
+"Challenge Agent"
+],
+[
+"C18020",
+"Diagnostic",
+"Diagnostic Procedure"
+],
+[
+"C41161",
+"Experimental Intervention",
+"Protocol Agent"
+],
+[
+"C753",
+"Placebo",
+"Placebo"
+],
+[
+"C165835",
+"Rescue Medicine",
+"Rescue Medications"
+]
+]
+},
+"C207418": {
+"name": "Product Designation Value Set Terminology",
+"terms": [
+[
+"C202579",
+"IMP",
+"Investigational Medicinal Product"
+],
+[
+"C156473",
+"NIMP",
+"Auxiliary Medicinal Product"
+]
+]
+},
+"C66797": {
+"name": "Category of Inclusion/Exclusion",
+"terms": [
+[
+"C25370",
+"EXCLUSION",
+"Exclusion Criteria"
+],
+[
+"C25532",
+"INCLUSION",
+"Inclusion Criteria"
+]
+]
+},
+"C66732": {
+"name": "Sex of Participants Response",
+"terms": [
+[
+"C49636",
+"BOTH",
+"Both"
+],
+[
+"C16576",
+"F",
+"Female"
+],
+[
+"C20197",
+"M",
+"Male"
+]
+]
+},
+"C215480": {
+"name": "Study Role Code Value Set Terminology",
+"terms": [
+[
+"C78726",
+"Adjudication Committee",
+"Adjudication Committee"
+],
+[
+"C17445",
+"Care Provider",
+"Caregiver"
+],
+[
+"C215672",
+"Clinical Trial Physician",
+"Clinical Trial Physician"
+],
+[
+"C215669",
+"Co-Sponsor",
+"Study Co-Sponsor"
+],
+[
+"C215662",
+"Contract Research",
+"Contract Research"
+],
+[
+"C142489",
+"Data Safety Monitoring Board",
+"Data Monitoring Committee"
+],
+[
+"C215671",
+"Dose Escalation Committee",
+"Dose Escalation Committee"
+],
+[
+"C142578",
+"Independent Data Monitoring Committee",
+"Independent Data Monitoring Committee"
+],
+[
+"C25936",
+"Investigator",
+"Investigator"
+],
+[
+"C37984",
+"Laboratory",
+"Laboratory"
+],
+[
+"C215670",
+"Local Sponsor",
+"Local Legal Sponsor"
+],
+[
+"C25392",
+"Manufacturer",
+"Manufacturer"
+],
+[
+"C51876",
+"Medical Expert",
+"Sponsor Medical Expert"
+],
+[
+"C207599",
+"Outcomes Assessor",
+"Outcomes Assessor"
+],
+[
+"C215673",
+"Pharmacovigilance",
+"Pharmacovigilance Group"
+],
+[
+"C19924",
+"Principal investigator",
+"Principal Investigator"
+],
+[
+"C51851",
+"Project Manager",
+"Project Coordinator"
+],
+[
+"C188863",
+"Regulatory Agency",
+"Regulatory Agency"
+],
+[
+"C70793",
+"Sponsor",
+"Clinical Study Sponsor"
+],
+[
+"C51877",
+"Statistician",
+"Statistician"
+],
+[
+"C80403",
+"Study Site",
+"Study Site"
+],
+[
+"C41189",
+"Study Subject",
+"Study Subject"
+]
+]
+},
+"C66726": {
+"name": "Dosage Form",
+"terms": [
+[
+"C42887",
+"AEROSOL",
+"Aerosol Dosage Form"
+],
+[
+"C42888",
+"AEROSOL, FOAM",
+"Aerosol Foam Dosage Form"
+],
+[
+"C42960",
+"AEROSOL, METERED",
+"Metered Aerosol Dosage Form"
+],
+[
+"C42971",
+"AEROSOL, POWDER",
+"Powder Aerosol Dosage Form"
+],
+[
+"C42889",
+"AEROSOL, SPRAY",
+"Aerosol Spray Dosage Form"
+],
+[
+"C42892",
+"BAR, CHEWABLE",
+"Chewable Bar Dosage Form"
+],
+[
+"C42890",
+"BEAD",
+"Bead Dosage Form"
+],
+[
+"C43451",
+"BEAD, IMPLANT, EXTENDED RELEASE",
+"Extended Release Bead Implant Dosage Form"
+],
+[
+"C42891",
+"BLOCK",
+"Block Dosage Form"
+],
+[
+"C97197",
+"CAPLET",
+"Caplet Dosage Form"
+],
+[
+"C25158",
+"CAPSULE",
+"Capsule Dosage Form"
+],
+[
+"C42896",
+"CAPSULE, COATED PELLETS",
+"Coated Pellet in Capsule Dosage Form"
+],
+[
+"C42895",
+"CAPSULE, COATED",
+"Coated Capsule Dosage Form"
+],
+[
+"C42917",
+"CAPSULE, COATED, EXTENDED RELEASE",
+"Extended Release Coated Capsule Dosage Form"
+],
+[
+"C42904",
+"CAPSULE, DELAYED RELEASE PELLETS",
+"Delayed Release Pellet in Capsule Dosage Form"
+],
+[
+"C42902",
+"CAPSULE, DELAYED RELEASE",
+"Delayed Release Capsule Dosage Form"
+],
+[
+"C42916",
+"CAPSULE, EXTENDED RELEASE",
+"Extended Release Capsule Dosage Form"
+],
+[
+"C42928",
+"CAPSULE, FILM COATED, EXTENDED RELEASE",
+"Extended Release Film Coated Capsule Dosage Form"
+],
+[
+"C42936",
+"CAPSULE, GELATIN COATED",
+"Gelatin Coated Capsule Dosage Form"
+],
+[
+"C158214",
+"CAPSULE, HARD, EXTENDED RELEASE",
+"Extended Release Capsule, Hard Dosage Form"
+],
+[
+"C142247",
+"CAPSULE, IMMEDIATE RELEASE",
+"Immediate Release Capsule Dosage Form"
+],
+[
+"C42954",
+"CAPSULE, LIQUID FILLED",
+"Liquid Filled Capsule Dosage Form"
+],
+[
+"C184506",
+"CAPSULE, SOFTGEL",
+"Capsule Softgel Pharmaceutical Dosage Form"
+],
+[
+"C158215",
+"CAPSULE, SOFTGEL, EXTENDED RELEASE",
+"Extended Release Capsule, Softgel Dosage Form"
+],
+[
+"C45414",
+"CEMENT",
+"Cement Dosage Form"
+],
+[
+"C42678",
+"CIGARETTE",
+"Cigarette Dosage Form"
+],
+[
+"C60884",
+"CLOTH",
+"Cloth Dosage Form"
+],
+[
+"C60891",
+"CONCENTRATE",
+"Concentrated Dosage Form"
+],
+[
+"C42900",
+"CONE",
+"Cone Dosage Form"
+],
+[
+"C42919",
+"CORE, EXTENDED RELEASE",
+"Extended Release Core Dosage Form"
+],
+[
+"C28944",
+"CREAM",
+"Cream Dosage Form"
+],
+[
+"C60897",
+"CREAM, AUGMENTED",
+"Augmented Cream Dosage Form"
+],
+[
+"C42901",
+"CRYSTAL",
+"Crystal Dosage Form"
+],
+[
+"C45415",
+"CULTURE",
+"Culture Dosage Form"
+],
+[
+"C106178",
+"DEPOT",
+"Extended Release Depot Dosage Form"
+],
+[
+"C47890",
+"DIAPHRAGM",
+"Vaginal Diaphragm Dosage Form"
+],
+[
+"C43525",
+"DISC",
+"Disc Dosage Form"
+],
+[
+"C42679",
+"DOUCHE",
+"Douche Dosage Form"
+],
+[
+"C42763",
+"DRESSING",
+"Dressing Dosage Form"
+],
+[
+"C17423",
+"DRUG DELIVERY SYSTEM",
+"Drug Delivery System"
+],
+[
+"C42912",
+"ELIXIR",
+"Elixir Dosage Form"
+],
+[
+"C42913",
+"EMULSION",
+"Emulsion Dosage Form"
+],
+[
+"C42915",
+"ENEMA",
+"Enema Dosage Form"
+],
+[
+"C42929",
+"EXTRACT",
+"Extract Dosage Form"
+],
+[
+"C60926",
+"FIBER, EXTENDED RELEASE",
+"Extended Release Fiber Dosage Form"
+],
+[
+"C42932",
+"FILM",
+"Film Dosage Form"
+],
+[
+"C42920",
+"FILM, EXTENDED RELEASE",
+"Extended Release Film Dosage Form"
+],
+[
+"C42984",
+"FILM, SOLUBLE",
+"Soluble Film Dosage Form"
+],
+[
+"C60927",
+"FOR SOLUTION",
+"Dosage Form for Solution"
+],
+[
+"C60928",
+"FOR SUSPENSION",
+"Dosage Form for Suspension"
+],
+[
+"C60929",
+"FOR SUSPENSION, EXTENDED RELEASE",
+"Extended Release Dosage Form for Suspension"
+],
+[
+"C42933",
+"GAS",
+"Gas Dosage Form"
+],
+[
+"C42934",
+"GEL",
+"Gel Dosage Form"
+],
+[
+"C134876",
+"GEL, CHEWABLE",
+"Chewable Gel Dosage Form"
+],
+[
+"C42906",
+"GEL, DENTIFRICE",
+"Dentifrice Gel Dosage Form"
+],
+[
+"C60930",
+"GEL, METERED",
+"Metered Gel Dosage Form"
+],
+[
+"C48193",
+"GENERATOR",
+"Generator Dosage Form"
+],
+[
+"C42937",
+"GLOBULE",
+"Globule Dosage Form"
+],
+[
+"C45416",
+"GRAFT",
+"Graft Dosage Form"
+],
+[
+"C42938",
+"GRANULE",
+"Granule Dosage Form"
+],
+[
+"C148551",
+"GRANULE, COATED",
+"Coated Granules Dosage Form"
+],
+[
+"C42903",
+"GRANULE, DELAYED RELEASE",
+"Delayed Release Granules Dosage Form"
+],
+[
+"C42909",
+"GRANULE, EFFERVESCENT",
+"Effervescent Granules Dosage Form"
+],
+[
+"C42939",
+"GRANULE, FOR SOLUTION",
+"Granule for Solution Dosage Form"
+],
+[
+"C42940",
+"GRANULE, FOR SUSPENSION",
+"Granule for Suspension Dosage Form"
+],
+[
+"C42921",
+"GRANULE, FOR SUSPENSION, EXTENDED RELEASE",
+"Extended Release Granule for Suspension Dosage Form"
+],
+[
+"C42941",
+"GUM",
+"Gum Dosage Form"
+],
+[
+"C42894",
+"GUM, CHEWING",
+"Chewing Gum Dosage Form"
+],
+[
+"C42978",
+"GUM, RESIN",
+"Resin Gum Dosage Form"
+],
+[
+"C42942",
+"IMPLANT",
+"Implant Dosage Form"
+],
+[
+"C42944",
+"INHALANT",
+"Inhalant Dosage Form"
+],
+[
+"C149582",
+"INHALATION VAPOR, CAPSULE",
+"Inhalation Vapor, Capsule Dosage Form"
+],
+[
+"C60931",
+"INJECTABLE, LIPOSOMAL",
+"Liposomal Injection Dosage Form"
+],
+[
+"C42946",
+"INJECTION",
+"Injectable Dosage Form"
+],
+[
+"C42914",
+"INJECTION, EMULSION",
+"Emulsion for Injection Dosage Form"
+],
+[
+"C42950",
+"INJECTION, LIPID COMPLEX",
+"Injectable Lipid Complex Dosage Form"
+],
+[
+"C42974",
+"INJECTION, POWDER, FOR SOLUTION",
+"Powder for Injectable Solution Dosage Form"
+],
+[
+"C42976",
+"INJECTION, POWDER, FOR SUSPENSION",
+"Powder for Injectable Suspension Dosage Form"
+],
+[
+"C42977",
+"INJECTION, POWDER, FOR SUSPENSION, EXTENDED RELEASE",
+"Powder for Injectable Extended Release Suspension Dosage Form"
+],
+[
+"C42959",
+"INJECTION, POWDER, LYOPHILIZED, FOR LIPOSOMAL SUSPENSION",
+"Lyophilized Powder for Injectable Liposomal Suspension Dosage Form"
+],
+[
+"C42957",
+"INJECTION, POWDER, LYOPHILIZED, FOR SOLUTION",
+"Lyophilized Powder for Injectable Solution Dosage Form"
+],
+[
+"C42958",
+"INJECTION, POWDER, LYOPHILIZED, FOR SUSPENSION",
+"Lyophilized Powder for Injectable Suspension Dosage Form"
+],
+[
+"C42956",
+"INJECTION, POWDER, LYOPHILIZED, FOR SUSPENSION, EXTENDED RELEASE",
+"Lyophilized Powder for Extended Release Injectable Suspension Dosage Form"
+],
+[
+"C42945",
+"INJECTION, SOLUTION",
+"Injectable Solution Dosage Form"
+],
+[
+"C42899",
+"INJECTION, SOLUTION, CONCENTRATE",
+"Concentrated Injectable Solution Dosage Form"
+],
+[
+"C42995",
+"INJECTION, SUSPENSION",
+"Injectable Suspension Dosage Form"
+],
+[
+"C42926",
+"INJECTION, SUSPENSION, EXTENDED RELEASE",
+"Injectable Extended Release Suspension Dosage Form"
+],
+[
+"C42951",
+"INJECTION, SUSPENSION, LIPOSOMAL",
+"Injectable Liposomal Suspension Dosage Form"
+],
+[
+"C42988",
+"INJECTION, SUSPENSION, SONICATED",
+"Injectable Sonicated Suspension Dosage Form"
+],
+[
+"C60933",
+"INSERT",
+"Insert Dosage Form"
+],
+[
+"C42922",
+"INSERT, EXTENDED RELEASE",
+"Extended Release Insert Dosage Form"
+],
+[
+"C47915",
+"INTRAUTERINE DEVICE",
+"Intrauterine Device Dosage Form"
+],
+[
+"C42947",
+"IRRIGANT",
+"Irrigant Dosage Form"
+],
+[
+"C42948",
+"JELLY",
+"Jelly Dosage Form"
+],
+[
+"C47916",
+"KIT",
+"Kit Dosage Form"
+],
+[
+"C45413",
+"LINER, DENTAL",
+"Dental Liner Dosage Form"
+],
+[
+"C42949",
+"LINIMENT",
+"Liniment Dosage Form"
+],
+[
+"C42952",
+"LIPSTICK",
+"Lipstick Dosage Form"
+],
+[
+"C42953",
+"LIQUID",
+"Liquid Dosage Form"
+],
+[
+"C60934",
+"LIQUID, EXTENDED RELEASE",
+"Extended Release Liquid Dosage Form"
+],
+[
+"C29167",
+"LOTION",
+"Lotion Dosage Form"
+],
+[
+"C60957",
+"LOTION, AUGMENTED",
+"Augmented Lotion Dosage Form"
+],
+[
+"C60958",
+"LOTION/SHAMPOO",
+"Lotion Shampoo Dosage Form"
+],
+[
+"C42955",
+"LOZENGE",
+"Lozenge Dosage Form"
+],
+[
+"C29269",
+"MOUTHWASH",
+"Mouthwash Dosage Form"
+],
+[
+"C214665",
+"NANOSUSPENSION",
+"Nanosuspension Dosage Form"
+],
+[
+"C48624",
+"NOT APPLICABLE",
+"Dosage Form Not Applicable"
+],
+[
+"C42965",
+"OIL",
+"Oil Dosage Form"
+],
+[
+"C42966",
+"OINTMENT",
+"Ointment Dosage Form"
+],
+[
+"C60984",
+"OINTMENT, AUGMENTED",
+"Augmented Ointment Dosage Form"
+],
+[
+"C47887",
+"PACKING",
+"Packing Dosage Form"
+],
+[
+"C42967",
+"PASTE",
+"Paste Dosage Form"
+],
+[
+"C42907",
+"PASTE, DENTIFRICE",
+"Dentifrice Paste Dosage Form"
+],
+[
+"C60985",
+"PASTILLE",
+"Pastille Dosage Form"
+],
+[
+"C42968",
+"PATCH",
+"Patch Dosage Form"
+],
+[
+"C42923",
+"PATCH, EXTENDED RELEASE",
+"Extended Release Patch Dosage Form"
+],
+[
+"C42911",
+"PATCH, EXTENDED RELEASE, ELECTRICALLY CONTROLLED",
+"Electrically Controlled Extended Release Patch Dosage Form"
+],
+[
+"C42969",
+"PELLET",
+"Pellet Dosage Form"
+],
+[
+"C42943",
+"PELLET, IMPLANTABLE",
+"Implantable Pellet Dosage Form"
+],
+[
+"C42918",
+"PELLETS, COATED, EXTENDED RELEASE",
+"Extended Release Coated Pellet Dosage Form"
+],
+[
+"C25394",
+"PILL",
+"Pill Dosage Form"
+],
+[
+"C42970",
+"PLASTER",
+"Plaster Dosage Form"
+],
+[
+"C47913",
+"POULTICE",
+"Poultice Dosage Form"
+],
+[
+"C42972",
+"POWDER",
+"Powder Dosage Form"
+],
+[
+"C42908",
+"POWDER, DENTIFRICE",
+"Dentifrice Powder Dosage Form"
+],
+[
+"C42973",
+"POWDER, FOR SOLUTION",
+"Powder for Solution Dosage Form"
+],
+[
+"C42975",
+"POWDER, FOR SUSPENSION",
+"Powder for Suspension Dosage Form"
+],
+[
+"C87541",
+"POWDER, LYOPHILIZED",
+"Lyophilized Powder Dosage Form"
+],
+[
+"C42961",
+"POWDER, METERED",
+"Metered Powder Dosage Form"
+],
+[
+"C60988",
+"RING",
+"Ring Dosage Form"
+],
+[
+"C42979",
+"RINSE",
+"Rinse Dosage Form"
+],
+[
+"C42980",
+"SALVE",
+"Salve Dosage Form"
+],
+[
+"C42981",
+"SHAMPOO",
+"Shampoo Dosage Form"
+],
+[
+"C42982",
+"SHAMPOO, SUSPENSION",
+"Shampoo Suspension Dosage Form"
+],
+[
+"C42983",
+"SOAP",
+"Soap Dosage Form"
+],
+[
+"C45235",
+"SOLID",
+"Solid Dosage Form"
+],
+[
+"C42986",
+"SOLUTION",
+"Solution Dosage Form"
+],
+[
+"C42898",
+"SOLUTION, CONCENTRATE",
+"Concentrated Solution Dosage Form"
+],
+[
+"C42987",
+"SOLUTION, FOR SLUSH",
+"Solution for Slush Dosage Form"
+],
+[
+"C60994",
+"SOLUTION, GEL FORMING / DROPS",
+"Gel Forming Drop Solution Dosage Form"
+],
+[
+"C42935",
+"SOLUTION, GEL FORMING, EXTENDED RELEASE",
+"Extended Release Gel Forming Solution Dosage Form"
+],
+[
+"C60992",
+"SOLUTION/ DROPS",
+"Drop Solution Dosage Form"
+],
+[
+"C47912",
+"SPONGE",
+"Sponge Dosage Form"
+],
+[
+"C42989",
+"SPRAY",
+"Spray Dosage Form"
+],
+[
+"C42962",
+"SPRAY, METERED",
+"Metered Spray Dosage Form"
+],
+[
+"C42990",
+"SPRAY, SUSPENSION",
+"Spray Suspension Dosage Form"
+],
+[
+"C42991",
+"STICK",
+"Stick Dosage Form"
+],
+[
+"C47914",
+"STRIP",
+"Strip Dosage Form"
+],
+[
+"C42993",
+"SUPPOSITORY",
+"Suppository Dosage Form"
+],
+[
+"C42924",
+"SUPPOSITORY, EXTENDED RELEASE",
+"Extended Release Suppository Dosage Form"
+],
+[
+"C42994",
+"SUSPENSION",
+"Suspension Dosage Form"
+],
+[
+"C42925",
+"SUSPENSION, EXTENDED RELEASE",
+"Extended Release Suspension Dosage Form"
+],
+[
+"C60995",
+"SUSPENSION/DROPS",
+"Drop Suspension Dosage Form"
+],
+[
+"C47889",
+"SUTURE",
+"Suture Dosage Form"
+],
+[
+"C47898",
+"SWAB",
+"Swab Dosage Form"
+],
+[
+"C42996",
+"SYRUP",
+"Syrup Dosage Form"
+],
+[
+"C42998",
+"TABLET",
+"Tablet Dosage Form"
+],
+[
+"C42893",
+"TABLET, CHEWABLE",
+"Chewable Tablet Dosage Form"
+],
+[
+"C60997",
+"TABLET, COATED PARTICLES",
+"Tablet Coated Particle Dosage Form"
+],
+[
+"C42897",
+"TABLET, COATED",
+"Coated Tablet Dosage Form"
+],
+[
+"C202340",
+"TABLET, CRUSHED",
+"Crushed Tablet Dosage Form"
+],
+[
+"C42997",
+"TABLET, DELAYED RELEASE PARTICLES",
+"Delayed Release Particle Tablet Dosage Form"
+],
+[
+"C42905",
+"TABLET, DELAYED RELEASE",
+"Delayed Release Tablet Dosage Form"
+],
+[
+"C42910",
+"TABLET, EFFERVESCENT",
+"Effervescent Tablet Dosage Form"
+],
+[
+"C42927",
+"TABLET, EXTENDED RELEASE",
+"Extended Release Tablet Dosage Form"
+],
+[
+"C42931",
+"TABLET, FILM COATED",
+"Film Coated Tablet Dosage Form"
+],
+[
+"C42930",
+"TABLET, FILM COATED, EXTENDED RELEASE",
+"Film Coated Extended Release Tablet Dosage Form"
+],
+[
+"C202346",
+"TABLET, FILM COATED, IMMEDIATE RELEASE",
+"Film Coated Immediate Release Tablet Dosage Form"
+],
+[
+"C202345",
+"TABLET, FILM COATED, IMMEDIATE RELEASE, CRUSHED",
+"Film Coated Immediate Release Crushed Tablet Dosage Form"
+],
+[
+"C61004",
+"TABLET, FOR SOLUTION",
+"Tablet for Solution Dosage Form"
+],
+[
+"C61005",
+"TABLET, FOR SUSPENSION",
+"Tablet for Suspension Dosage Form"
+],
+[
+"C214660",
+"TABLET, GASTRORETENTIVE",
+"Gastroretentive Tablet Dosage Form"
+],
+[
+"C142248",
+"TABLET, IMMEDIATE RELEASE",
+"Immediate Release Tablet Dosage Form"
+],
+[
+"C162112",
+"TABLET, IMMEDIATE RELEASE, SOLID DISPERSION",
+"Solid Dispersion Immediate Release Tablet Dosage Form"
+],
+[
+"C170453",
+"TABLET, MODIFIED RELEASE",
+"Modified Release Tablet Dosage Form"
+],
+[
+"C214664",
+"TABLET, MODIFIED RELEASE, BILAYER (1:1)",
+"Modified Release Bilayer Tablet 1:1 Dosage Form"
+],
+[
+"C214663",
+"TABLET, MODIFIED RELEASE, BILAYER (1:2)",
+"Modified Release Bilayer Tablet 1:2 Dosage Form"
+],
+[
+"C214529",
+"TABLET, MODIFIED RELEASE, BILAYER",
+"Modified Release Bilayer Tablet Dosage Form"
+],
+[
+"C214662",
+"TABLET, MODIFIED RELEASE, EXTRUDABLE CORE SYSTEM",
+"Modified Release Extrudable Core System Tablet Dosage Form"
+],
+[
+"C170573",
+"TABLET, MODIFIED RELEASE, LONG DURATION",
+"Long Modified Release Tablet Dosage Form"
+],
+[
+"C214661",
+"TABLET, MODIFIED RELEASE, MATRIX",
+"Modified Release Matrix Tablet Dosage Form"
+],
+[
+"C170574",
+"TABLET, MODIFIED RELEASE, SHORT DURATION",
+"Short Modified Release Tablet Dosage Form"
+],
+[
+"C42964",
+"TABLET, MULTILAYER",
+"Multilayered Tablet Dosage Form"
+],
+[
+"C42963",
+"TABLET, MULTILAYER, EXTENDED RELEASE",
+"Multilayered Extended Release Tablet Dosage Form"
+],
+[
+"C42999",
+"TABLET, ORALLY DISINTEGRATING",
+"Orally Disintegrating Tablet Dosage Form"
+],
+[
+"C61006",
+"TABLET, ORALLY DISINTEGRATING, DELAYED RELEASE",
+"Orally Disintegrating Delayed Release Tablet Dosage Form"
+],
+[
+"C42985",
+"TABLET, SOLUBLE",
+"Soluble Tablet Dosage Form"
+],
+[
+"C42992",
+"TABLET, SUGAR COATED",
+"Sugar Coated Tablet Dosage Form"
+],
+[
+"C47892",
+"TAMPON",
+"Tampon Dosage Form"
+],
+[
+"C47897",
+"TAPE",
+"Tape Dosage Form"
+],
+[
+"C43000",
+"TINCTURE",
+"Tincture Dosage Form"
+],
+[
+"C43001",
+"TROCHE",
+"Troche Dosage Form"
+],
+[
+"C43002",
+"UNASSIGNED",
+"Unassigned Dosage Form"
+],
+[
+"C150001",
+"UNKNOWN",
+"Unknown Dosage Form Category"
+],
+[
+"C91199",
+"VAGINAL RING",
+"Vaginal Ring Dosage Form"
+],
+[
+"C43003",
+"WAFER",
+"Wafer Dosage Form"
+]
+]
+},
+"C66781": {
+"name": "Age Unit",
+"terms": [
+[
+"C25301",
+"DAYS",
+"Day"
+],
+[
+"C25529",
+"HOURS",
+"Hour"
+],
+[
+"C29846",
+"MONTHS",
+"Month"
+],
+[
+"C29844",
+"WEEKS",
+"Week"
+],
+[
+"C29848",
+"YEARS",
+"Year"
+]
+]
+},
+"C71620": {
+"name": "Unit",
+"terms": [
+[
+"C25613",
+"%",
+"Percentage"
+],
+[
+"C25397",
+"APPLICATION",
+"Application Unit"
+],
+[
+"C48480",
+"CAPSULE",
+"Capsule Dosing Unit"
+],
+[
+"C49668",
+"cm",
+"Centimeter"
+],
+[
+"C25301",
+"DAYS",
+"Day"
+],
+[
+"C48155",
+"g",
+"Gram"
+],
+[
+"C25529",
+"HOURS",
+"Hour"
+],
+[
+"C48501",
+"INHALATION",
+"Inhalation Dosing Unit"
+],
+[
+"C48579",
+"IU",
+"International Unit"
+],
+[
+"C28252",
+"kg",
+"Kilogram"
+],
+[
+"C48505",
+"L",
+"Liter"
+],
+[
+"C28253",
+"mg",
+"Milligram"
+],
+[
+"C28254",
+"mL",
+"Milliliter"
+],
+[
+"C49670",
+"mmHg",
+"Millimeter of Mercury"
+],
+[
+"C29846",
+"MONTHS",
+"Month"
+],
+[
+"C65060",
+"PUFF",
+"Puff Dosing Unit"
+],
+[
+"C48542",
+"TABLET",
+"Tablet Dosing Unit"
+],
+[
+"C48152",
+"ug",
+"Microgram"
+],
+[
+"C29844",
+"WEEKS",
+"Week"
+],
+[
+"C29848",
+"YEARS",
+"Year"
+]
+]
+}
+}
+}

@@ -89,9 +89,9 @@ const HRP_PROCS: Procedure[] = [
   P('P02', 'Demographics', '8.2', 'Demographics', 'DM', ['SCR'], ['conduct'], { minutes: 5 }),
   P('P03', 'Eligibility criteria', '5.2, 5.3', 'Eligibility Criteria Not Met', 'IE', ['SCR', 'D1'], ['conduct'], { minutes: 10 }),
   P('P04', 'Medical history, including hand eczema history', '8.2', 'Medical History', 'MH', ['SCR'], ['conduct'], { minutes: 15 }),
-  P('P05', 'Vital signs (blood pressure, pulse) and weight', '8.4.2', 'Vital Signs (Blood Pressure, Pulse)', 'VS', ['SCR', 'D1', 'W4', 'W8', 'W16'], ['safety'], { minutes: 10 }),
+  P('P05', 'Vital signs (blood pressure, pulse) and weight', '8.4.2', 'Vital Signs (Blood Pressure, Pulse)', 'VS', ['SCR', 'D1', 'W4', 'W8', 'W16'], ['safety'], { minutes: 10, bcs: ['SYSTOLIC BLOOD PRESSURE', 'DIASTOLIC BLOOD PRESSURE', 'PULSE', 'WEIGHT'] }),
   P('P06', 'Hepatitis B screening (HBsAg, anti-HBc; HBV DNA if anti-HBc positive)', '8.2, 12.1', 'Hepatitis B Screening Panel', 'LB', ['SCR'], ['eligibility'], { bloodMl: 5, minutes: 5 }),
-  P('P07', 'Central safety laboratory (haematology, chemistry including ALT and AST)', '8.4.4, 12.1', 'Central Laboratory Sample', 'LB', ['SCR', 'W2', 'W4', 'W8', 'W12', 'W16', 'FU'], ['safety'], { bloodMl: 10, minutes: 5, footnote: 'a: participants positive for anti-HBc with undetectable HBV DNA also have HBV DNA measured at every visit from Week 4.' }),
+  P('P07', 'Central safety laboratory (haematology, chemistry including ALT and AST)', '8.4.4, 12.1', 'Central Laboratory Sample', 'LB', ['SCR', 'W2', 'W4', 'W8', 'W12', 'W16', 'FU'], ['safety'], { bloodMl: 10, minutes: 5, bcs: ['HEMOGLOBIN CONCENTRATION IN BLOOD', 'LEUKOCYTE COUNT IN BLOOD', 'ABSOLUTE NEUTROPHIL COUNT IN BLOOD', 'LYMPHOCYTE COUNT IN BLOOD', 'PLATELET COUNT IN BLOOD', 'ALANINE AMINOTRANSFERASE CONCENTRATION IN SERUM OR PLASMA', 'ASPARTATE AMINOTRANSFERASE IN SERUM OR PLASMA', 'BILIRUBIN CONCENTRATION IN SERUM OR PLASMA', 'ALKALINE PHOSPHATASE CONCENTRATION IN SERUM OR PLASMA', 'CREATININE CONCENTRATION IN SERUM OR PLASMA', 'HEPATITIS B VIRUS DNA CONCENTRATION IN SERUM OR PLASMA'], footnote: 'a: participants positive for anti-HBc with undetectable HBV DNA also have HBV DNA measured at every visit from Week 4.' }),
   P('P08', 'Pregnancy test (participants of childbearing potential)', '8.4.5', 'Pregnancy Test (Choriogonadotropin Beta)', 'PREG', ['SCR', 'D1', 'W4', 'W8', 'W12', 'W16'], ['safety'], { minutes: 5, footnote: 'b: serum at screening, urine at the other visits.' }),
   P('P09', 'IGA-CHE (Investigator Global Assessment, chronic hand eczema)', '8.3', 'Investigator Global Assessment for Chronic Hand Eczema', 'QS', SEV, ['endpoint'], { minutes: 5 }),
   P('P10', 'HECSI (Hand Eczema Severity Index)', '8.3', 'Hand Eczema Severity Index', 'QS', SEV, ['endpoint'], { minutes: 10 }),
@@ -198,7 +198,8 @@ const hrpData = (): ProtocolData => {
 // ---------- HLV-204-201 (VASCLEAR-2) ----------
 // From the CDM console's twin, with its three inconsistencies corrected: the blood pressure value
 // is the mean of the second and third readings throughout, adverse events are collected from
-// consent, and the sample size is 132 everywhere.
+// consent (9.2.1 governs; the EDC Study Build Lab's own USDM file schedules them the same way), and
+// the sample size is 132 everywhere.
 const HLV_VISITS: Visit[] = [V('SCR', 'Screening', -14, -28, -1, 'Screening'), V('D1', 'Day 1 (randomisation)', 1, 1, 1, 'Treatment'), V('W2', 'Week 2', 15, 12, 18, 'Treatment'), V('W4', 'Week 4', 29, 26, 32, 'Treatment'), V('W8', 'Week 8', 57, 50, 64, 'Treatment'), V('W12', 'Week 12 (end of treatment)', 85, 82, 88, 'Treatment'), V('FU', 'Week 14 follow-up', 99, 96, 102, 'Follow-up')]
 const HLV_ALL = HLV_VISITS.map((v) => v.id)
 const HLV_PROCS: Procedure[] = [
@@ -210,7 +211,7 @@ const HLV_PROCS: Procedure[] = [
   P('P06', 'Weight', '8.4.2', 'Body Weight', 'VS', ['SCR', 'W12'], ['safety']),
   P('P07', 'Height', '8.2', 'Body Height', 'VS', ['SCR'], ['conduct']),
   P('P08', 'Local safety laboratory (potassium, creatinine, ALT)', '8.4.4, 12.1', 'Local Safety Laboratory Panel', 'LB', ['SCR', 'W4', 'W12'], ['safety']),
-  P('P09', 'Central laboratory sample (glucose, sodium, HbA1c)', '8.4.4, 12.1', 'Central Laboratory Sample', 'LB', ['SCR', 'W4', 'W12'], ['safety']),
+  P('P09', 'Central laboratory sample (glucose, sodium, HbA1c)', '8.4.4, 12.1', 'Central Laboratory Sample', 'LB', ['SCR', 'W4', 'W12'], ['safety'], { bcs: ['GLUCOSE CONCENTRATION IN SERUM OR PLASMA', 'SODIUM CONCENTRATION IN SERUM OR PLASMA', 'HEMOGLOBIN A1C CONCENTRATION IN BLOOD'] }),
   P('P10', '12-lead ECG (central reading)', '8.4.3', '12-Lead ECG', 'EG', ['SCR', 'W4', 'W12'], ['safety']),
   P('P11', 'Pregnancy test (participants of childbearing potential)', '8.4.5', 'Pregnancy Test (Choriogonadotropin Beta)', 'PREG', ['SCR', 'D1', 'W12'], ['safety']),
   P('P12', 'Dispense trial intervention; accountability and adherence', '6.6.3, 6.8', 'Study Drug Dispensing and Accountability', 'EX', ['D1', 'W2', 'W4', 'W8', 'W12'], ['conduct']),
@@ -266,14 +267,14 @@ const NFR_VISITS: Visit[] = [V('SCR', 'Screening', -14, -21, -7, 'Screening'), V
 const NFR_ALLT = ['D1', 'W2', 'W4', 'W8', 'W12']
 export const NFR_PROCS: Procedure[] = [
   P('P01', 'Informed consent', '11.3', 'Informed Consent Obtained', 'IC', ['SCR'], ['conduct'], { minutes: 30 }),
-  P('P02', 'Demographics and smoking history', '8.2', 'Demographics', 'DM', ['SCR'], ['conduct'], { minutes: 10 }),
+  P('P02', 'Demographics and smoking history', '8.2', 'Demographics', 'DM', ['SCR'], ['conduct'], { minutes: 10, bcs: ['AGE', 'SEX', 'RACE', 'TOBACCO HISTORY'] }),
   P('P03', 'Eligibility criteria', '5.2, 5.3', 'Eligibility Criteria Not Met', 'IE', ['SCR', 'D1'], ['conduct'], { minutes: 10 }),
   P('P04', 'Medical history, including exacerbation history', '8.2', 'Medical History', 'MH', ['SCR'], ['conduct'], { minutes: 15 }),
   P('P05', 'Spirometry (pre-dose trough FEV1 and FVC)', '8.3', 'Spirometry', 'RE', ['SCR', 'D1', 'W2', 'W4', 'W8', 'W12'], ['endpoint'], { minutes: 30, footnote: 'a: trough FEV1 is measured 23 to 24 hours after the previous dose; post-bronchodilator spirometry at screening only.' }),
   P('P06', 'COPD Assessment Test (CAT)', '8.3', 'COPD Assessment Test', 'QS', ['D1', 'W4', 'W8', 'W12'], ['endpoint'], { minutes: 5 }),
   P('P07', 'Vital signs', '8.4.2', 'Vital Signs (Blood Pressure, Pulse)', 'VS', ['SCR', 'D1', 'W4', 'W12', 'FU'], ['safety'], { minutes: 10 }),
   P('P08', '12-lead ECG', '8.4.3', '12-Lead ECG', 'EG', ['SCR', 'W4', 'W12'], ['safety'], { minutes: 15 }),
-  P('P09', 'Safety laboratory', '8.4.4, 12.1', 'Local Safety Laboratory Panel', 'LB', ['SCR', 'W4', 'W12'], ['safety'], { bloodMl: 10, minutes: 5 }),
+  P('P09', 'Safety laboratory', '8.4.4, 12.1', 'Local Safety Laboratory Panel', 'LB', ['SCR', 'W4', 'W12'], ['safety'], { bloodMl: 10, minutes: 5, bcs: ['HEMOGLOBIN CONCENTRATION IN BLOOD', 'ALANINE AMINOTRANSFERASE CONCENTRATION IN SERUM OR PLASMA', 'CREATININE CONCENTRATION IN SERUM OR PLASMA', 'POTASSIUM CONCENTRATION IN SERUM OR PLASMA'] }),
   P('P10', 'Pregnancy test (participants of childbearing potential)', '8.4.5', 'Pregnancy Test (Choriogonadotropin Beta)', 'PREG', ['SCR', 'D1', 'W12'], ['safety'], { minutes: 5 }),
   P('P11', 'Dispense inhaler; dose counter check', '6.6.3, 6.8', 'Study Drug Dispensing and Accountability', 'EX', ['D1', 'W4', 'W8', 'W12'], ['conduct'], { minutes: 10 }),
   P('P12', 'Adverse events', '9.2', 'Adverse Event', 'AE', 'continuous', ['safety'], { from: 'SCR' }),

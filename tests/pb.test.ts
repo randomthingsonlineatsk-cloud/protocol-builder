@@ -79,12 +79,21 @@ describe('USDM v4', () => {
   test('structure: main timeline, codes and timings', () => {
     const u = usdmOf(EXAMPLES['HRP-301'].data()), s = u.study.versions[0].studyDesigns[0]
     expect(u.usdmVersion).toBe('4.0.0')
-    expect(s.studyPhase.standardCode).toMatchObject({ code: 'C15602', decode: 'Phase 3' })
-    expect(s.blindingSchema.standardCode).toMatchObject({ code: 'C15228', decode: 'Double Blind' })
+    expect(s.studyPhase.standardCode).toMatchObject({ code: 'C15602', decode: 'Phase III Trial', codeSystemVersion: '2026-03-27' })
+    expect(s.blindingSchema!.standardCode).toMatchObject({ code: 'C15228', decode: 'Double Blind Study' })
     expect(s.arms.map((a) => a.type.code)).toEqual(['C174266', 'C174266', 'C174268'])
     const scr = s.scheduleTimelines[0].timings.find((t) => t.id === 'Timing_SCR')!
     expect(scr).toMatchObject({ value: 'P14D', windowLower: 'P14D', windowUpper: 'P13D' })
-    expect(scr.type.decode).toBe('Before')
+    expect(scr.type).toMatchObject({ code: 'C201357', decode: 'Before' })
+    expect(s.epochs.map((e) => e.type.code)).toEqual(['C202487', 'C101526', 'C202578'])
+    expect(s.encounters[0].contactModes[0].code).toBe('C175574')
+    // Every code is CDISC CT 2026-03-27 (or ISO 639-1 for the language): no teaching terms.
+    const codes: any[] = []; const walk = (x: any) => { if (Array.isArray(x)) x.forEach(walk); else if (x && typeof x === 'object') { if (x.instanceType === 'Code') codes.push(x); Object.values(x).forEach(walk) } }; walk(u)
+    expect(codes.filter((c) => !(c.codeSystem === 'http://www.cdisc.org' && c.codeSystemVersion === '2026-03-27' && /^C\d+$/.test(c.code)) && c.codeSystem !== 'ISO 639-1')).toEqual([])
+    // Procedures link CDISC biomedical concepts, or a surrogate where the library has none.
+    const act = (pid: string) => s.activities.find((a) => a.id === `Activity_${pid}`)!
+    expect(act('P05').bcCategoryIds).toEqual(['BCC_P05']); expect(act('P09').bcSurrogateIds).toEqual(['BCS_P09'])
+    expect(u.study.versions[0].bcCategories.find((c) => c.id === 'BCC_P05')!.memberIds).toContain('BC_SYSTOLIC_BLOOD_PRESSURE')
     expect(s.estimands[0]).toMatchObject({ variableOfInterestId: 'Endpoint_END1', analysisPopulationId: 'AnalysisPopulation_ITT' })
   })
   test('the checks catch broken references and missing strategies', () => {
@@ -93,6 +102,12 @@ describe('USDM v4', () => {
     u.study.versions[0].studyDesigns[0].estimands[1].intercurrentEvents[0].strategy = ''
     const ids = checkUsdm(u).map((i) => i.id)
     expect(ids).toContain('PB-USDM-05'); expect(ids).toContain('PB-USDM-10'); expect(ids).toContain('PB-USDM-11')
+  })
+  test('a blank or library protocol exports without errors in the coding', () => {
+    expect(() => usdmOf(emptyData())).not.toThrow()
+    const d = EXAMPLES['HRP-301'].data(); d.interventions[0].route = 'Intravenous'; d.interventions[0].frequency = 'twice daily'
+    const a = usdmOf(d).study.versions[0].studyInterventions[0].administrations[0]
+    expect([a.route!.standardCode.decode, a.frequency!.standardCode.decode]).toEqual(['Intravenous Route of Administration', 'Twice Daily'])
   })
   test('the teaching subset is cut from the full export', () => {
     const u = usdmOf(EXAMPLES['HRP-301'].data()), t = teachingSubset(u)
