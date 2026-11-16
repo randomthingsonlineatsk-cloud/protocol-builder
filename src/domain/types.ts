@@ -31,8 +31,12 @@ export interface Intervention { id: string; name: string; role: 'Investigational
 export interface KeyFacts {
   participants: number; perArm: number; dropoutPct: number; treatmentWeeks: number; followUpWeeks: number; participationWeeks: number
   ageMin: number; ageMax: number; power: number; alpha: number; sided: 1 | 2
-  assumption: { kind: 'proportions'; p0: number; p1: number } | { kind: 'means'; delta: number; sd: number }
+  assumption: Assumption
 }
+
+export interface Assumption { kind: 'proportions' | 'means' | 'ni-proportions' | 'ni-means' | 'tte' | 'crossover' | 'single'; p0?: number; p1?: number; delta?: number; sd?: number; margin?: number; hr?: number; eventProb?: number }
+export interface MultiplicityPlan { method: 'none' | 'bonferroni' | 'holm' | 'hochberg' | 'fixed-sequence' | 'graphical'; hypotheses: { id: string; label: string; weight: number }[]; transitions: number[][] }
+export interface InterimPlan { fractions: number[]; spending: 'obrien-fleming' | 'pocock'; purpose: string }
 
 export interface ProtocolData {
   title: Record<string, string>            // M11 title page elements, by M11 term
@@ -45,13 +49,25 @@ export interface ProtocolData {
   // Statements written in one section that repeat a fact from another. The consistency rules
   // read them against the facts above (for example 10.11's sample size against 1.1.2).
   statements: Record<string, string>
-  multiplicity: string; rescue: string; aeFrom: 'consent' | 'first dose'; aeTo: string
+  multiplicity: string; multiplicityPlan?: MultiplicityPlan; interim?: InterimPlan; rescue: string; aeFrom: 'consent' | 'first dose'; aeTo: string
 }
 
 export interface Finding { id: string; rule: string; severity: 'high' | 'medium' | 'low'; sections: string[]; text: string; fix: string }
 export interface Mark { status: 'resolved' | 'justified'; note: string; utc: string }
 
-export interface ProtocolVersion { number: string; date: string; status: 'draft' | 'approved'; data: ProtocolData }
+export type Region = 'US' | 'EU' | 'IN'
+export interface Change {
+  id: string; sections: string[]; description: string; rationale: string; category: string
+  answers: Partial<Record<Region, string>>   // the learner's classification per region
+  justify: Partial<Record<Region, string>>   // why the learner's answer differs, where it does
+}
+// ICH M11 amendment details (title page) and the summary of changes.
+export interface Amendment {
+  identifier: string; scope: 'Global' | 'Not Global'; scopeDetail: string; enrolledPct: number
+  primaryReason: string; secondaryReasons: string[]; summary: string
+  safetyRights: '' | 'Yes' | 'No'; dataImpact: '' | 'Yes' | 'No'; changes: Change[]
+}
+export interface ProtocolVersion { number: string; date: string; status: 'draft' | 'approved'; data: ProtocolData; amendment?: Amendment }
 
 export interface Project {
   format: 'protocol-builder-project'; schema: number

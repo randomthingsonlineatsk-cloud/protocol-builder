@@ -22,7 +22,7 @@
 import { TOC } from './m11'
 import CT from './ct-usdm.json'
 import BCLIB from './bc-cdisc.json'
-import type { ProtocolData, Procedure, Visit, Intervention } from './types'
+import type { ProtocolData, Procedure, Visit, Intervention, Amendment } from './types'
 
 const CS = 'http://www.cdisc.org', CT_VER = CT.version
 export const EXT_URL = 'https://randomthingsonlineatsk-cloud.github.io/protocol-builder/ext/key-facts'
@@ -98,7 +98,7 @@ const activitiesAt = (d: ProtocolData, v: Visit) => d.procedures.filter((p) => (
 const phaseKey = (p: string) => ({ 'Early Phase 1': 'C54721', 'Phase 1': 'C15600', 'Phase 1/Phase 2': 'C15693', 'Phase 1/Phase 2/Phase 3': 'C198366', 'Phase 1/Phase 3': 'C198367', 'Phase 2': 'C15601', 'Phase 2/Phase 3': 'C15694', 'Phase 3': 'C15602', 'Phase 4': 'C15603' } as Record<string, string>)[p] ?? 'NOT APPLICABLE'
 const modelKey = (m: string) => ({ 'Single Group': 'C82640', 'Parallel Group': 'C82639', 'Cross-over': 'C82637', Factorial: 'C82638', Sequential: 'C142568' } as Record<string, string>)[m] ?? 'C82639'
 
-export function usdmOf(d: ProtocolData, meta: { userId?: string; version?: string } = {}) {
+export function usdmOf(d: ProtocolData, meta: { userId?: string; version?: string; amendments?: Amendment[] } = {}) {
   seq = 0
   const id = d.title['Sponsor Protocol Identifier'] || 'UNNAMED'
   const visits = d.visits.filter((v) => !isUns(v)).sort((a, b) => a.day - b.day)
@@ -157,7 +157,19 @@ export function usdmOf(d: ProtocolData, meta: { userId?: string; version?: strin
         biomedicalConcepts, bcCategories, bcSurrogates,
         eligibilityCriterionItems: d.criteria.map((c) => ({ id: `ECI_${c.code}`, name: c.code, text: c.text, dictionaryId: null, instanceType: 'EligibilityCriterionItem' as const })),
         narrativeContentItems: narr.map((s) => ({ id: `NCI_${s.num}`, name: `NCI_${s.num}`, text: d.narrative[s.num], instanceType: 'NarrativeContentItem' as const })),
-        amendments: [],
+        amendments: (meta.amendments ?? []).map((am, i, all) => {
+          const scope = { id: `GeoScope_A${am.identifier}`, type: term('C207412', am.scope === 'Global' ? 'Global' : 'Region'), code: null, instanceType: 'GeographicScope' as const }
+          const reason = (c: string, k: string) => ({ id: `Reason_A${am.identifier}_${k}`, code: term('C207415', c || 'NOT APPLICABLE'), otherReason: null, instanceType: 'StudyAmendmentReason' as const })
+          return { id: `StudyAmendment_${am.identifier}`, name: `Amendment ${am.identifier}`, label: `Amendment ${am.identifier}`, description: am.scopeDetail || '', number: am.identifier, summary: am.summary || `Amendment ${am.identifier}`,
+            primaryReason: reason(am.primaryReason, 'P'), secondaryReasons: am.secondaryReasons.map((c, j) => reason(c, `S${j + 1}`)),
+            changes: am.changes.map((c) => ({ id: `StudyChange_${am.identifier}_${c.id}`, name: c.id, label: c.id, description: c.description, summary: c.description || c.id, rationale: c.rationale || 'Not given',
+              changedSections: c.sections.map((sec, j) => ({ id: `DCR_${am.identifier}_${c.id}_${j + 1}`, sectionNumber: sec, sectionTitle: sec === 'TP' ? 'Title Page' : TOC.find((t) => t.num === sec)?.title ?? sec, appliesToId: 'SDD_1', instanceType: 'DocumentContentReference' as const })), instanceType: 'StudyChange' as const })),
+            impacts: [...(am.safetyRights ? [{ id: `Impact_A${am.identifier}_S`, type: term('C215481', 'Study Subject Safety'), text: 'Impact on the safety or rights of participants', isSubstantial: am.safetyRights === 'Yes', notes: [], instanceType: 'StudyAmendmentImpact' as const }] : []),
+              ...(am.dataImpact ? [{ id: `Impact_A${am.identifier}_D`, type: term('C215481', 'Study Data Reliability'), text: 'Impact on the reliability and robustness of the data', isSubstantial: am.dataImpact === 'Yes', notes: [], instanceType: 'StudyAmendmentImpact' as const }] : [])],
+            geographicScopes: [scope],
+            enrollments: am.enrolledPct ? [{ id: `Enrolment_A${am.identifier}`, name: `Enrolment at amendment ${am.identifier}`, label: '', description: 'Approximate percentage enrolled at sponsor approval', quantity: { id: `EnrolQ_A${am.identifier}`, value: am.enrolledPct, unit: alias(term('C71620', '%')), instanceType: 'Quantity' as const }, forGeographicScope: { ...scope, id: `GeoScopeE_A${am.identifier}`, type: term('C207412', 'Global') }, forStudyCohortId: null, forStudySiteId: null, instanceType: 'SubjectEnrollment' as const }] : [],
+            dateValues: [], previousId: i ? `StudyAmendment_${all[i - 1].identifier}` : null, notes: [], instanceType: 'StudyAmendment' as const }
+        }),
         extensionAttributes: [{ id: 'Ext_1', url: EXT_URL, valueString: JSON.stringify({ facts: d.facts, statements: d.statements, multiplicity: d.multiplicity, rescue: d.rescue, aeFrom: d.aeFrom, aeTo: d.aeTo, title: d.title, design: d.design, procedures: d.procedures.map((p) => ({ id: p.id, section: p.section, concept: p.concept, form: p.form, purpose: p.purpose, footnote: p.footnote, from: p.from, bloodMl: p.bloodMl, minutes: p.minutes, bcs: p.bcs })), criteria: d.criteria.map((c) => ({ code: c.code, procedureIds: c.procedureIds })), endpoints: d.endpoints.map((e) => ({ id: e.id, variableType: e.variableType, procedureIds: e.procedureIds, visitIds: e.visitIds })), objectives: d.objectives.map((o) => ({ id: o.id, kind: o.kind })), estimands: d.estimands.map((e) => ({ id: e.id, objectiveId: e.objectiveId, population: e.population, estimator: e.estimator, missing: e.missing, sensitivity: e.sensitivity, treatment: e.treatment })), visits: d.visits.map((v) => ({ id: v.id, type: v.type, epoch: v.epoch })), interventions: d.interventions, arms: d.arms.map((a) => ({ id: a.id, intervention: a.intervention, ratio: a.ratio, type: a.type })) }), extensionAttributes: [], instanceType: 'ExtensionAttribute' as const }],
         studyDesigns: [{
           id: 'StudyDesign_1', name: `${d.title['Trial Acronym'] || id} design`, label: '', description: d.narrative['4.1'] ?? '', instanceType: 'InterventionalStudyDesign' as const,

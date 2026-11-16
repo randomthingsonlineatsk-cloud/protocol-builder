@@ -4,7 +4,7 @@
 // size, a duration, an age) that another section also states.
 
 import { TOC, TITLE_ELEMENTS, DESIGN_ELEMENTS, CODELISTS, type ElementDef } from './m11'
-import { sizeFromFacts } from './stats'
+import { sizeFromFacts, planProblems } from './stats'
 import type { ProtocolData, Finding, Procedure, Visit, Endpoint } from './types'
 
 export interface RuleDef { id: string; group: string; severity: Finding['severity']; title: string }
@@ -81,7 +81,8 @@ export const REQUIRED_TEXT = TOC.filter((s) => s.conf === 'R' && !children(s.num
 // Conditional sections and the condition that makes each one needed.
 export const CONDITIONAL: { num: string; when: (d: ProtocolData) => boolean; why: string }[] = [
   { num: '4.2.5', when: (d) => d.design['Adaptive Trial Design Indicator'] === 'Yes', why: 'the design is adaptive' },
-  { num: '4.2.6', when: (d) => !blank(text(d, '10.9')), why: 'section 10.9 plans an interim analysis' },
+  { num: '4.2.6', when: (d) => !blank(text(d, '10.9')) || !!d.interim, why: 'an interim analysis is planned' },
+  { num: '10.9', when: (d) => !!d.interim, why: 'an interim analysis is planned' },
   { num: '5.4', when: hasChildbearing, why: 'the criteria include participants of childbearing potential' },
   { num: '6.9', when: (d) => !blank(d.rescue), why: 'rescue therapy is used' },
   { num: '9.3', when: hasChildbearing, why: 'participants of childbearing potential are included' },
@@ -218,8 +219,12 @@ export function findings(d: ProtocolData): Finding[] {
     if (Math.abs(s.perArm - f.perArm) > 1) add('PB-T02', 'calc', ['10.11'], `The assumptions in 10.11 give ${s.perArm} per arm (${s.evaluable} evaluable, ${f.dropoutPct}% dropout); the protocol states ${f.perArm}.`, 'Correct the assumptions or the number.')
   } catch { add('PB-T02', 'calc', ['10.11'], 'The sample size assumptions are incomplete or out of range.', 'Give alpha, power, dropout and the effect assumptions.') }
   if (hypotheses(d) > 1 && blank(d.multiplicity)) add('PB-T03', 'mult', ['10.10'], `${hypotheses(d)} efficacy hypotheses are tested (doses × estimands), but 10.10 has no multiplicity strategy.`, 'Describe how the familywise error rate is controlled.')
+  if (d.multiplicityPlan) {
+    for (const [i, pr] of planProblems(d.multiplicityPlan).entries()) add('PB-T03', `plan${i}`, ['10.10'], `The multiplicity plan is not valid: ${pr}`, 'Correct the weights or transitions so the familywise error rate is controlled.')
+    if (d.multiplicityPlan.method !== 'none' && d.multiplicityPlan.hypotheses.length < hypotheses(d)) add('PB-T03', 'cover', ['10.10'], `The multiplicity plan has ${d.multiplicityPlan.hypotheses.length} hypotheses; the protocol tests ${hypotheses(d)}.`, 'Rebuild the plan from the current estimands and arms.')
+  }
   if (!d.analysisSets.some((a) => /safety/i.test(a.name))) add('PB-T04', 'saf', ['10.2'], 'No safety analysis set is defined.', 'Define it (usually: everyone who took at least one dose, analysed as treated).')
-  if (!blank(text(d, '10.9')) && !dmc(d)) add('PB-T05', 'dmc', ['10.9', '11.4'], 'Section 10.9 plans an interim analysis, but 1.1.2 names no data monitoring committee to review it.', 'Name the committee in 1.1.2 and describe it in 11.4.')
+  if ((!blank(text(d, '10.9')) || d.interim) && !dmc(d)) add('PB-T05', 'dmc', ['10.9', '11.4'], 'Section 10.9 plans an interim analysis, but 1.1.2 names no data monitoring committee to review it.', 'Name the committee in 1.1.2 and describe it in 11.4.')
 
   // Safety and oversight
   if (!blank(d.design['Independent Committees']) && !/^none/i.test(d.design['Independent Committees']) && blank(text(d, '11.4'))) add('PB-O01', 'committee', ['1.1.2', '11.4'], `1.1.2 names “${d.design['Independent Committees']}”, but 11.4 does not describe it.`, 'Describe each committee, its members and charter in 11.4.')

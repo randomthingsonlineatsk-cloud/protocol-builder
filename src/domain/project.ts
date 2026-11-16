@@ -55,6 +55,10 @@ export function lifecycleProject(): Project {
 }
 
 export const current = (p: Project) => p.versions[p.versions.length - 1].data
+// The current amendment and the ones before it, for the printed and Word protocol.
+export const docOpts = (p: Project) => ({ amendment: p.versions[p.versions.length - 1].amendment, prior: p.versions.slice(0, -1).flatMap((v) => (v.amendment ? [v.amendment] : [])) })
+// The USDM export of the current version, with every amendment so far.
+export const usdmOfProject = (p: Project) => usdmOf(current(p), { amendments: p.versions.flatMap((v) => (v.amendment ? [v.amendment] : [])) })
 export const protocolId = (p: Project) => current(p).title['Sponsor Protocol Identifier'] || '(no identifier)'
 export function open(p: Project): Finding[] { return findings(current(p)).filter((f) => !p.marks[f.id]) }
 export function status(p: Project) {
@@ -83,7 +87,7 @@ export function readProjectFile(text: string): Project {
 // The hand-off to the pharmolecule hub's lifecycle journey (and the EDC Study Build Lab, which
 // reads the USDM inside it).
 export function handoff(p: Project) {
-  const d = current(p), st = status(p), u = usdmOf(d), issues = checkUsdm(u)
+  const d = current(p), st = status(p), u = usdmOfProject(p), issues = checkUsdm(u)
   return {
     format: HANDOFF, schema: 1, exportedUtc: now(), app: { name: 'Protocol Builder', url: APP_URL },
     learner: { userId: p.userId, classId: p.classId },

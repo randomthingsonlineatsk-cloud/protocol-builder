@@ -6,7 +6,9 @@ Harmonised Protocol, CeSHarP) and see whether its parts agree. The objectives, e
 interventions and the **sample size** are held as data, and 40 consistency rules read the
 synopsis and the body together. The finished protocol exports as **CDISC USDM v4** data, which the
 [EDC Study Build Lab](https://randomthingsonlineatsk-cloud.github.io/edc-study-build-lab/) turns
-into a first-pass database build, and as a readable protocol to save as PDF.
+into a first-pass database build, as a readable protocol to save as PDF, and as a Word file.
+Approved versions are frozen; amendments carry tracked changes, the M11 amendment details and a
+classification of each change for the US, the EU and India.
 
 Live: https://randomthingsonlineatsk-cloud.github.io/protocol-builder/
 
@@ -21,7 +23,16 @@ Training only. All protocols, products and sponsors are fictional.
    page and the 1.1.2 Overall Design are forms over the technical specification's data elements;
    coded elements use the M11 code lists with their NCI C-codes (Trial Phase C217045, Trial Blind
    Schema C217051, Intervention Model C217277 and others). Criteria, arms and interventions,
-   analysis sets, multiplicity and the sample size have their own editors.
+   analysis sets and the statistics have their own editors:
+   - **Sample size** for two proportions or two means (superiority), non-inferiority for both,
+     time to event (Schoenfeld, as events and participants), a 2×2 crossover and a single arm
+     (exact binomial), with the working shown and the statement for 10.11 written from it.
+   - **Multiplicity**: Bonferroni, Holm, Hochberg, a fixed sequence, or a graphical procedure
+     (Bretz and colleagues, 2009) drawn as a graph of weights and transitions over the hypotheses
+     (efficacy estimands × doses). Enter p-values to see which hypotheses are rejected and how
+     alpha passes on; 10.10 is written from the plan.
+   - **Interim analyses**: information fractions and Lan-DeMets alpha spending with
+     O'Brien-Fleming or Pocock-type boundaries, computed by recursive numerical integration.
 3. **Objectives and estimands**: objectives and endpoints at their levels, each endpoint linked to
    the procedures and visits that measure it, and estimands with population, treatment, variable,
    intercurrent events with a strategy each, and the population-level summary, plus the estimator,
@@ -32,11 +43,28 @@ Training only. All protocols, products and sponsors are fictional.
 5. **Consistency checks**: 40 rules in eight groups (completeness, synopsis against body,
    objectives and estimands, schedule against endpoints, eligibility against population,
    intervention, statistics, safety and oversight). Fix a finding at its source, or justify it.
-6. **Export**: USDM v4 (full, and the teaching subset the EDC lab reads), the print layout, the
-   project file, and the hand-off for the pharmolecule Ostrevia lifecycle journey.
+6. **Versions and amendments**: approve a version to freeze it, then start an amendment (the next
+   version, with Original Protocol Indicator No and an Amendment Identifier). Tracked changes
+   compare any two versions, element by element and word by word. The amendment details follow
+   M11: scope, percentage enrolled, primary and secondary reasons (CDISC C207415), summary, and
+   the impact on safety or rights and on the data. The summary of changes is drafted from the
+   tracked changes; for each change you choose its kind and classify it for:
+   - **US**, 21 CFR 312.30 (protocol amendment before implementation, immediate hazard,
+     new investigator, new protocol, IRB only, annual report, no submission);
+   - **EU**, Regulation (EU) No 536/2014 (substantial modification of Part I, Part II or both,
+     non-substantial, Article 81(9) update, Article 54 urgent safety measure, new application);
+   - **India**, NDCT Rules 2019, Third Schedule (prior approval, notification within 30 days,
+     immediate change to remove a hazard, ethics committee approval with CDSCO informed, new
+     application).
+   The app's key, with the reason for each answer, checks your classification; a different
+   answer counts when you justify it.
+7. **Export**: USDM v4 (full, with every amendment as a StudyAmendment, and the teaching subset
+   the EDC lab reads), the print layout, a Word document (title page, amendment details and
+   overview of changes, table of contents, every section, the schedule of activities in landscape),
+   the project file, and the hand-off for the pharmolecule Ostrevia lifecycle journey.
 
-Learn mode covers the protocol as data and M11 sections 1 to 5, each with the VERDANT-1 worked
-example and a quiz.
+Learn mode covers the protocol as data, every M11 section from 1 to 14, and amendments in the US,
+the EU and India, each lesson with the VERDANT-1 worked example and a quiz.
 
 ## Missions
 
@@ -47,6 +75,9 @@ example and a quiz.
 | M3 | Build NORTHFELL-2's schedule of activities within a burden target |
 | M4 | Write HRP-201, the phase 2 dose-ranging protocol for lumiravostat |
 | M5 | Fix VASCLEAR-2's 20 planted inconsistencies without making new ones |
+| M6 | Size VERDANT-1 and control multiplicity across its six hypotheses |
+| M7 | Write amendment 1 of VERDANT-1 after a liver safety signal |
+| M8 | Classify 15 proposed changes for the US, the EU and India |
 
 ## Worked examples and the other apps
 
@@ -81,8 +112,10 @@ checks the VERDANT-1 hand-off at step 2, before the CDM step.
   E8(R1); E20 adaptive designs (draft).
 - SPIRIT 2025 (JAMA, 5 August 2025); Regulation (EU) No 536/2014 Annex I section D; New Drugs and
   Clinical Trials Rules 2019, Third Schedule Table 2; 21 CFR 312.23(a)(6) and 312.30. The
-  cross-walks to these, amendments with regional classification, the IB section set and the
-  ISO 14155 device variant come in later phases.
+  cross-walks to these, the IB section set and the ISO 14155 device variant come in later phases.
+- Amendments: 21 CFR 312.30; Regulation (EU) No 536/2014, Articles 2(2)(13), 15 to 24, 54 and
+  81(9); NDCT Rules 2019, Third Schedule. The classification key is this app's reading of those
+  texts for teaching, not regulatory advice.
 
 ## Data
 
@@ -94,7 +127,7 @@ optional class ID for the classroom mode to come. Export a project file to keep 
 ```
 npm install
 npm run dev
-npm test        # rules, sample size, USDM round trip and checks, missions, hand-off
+npm test        # rules, statistics, amendments, USDM, Word export, missions, hand-off
 npm run build
 ```
 
