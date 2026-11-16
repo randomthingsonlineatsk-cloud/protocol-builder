@@ -69,7 +69,14 @@ checks the VERDANT-1 hand-off at step 2, before the CDM step.
 
 - ICH M11 CeSHarP: guideline, template and technical specification, ICH Step 4 on
   19 November 2025; EMA Step 5, effective 11 June 2026; FDA final notice, 22 May 2026.
-- CDISC USDM v4.0 (June 2025), Digital Data Flow.
+- CDISC USDM v4.0 (June 2025), Digital Data Flow. Every coded value in the export uses CDISC
+  Controlled Terminology (release 2026-03-27) from the value set USDM names for the attribute;
+  activities link CDISC Biomedical Concepts, grouped in a category per procedure, or a surrogate
+  where the CDISC library has no concept (IGA-CHE, HECSI, itch NRS, a pregnancy test, dispensing).
+  The exports of the worked examples pass the DDF conformance rules of the usdm4 reference library
+  (0.30.0, d4k engine) with no errors. One warning remains (DDF00101, no Procedure linked to a study
+  intervention) because CDISC terminology has no code for a dispensing procedure. Run
+  `tools/validate_usdm.py` to check.
 - ICH E9(R1) estimands; E6(R3) (EU effective 23 July 2025; Annex 2 effective 15 January 2027);
   E8(R1); E20 adaptive designs (draft).
 - SPIRIT 2025 (JAMA, 5 August 2025); Regulation (EU) No 536/2014 Annex I section D; New Drugs and
