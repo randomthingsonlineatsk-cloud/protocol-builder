@@ -8328,7 +8328,6 @@
                     "description": "",
                     "encounterId": "Encounter_D1",
                     "activityIds": [
-                      "Activity_P03",
                       "Activity_P05",
                       "Activity_P08",
                       "Activity_P09",

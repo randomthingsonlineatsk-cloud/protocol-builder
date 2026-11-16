@@ -22,7 +22,7 @@ export interface Procedure { // USDM Activity + BiomedicalConcept
   id: string; name: string; section: string; concept: string; form: string
   visits: string[] | 'continuous'; from?: string; footnote?: string; bcs?: string[]; purpose: ('endpoint' | 'safety' | 'eligibility' | 'conduct')[]; bloodMl?: number; minutes?: number
 }
-export interface Arm { id: string; name: string; type: 'Investigational' | 'Placebo' | 'Active comparator' | 'No intervention'; intervention: string; ratio: number } // USDM StudyArm
+export interface Arm { id: string; name: string; type: 'Investigational' | 'Placebo' | 'Active comparator' | 'No intervention'; intervention: string; ratio: number; code?: string } // USDM StudyArm (code: the SDTM ARMCD)
 export interface Epoch { id: string; name: string; type: 'Screening' | 'Treatment' | 'Follow-up' | 'Run-in' | 'Washout' } // USDM StudyEpoch
 export interface Intervention { id: string; name: string; role: 'Investigational' | 'Placebo' | 'Rescue' | 'Auxiliary'; dose: string; doseValue: number; doseUnit: string; route: string; frequency: string; durationWeeks: number; form?: string } // USDM StudyIntervention
 
@@ -49,9 +49,13 @@ export interface ProtocolData {
   // Statements written in one section that repeat a fact from another. The consistency rules
   // read them against the facts above (for example 10.11's sample size against 1.1.2).
   statements: Record<string, string>
+  // Codes the SDTM trial summary (TS) needs that M11 does not hold: dictionary codes for the
+  // indication and treatments, and the pharmacologic class.
+  sdtm?: { indic?: TsCode; trt?: TsCode; curtrt?: TsCode; pclas?: { value: string } & TsCode }
   multiplicity: string; multiplicityPlan?: MultiplicityPlan; interim?: InterimPlan; rescue: string; aeFrom: 'consent' | 'first dose'; aeTo: string
 }
 
+export interface TsCode { code: string; ref: string; ver: string }
 export interface Finding { id: string; rule: string; severity: 'high' | 'medium' | 'low'; sections: string[]; text: string; fix: string }
 export interface Mark { status: 'resolved' | 'justified'; note: string; utc: string }
 
@@ -73,7 +77,7 @@ export interface Project {
   format: 'protocol-builder-project'; schema: number
   id: string; name: string; userId: string; classId: string
   type: 'drug' | 'device'; phase: string; regions: string[]
-  source: 'blank' | 'example' | 'library' | 'usdm' | 'mission' | 'lifecycle'
+  source: 'blank' | 'example' | 'library' | 'usdm' | 'mission' | 'lifecycle' | 'simulator'
   createdUtc: string; updatedUtc: string
   versions: ProtocolVersion[]          // the last one is being edited
   marks: Record<string, Mark>          // finding id -> resolved or justified

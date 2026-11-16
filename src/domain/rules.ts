@@ -205,7 +205,7 @@ export function findings(d: ProtocolData): Finding[] {
     const m = /(\d+(?:\.\d+)?)\s*(mg|g|µg|ug|mL|IU)/i.exec(a.intervention)
     if (m && !doses.includes(`${m[1]} ${m[2]}`.toLowerCase())) add('PB-I01', a.id, ['1.1.2', '4.1', '6.1'], `Arm “${a.name}” gives ${m[1]} ${m[2]}; section 6.1 has ${d.interventions.map((i) => `${i.name} ${i.doseValue} ${i.doseUnit}`).join(', ')}.`, 'Correct the arm or the intervention.')
   }
-  for (const i of d.interventions.filter((x) => x.role !== 'Rescue')) if (i.durationWeeks !== f.treatmentWeeks) add('PB-I02', i.id, ['6.1', '4.1'], `${i.name} is given for ${i.durationWeeks} weeks; the treatment period is ${f.treatmentWeeks} weeks.`, 'Make the durations agree.')
+  for (const i of d.interventions.filter((x) => x.role !== 'Rescue' && x.role !== 'Auxiliary')) if (i.durationWeeks !== f.treatmentWeeks) add('PB-I02', i.id, ['6.1', '4.1'], `${i.name} is given for ${i.durationWeeks} weeks; the treatment period is ${f.treatmentWeeks} weeks.`, 'Make the durations agree.')
   const eot = endOfTreatment(d)
   if (eot && f.treatmentWeeks && Math.abs(eot.day - (f.treatmentWeeks * 7 + 1)) > 3) add('PB-I03', eot.id, ['1.3', '4.1'], `The last treatment visit, ${eot.name}, is on day ${eot.day}; ${f.treatmentWeeks} weeks of treatment from Day 1 end on day ${f.treatmentWeeks * 7 + 1}.`, 'Move the visit or correct the treatment period.')
   if (d.estimands.some((e) => e.intercurrentEvents.some((ie) => /rescue/i.test(ie.name))) && blank(d.rescue)) add('PB-I04', 'rescue', ['3.1', '6.9'], 'An estimand has rescue therapy as an intercurrent event, but 6.9 does not say what rescue therapy is allowed.', 'Describe the rescue therapy in 6.9.')
