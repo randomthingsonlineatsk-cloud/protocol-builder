@@ -1,0 +1,1995 @@
+{
+ "format": "cdm-study-build",
+ "version": 1,
+ "study": {
+  "protocol": "HRP-301",
+  "title": "VERDANT-1: a randomised, double-blind, placebo-controlled phase 3 study of lumiravostat (Ostrevia) 10 mg and 25 mg once daily for 16 weeks in adults with moderate to severe chronic hand eczema",
+  "buildVersion": "0.1",
+  "source": "EDC Study Build Lab"
+ },
+ "visits": [
+  {
+   "id": "SCR",
+   "name": "Screening",
+   "day": 15,
+   "lo": 1,
+   "hi": 28,
+   "forms": [
+    "SV",
+    "IC",
+    "DM",
+    "IE",
+    "MH",
+    "VS",
+    "F06",
+    "LBC",
+    "PREG",
+    "F09",
+    "F10",
+    "F11",
+    "AE",
+    "CM"
+   ]
+  },
+  {
+   "id": "D1",
+   "name": "Day 1 (randomisation)",
+   "day": 1,
+   "lo": 1,
+   "hi": 1,
+   "forms": [
+    "SV",
+    "VS",
+    "PREG",
+    "F09",
+    "F10",
+    "F11",
+    "EX",
+    "AE",
+    "CM"
+   ]
+  },
+  {
+   "id": "W2",
+   "name": "Week 2",
+   "day": 15,
+   "lo": 12,
+   "hi": 18,
+   "forms": [
+    "SV",
+    "LBC",
+    "F09",
+    "F10",
+    "F11",
+    "AE",
+    "CM"
+   ]
+  },
+  {
+   "id": "W4",
+   "name": "Week 4",
+   "day": 29,
+   "lo": 26,
+   "hi": 32,
+   "forms": [
+    "SV",
+    "VS",
+    "LBC",
+    "PREG",
+    "F09",
+    "F10",
+    "F11",
+    "EX",
+    "AE",
+    "CM"
+   ]
+  },
+  {
+   "id": "W8",
+   "name": "Week 8",
+   "day": 57,
+   "lo": 53,
+   "hi": 61,
+   "forms": [
+    "SV",
+    "VS",
+    "LBC",
+    "PREG",
+    "F09",
+    "F10",
+    "F11",
+    "EX",
+    "AE",
+    "CM"
+   ]
+  },
+  {
+   "id": "W12",
+   "name": "Week 12",
+   "day": 85,
+   "lo": 81,
+   "hi": 89,
+   "forms": [
+    "SV",
+    "LBC",
+    "PREG",
+    "F09",
+    "F10",
+    "F11",
+    "EX",
+    "AE",
+    "CM"
+   ]
+  },
+  {
+   "id": "W16",
+   "name": "Week 16 (end of treatment)",
+   "day": 113,
+   "lo": 109,
+   "hi": 117,
+   "forms": [
+    "SV",
+    "VS",
+    "LBC",
+    "PREG",
+    "F09",
+    "F10",
+    "F11",
+    "EX",
+    "AE",
+    "CM"
+   ]
+  },
+  {
+   "id": "FU",
+   "name": "Week 20 follow-up",
+   "day": 141,
+   "lo": 134,
+   "hi": 148,
+   "forms": [
+    "SV",
+    "LBC",
+    "AE",
+    "CM",
+    "EOS"
+   ]
+  }
+ ],
+ "forms": {
+  "SV": {
+   "id": "SV",
+   "name": "Visit",
+   "domain": "SV",
+   "fields": [
+    {
+     "id": "VISOCCUR",
+     "label": "Did the visit occur?",
+     "type": "yn",
+     "codelist": "NY",
+     "required": true
+    },
+    {
+     "id": "VISDAT",
+     "label": "Visit date",
+     "type": "date",
+     "required": true,
+     "showIf": {
+      "field": "VISOCCUR",
+      "equals": "Y"
+     },
+     "ctq": true
+    },
+    {
+     "id": "UNSREAS",
+     "label": "Reason for the unscheduled visit",
+     "type": "text",
+     "showIf": {
+      "field": "__visit",
+      "equals": "UNS"
+     }
+    }
+   ]
+  },
+  "IC": {
+   "id": "IC",
+   "name": "Informed consent",
+   "domain": "DS",
+   "fields": [
+    {
+     "id": "DSSTDAT",
+     "label": "Date informed consent signed",
+     "type": "date",
+     "required": true,
+     "ctq": true
+    },
+    {
+     "id": "ICVER",
+     "label": "Informed consent form version",
+     "type": "text",
+     "required": true
+    }
+   ]
+  },
+  "DM": {
+   "id": "DM",
+   "name": "Demographics",
+   "domain": "DM",
+   "fields": [
+    {
+     "id": "BRTHYR",
+     "label": "Year of birth",
+     "type": "number",
+     "required": true
+    },
+    {
+     "id": "SEX",
+     "label": "Sex",
+     "type": "select",
+     "codelist": "SEX",
+     "required": true
+    },
+    {
+     "id": "RACE",
+     "label": "Race",
+     "type": "select",
+     "codelist": "RACE",
+     "required": true
+    }
+   ]
+  },
+  "IE": {
+   "id": "IE",
+   "name": "Eligibility",
+   "domain": "IE",
+   "fields": [
+    {
+     "id": "IEYN",
+     "label": "Were all eligibility criteria met?",
+     "type": "yn",
+     "codelist": "NY",
+     "required": true,
+     "ctq": true
+    },
+    {
+     "id": "IETESTCD",
+     "label": "Criterion not met",
+     "type": "select",
+     "codelist": "IETEST",
+     "showIf": {
+      "field": "IEYN",
+      "equals": "N"
+     }
+    }
+   ]
+  },
+  "MH": {
+   "id": "MH",
+   "name": "Medical history",
+   "domain": "MH",
+   "repeating": true,
+   "fields": [
+    {
+     "id": "MHTERM",
+     "label": "Condition or event",
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "MHSTDAT",
+     "label": "Start date",
+     "type": "date"
+    },
+    {
+     "id": "MHONGO",
+     "label": "Ongoing?",
+     "type": "yn",
+     "codelist": "NY",
+     "required": true
+    }
+   ]
+  },
+  "VS": {
+   "id": "VS",
+   "name": "Vital signs",
+   "domain": "VS",
+   "fields": [
+    {
+     "id": "VSDAT",
+     "label": "Date of measurement",
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "SYSBP",
+     "label": "Systolic blood pressure (seated)",
+     "type": "number",
+     "unit": "mmHg",
+     "required": true,
+     "ctq": true
+    },
+    {
+     "id": "DIABP",
+     "label": "Diastolic blood pressure (seated)",
+     "type": "number",
+     "unit": "mmHg",
+     "required": true,
+     "ctq": true
+    },
+    {
+     "id": "PULSE",
+     "label": "Pulse rate",
+     "type": "number",
+     "unit": "beats/min",
+     "required": true
+    },
+    {
+     "id": "WEIGHT",
+     "label": "Weight",
+     "type": "number",
+     "unit": "kg",
+     "required": true
+    },
+    {
+     "id": "HEIGHT",
+     "label": "Height (screening only)",
+     "type": "number",
+     "unit": "cm"
+    },
+    {
+     "id": "BMI",
+     "label": "Body mass index (derived)",
+     "type": "number",
+     "unit": "kg/m²",
+     "derived": true
+    }
+   ]
+  },
+  "F06": {
+   "id": "F06",
+   "name": "Hepatitis B Screening Panel",
+   "domain": "XX",
+   "fields": [
+    {
+     "id": "HBVDAT",
+     "label": "HBVDAT",
+     "type": "text"
+    },
+    {
+     "id": "HBSAG",
+     "label": "HBSAG",
+     "type": "text"
+    },
+    {
+     "id": "HBCAB",
+     "label": "HBCAB",
+     "type": "text"
+    },
+    {
+     "id": "HBVDNA",
+     "label": "HBVDNA",
+     "type": "text"
+    }
+   ]
+  },
+  "LBC": {
+   "id": "LBC",
+   "name": "Central lab sample",
+   "domain": "LB",
+   "fields": [
+    {
+     "id": "LBPERF",
+     "label": "Was the central laboratory sample collected?",
+     "type": "yn",
+     "codelist": "NY",
+     "required": true
+    },
+    {
+     "id": "LBREFID",
+     "label": "Accession number (from the requisition)",
+     "type": "text",
+     "showIf": {
+      "field": "LBPERF",
+      "equals": "Y"
+     }
+    },
+    {
+     "id": "LBDAT",
+     "label": "Collection date",
+     "type": "date",
+     "showIf": {
+      "field": "LBPERF",
+      "equals": "Y"
+     }
+    },
+    {
+     "id": "LBTIM",
+     "label": "Collection time (24-hour HH:MM)",
+     "type": "text",
+     "showIf": {
+      "field": "LBPERF",
+      "equals": "Y"
+     }
+    }
+   ]
+  },
+  "PREG": {
+   "id": "PREG",
+   "name": "Pregnancy test",
+   "domain": "LB",
+   "fields": [
+    {
+     "id": "PREGCBP",
+     "label": "Is the participant of childbearing potential?",
+     "type": "yn",
+     "codelist": "NY",
+     "required": true
+    },
+    {
+     "id": "PREGDAT",
+     "label": "Date of the pregnancy test",
+     "type": "date",
+     "showIf": {
+      "field": "PREGCBP",
+      "equals": "Y"
+     }
+    },
+    {
+     "id": "PREGTYP",
+     "label": "Test type",
+     "type": "select",
+     "codelist": "PREGTYP",
+     "showIf": {
+      "field": "PREGCBP",
+      "equals": "Y"
+     }
+    },
+    {
+     "id": "PREGRES",
+     "label": "Result",
+     "type": "select",
+     "codelist": "PREGRES",
+     "showIf": {
+      "field": "PREGCBP",
+      "equals": "Y"
+     },
+     "ctq": true
+    }
+   ]
+  },
+  "F09": {
+   "id": "F09",
+   "name": "Investigator Global Assessment for Chronic Hand Eczema",
+   "domain": "XX",
+   "fields": [
+    {
+     "id": "HEADAT",
+     "label": "HEADAT",
+     "type": "text"
+    },
+    {
+     "id": "ASSESSOR",
+     "label": "ASSESSOR",
+     "type": "text"
+    },
+    {
+     "id": "IGACHE",
+     "label": "IGACHE",
+     "type": "text"
+    }
+   ]
+  },
+  "F10": {
+   "id": "F10",
+   "name": "Hand Eczema Severity Index",
+   "domain": "XX",
+   "fields": [
+    {
+     "id": "HECSI",
+     "label": "HECSI",
+     "type": "text"
+    }
+   ]
+  },
+  "F11": {
+   "id": "F11",
+   "name": "Itch Numeric Rating Scale",
+   "domain": "XX",
+   "fields": [
+    {
+     "id": "ITCHNRS",
+     "label": "ITCHNRS",
+     "type": "text"
+    }
+   ]
+  },
+  "EX": {
+   "id": "EX",
+   "name": "Study drug",
+   "domain": "EX",
+   "fields": [
+    {
+     "id": "EXDISP",
+     "label": "Was study drug dispensed at this visit?",
+     "type": "yn",
+     "codelist": "NY",
+     "required": true
+    },
+    {
+     "id": "EXKIT",
+     "label": "Kit number dispensed",
+     "type": "text",
+     "showIf": {
+      "field": "EXDISP",
+      "equals": "Y"
+     }
+    },
+    {
+     "id": "EXDSPQ",
+     "label": "Tablets dispensed (drug accountability)",
+     "type": "number",
+     "unit": "tablets",
+     "showIf": {
+      "field": "EXDISP",
+      "equals": "Y"
+     }
+    },
+    {
+     "id": "EXRET",
+     "label": "Tablets returned from the previous kit",
+     "type": "number",
+     "unit": "tablets"
+    },
+    {
+     "id": "EXCOMPL",
+     "label": "Compliance since the previous kit (derived)",
+     "type": "number",
+     "unit": "%",
+     "derived": true
+    }
+   ]
+  },
+  "AE": {
+   "id": "AE",
+   "name": "Adverse events",
+   "domain": "AE",
+   "repeating": true,
+   "fields": [
+    {
+     "id": "AETERM",
+     "label": "Adverse event (verbatim)",
+     "type": "text",
+     "required": true,
+     "ctq": true
+    },
+    {
+     "id": "AESTDAT",
+     "label": "Start date",
+     "type": "date",
+     "required": true,
+     "ctq": true
+    },
+    {
+     "id": "AEONGO",
+     "label": "Ongoing?",
+     "type": "yn",
+     "codelist": "NY",
+     "required": true
+    },
+    {
+     "id": "AEENDAT",
+     "label": "End date",
+     "type": "date",
+     "showIf": {
+      "field": "AEONGO",
+      "equals": "N"
+     }
+    },
+    {
+     "id": "AESEV",
+     "label": "Severity",
+     "type": "select",
+     "codelist": "AESEV",
+     "required": true
+    },
+    {
+     "id": "AESER",
+     "label": "Serious?",
+     "type": "yn",
+     "codelist": "NY",
+     "required": true,
+     "ctq": true
+    },
+    {
+     "id": "AESDTH",
+     "label": "Results in death",
+     "type": "yn",
+     "codelist": "NY",
+     "showIf": {
+      "field": "AESER",
+      "equals": "Y"
+     }
+    },
+    {
+     "id": "AESLIFE",
+     "label": "Is life-threatening",
+     "type": "yn",
+     "codelist": "NY",
+     "showIf": {
+      "field": "AESER",
+      "equals": "Y"
+     }
+    },
+    {
+     "id": "AESHOSP",
+     "label": "Requires or prolongs hospitalisation",
+     "type": "yn",
+     "codelist": "NY",
+     "showIf": {
+      "field": "AESER",
+      "equals": "Y"
+     }
+    },
+    {
+     "id": "AESDISAB",
+     "label": "Persistent or significant disability",
+     "type": "yn",
+     "codelist": "NY",
+     "showIf": {
+      "field": "AESER",
+      "equals": "Y"
+     }
+    },
+    {
+     "id": "AESCONG",
+     "label": "Congenital anomaly",
+     "type": "yn",
+     "codelist": "NY",
+     "showIf": {
+      "field": "AESER",
+      "equals": "Y"
+     }
+    },
+    {
+     "id": "AESMIE",
+     "label": "Other medically important event",
+     "type": "yn",
+     "codelist": "NY",
+     "showIf": {
+      "field": "AESER",
+      "equals": "Y"
+     }
+    },
+    {
+     "id": "AEREL",
+     "label": "Relationship to study drug",
+     "type": "select",
+     "codelist": "AEREL",
+     "required": true
+    },
+    {
+     "id": "AEACN",
+     "label": "Action taken with study drug",
+     "type": "select",
+     "codelist": "AEACN",
+     "required": true
+    },
+    {
+     "id": "AEOUT",
+     "label": "Outcome",
+     "type": "select",
+     "codelist": "AEOUT",
+     "required": true
+    },
+    {
+     "id": "AECOM",
+     "label": "Comment",
+     "type": "text"
+    }
+   ]
+  },
+  "CM": {
+   "id": "CM",
+   "name": "Concomitant medications",
+   "domain": "CM",
+   "repeating": true,
+   "fields": [
+    {
+     "id": "CMTRT",
+     "label": "Medication (trade or generic name)",
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "CMINDC",
+     "label": "Indication",
+     "type": "text",
+     "required": true
+    },
+    {
+     "id": "CMDSTXT",
+     "label": "Dose per administration",
+     "type": "number",
+     "required": true
+    },
+    {
+     "id": "CMDOSU",
+     "label": "Dose unit",
+     "type": "select",
+     "codelist": "DOSU",
+     "required": true
+    },
+    {
+     "id": "CMROUTE",
+     "label": "Route",
+     "type": "select",
+     "codelist": "ROUTE",
+     "required": true
+    },
+    {
+     "id": "CMSTDAT",
+     "label": "Start date",
+     "type": "date",
+     "required": true
+    },
+    {
+     "id": "CMONGO",
+     "label": "Ongoing?",
+     "type": "yn",
+     "codelist": "NY",
+     "required": true
+    },
+    {
+     "id": "CMENDAT",
+     "label": "End date",
+     "type": "date",
+     "showIf": {
+      "field": "CMONGO",
+      "equals": "N"
+     }
+    }
+   ]
+  },
+  "EOS": {
+   "id": "EOS",
+   "name": "End of study",
+   "domain": "DS",
+   "fields": [
+    {
+     "id": "DSDECOD",
+     "label": "Status at end of study",
+     "type": "select",
+     "codelist": "DSDECOD",
+     "required": true,
+     "ctq": true
+    },
+    {
+     "id": "EOSDAT",
+     "label": "Date of completion or discontinuation",
+     "type": "date",
+     "required": true
+    }
+   ]
+  }
+ },
+ "codelists": {
+  "NY": [
+   {
+    "value": "Y",
+    "label": "Yes"
+   },
+   {
+    "value": "N",
+    "label": "No"
+   }
+  ],
+  "SEX": [
+   {
+    "value": "F",
+    "label": "Female"
+   },
+   {
+    "value": "M",
+    "label": "Male"
+   },
+   {
+    "value": "U",
+    "label": "Unknown"
+   }
+  ],
+  "RACE": [
+   {
+    "value": "AMERICAN INDIAN OR ALASKA NATIVE",
+    "label": "American indian or alaska native"
+   },
+   {
+    "value": "ASIAN",
+    "label": "Asian"
+   },
+   {
+    "value": "BLACK OR AFRICAN AMERICAN",
+    "label": "Black or african american"
+   },
+   {
+    "value": "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER",
+    "label": "Native hawaiian or other pacific islander"
+   },
+   {
+    "value": "WHITE",
+    "label": "White"
+   },
+   {
+    "value": "NOT REPORTED",
+    "label": "Not reported"
+   }
+  ],
+  "IETEST": [
+   {
+    "value": "IN01",
+    "label": "IN01 Aged 18 to 75 years when consent is signed"
+   },
+   {
+    "value": "IN02",
+    "label": "IN02 Chronic hand eczema for at least 6 months, inadequately controlled with topical corticosteroids"
+   },
+   {
+    "value": "IN03",
+    "label": "IN03 IGA-CHE 3 (moderate) or 4 (severe) at screening and Day 1"
+   },
+   {
+    "value": "IN04",
+    "label": "IN04 Participants of childbearing potential agree to use highly effective contraception until 4 weeks after the last dose and have a negative pregnancy test"
+   },
+   {
+    "value": "EX01",
+    "label": "EX01 HBsAg positive, or anti-HBc positive with HBV DNA detectable"
+   },
+   {
+    "value": "EX02",
+    "label": "EX02 Systemic immunosuppressant or phototherapy in the 4 weeks before Day 1"
+   },
+   {
+    "value": "EX03",
+    "label": "EX03 ALT above 2 × ULN at screening"
+   }
+  ],
+  "PREGTYP": [
+   {
+    "value": "SERUM",
+    "label": "Serum"
+   },
+   {
+    "value": "URINE",
+    "label": "Urine"
+   }
+  ],
+  "PREGRES": [
+   {
+    "value": "NEGATIVE",
+    "label": "Negative"
+   },
+   {
+    "value": "POSITIVE",
+    "label": "Positive"
+   }
+  ],
+  "AESEV": [
+   {
+    "value": "MILD",
+    "label": "Mild"
+   },
+   {
+    "value": "MODERATE",
+    "label": "Moderate"
+   },
+   {
+    "value": "SEVERE",
+    "label": "Severe"
+   }
+  ],
+  "AEREL": [
+   {
+    "value": "NOT RELATED",
+    "label": "Not related"
+   },
+   {
+    "value": "UNLIKELY RELATED",
+    "label": "Unlikely related"
+   },
+   {
+    "value": "POSSIBLY RELATED",
+    "label": "Possibly related"
+   },
+   {
+    "value": "RELATED",
+    "label": "Related"
+   }
+  ],
+  "AEACN": [
+   {
+    "value": "DOSE NOT CHANGED",
+    "label": "Dose not changed"
+   },
+   {
+    "value": "DRUG INTERRUPTED",
+    "label": "Drug interrupted"
+   },
+   {
+    "value": "DRUG WITHDRAWN",
+    "label": "Drug withdrawn"
+   },
+   {
+    "value": "NOT APPLICABLE",
+    "label": "Not applicable"
+   }
+  ],
+  "AEOUT": [
+   {
+    "value": "RECOVERED/RESOLVED",
+    "label": "Recovered/resolved"
+   },
+   {
+    "value": "RECOVERING/RESOLVING",
+    "label": "Recovering/resolving"
+   },
+   {
+    "value": "NOT RECOVERED/NOT RESOLVED",
+    "label": "Not recovered/not resolved"
+   },
+   {
+    "value": "RECOVERED/RESOLVED WITH SEQUELAE",
+    "label": "Recovered with sequelae"
+   },
+   {
+    "value": "FATAL",
+    "label": "Fatal"
+   },
+   {
+    "value": "UNKNOWN",
+    "label": "Unknown"
+   }
+  ],
+  "DOSU": [
+   {
+    "value": "mg",
+    "label": "mg"
+   },
+   {
+    "value": "g",
+    "label": "g"
+   },
+   {
+    "value": "ug",
+    "label": "µg"
+   },
+   {
+    "value": "mL",
+    "label": "mL"
+   },
+   {
+    "value": "TABLET",
+    "label": "tablet"
+   },
+   {
+    "value": "PUFF",
+    "label": "puff"
+   }
+  ],
+  "ROUTE": [
+   {
+    "value": "ORAL",
+    "label": "Oral"
+   },
+   {
+    "value": "INTRAVENOUS",
+    "label": "Intravenous"
+   },
+   {
+    "value": "SUBCUTANEOUS",
+    "label": "Subcutaneous"
+   },
+   {
+    "value": "TOPICAL",
+    "label": "Topical"
+   },
+   {
+    "value": "INHALATION",
+    "label": "Inhalation"
+   }
+  ],
+  "DSDECOD": [
+   {
+    "value": "COMPLETED",
+    "label": "Completed"
+   },
+   {
+    "value": "SCREEN FAILURE",
+    "label": "Screen failure"
+   },
+   {
+    "value": "DEATH",
+    "label": "Death"
+   },
+   {
+    "value": "ADVERSE EVENT",
+    "label": "Adverse event"
+   },
+   {
+    "value": "WITHDRAWAL BY SUBJECT",
+    "label": "Withdrawal by subject"
+   },
+   {
+    "value": "LOST TO FOLLOW-UP",
+    "label": "Lost to follow-up"
+   },
+   {
+    "value": "PROTOCOL DEVIATION",
+    "label": "Protocol deviation"
+   },
+   {
+    "value": "PHYSICIAN DECISION",
+    "label": "Physician decision"
+   }
+  ]
+ },
+ "checks": [
+  {
+   "id": "SV-01",
+   "title": "Did the visit occur? is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "SV",
+   "field": "VISOCCUR",
+   "expr": "isblank(VISOCCUR)",
+   "message": "Did the visit occur? is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "VISOCCUR": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "VISOCCUR": "Y"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "SV-02",
+   "title": "Visit date is missing (conditional)",
+   "category": "missing",
+   "action": "query",
+   "form": "SV",
+   "field": "VISDAT",
+   "expr": "VISOCCUR = 'Y' and isblank(VISDAT)",
+   "message": "Visit date is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "VISOCCUR": "Y",
+      "VISDAT": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "VISOCCUR": "Y",
+      "VISDAT": "2026-04-01"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "IC-01",
+   "title": "Date informed consent signed is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "IC",
+   "field": "DSSTDAT",
+   "expr": "isblank(DSSTDAT)",
+   "message": "Date informed consent signed is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "DSSTDAT": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "DSSTDAT": "2026-04-01"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "IC-02",
+   "title": "Informed consent form version is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "IC",
+   "field": "ICVER",
+   "expr": "isblank(ICVER)",
+   "message": "Informed consent form version is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "ICVER": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "ICVER": "Entered"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "DM-01",
+   "title": "Year of birth is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "DM",
+   "field": "BRTHYR",
+   "expr": "isblank(BRTHYR)",
+   "message": "Year of birth is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "BRTHYR": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "BRTHYR": "1"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "DM-02",
+   "title": "Sex is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "DM",
+   "field": "SEX",
+   "expr": "isblank(SEX)",
+   "message": "Sex is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "SEX": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "SEX": "F"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "DM-03",
+   "title": "Race is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "DM",
+   "field": "RACE",
+   "expr": "isblank(RACE)",
+   "message": "Race is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "RACE": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "RACE": "AMERICAN INDIAN OR ALASKA NATIVE"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "IE-01",
+   "title": "Were all eligibility criteria met? is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "IE",
+   "field": "IEYN",
+   "expr": "isblank(IEYN)",
+   "message": "Were all eligibility criteria met? is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "IEYN": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "IEYN": "Y"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "MH-01",
+   "title": "Condition or event is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "MH",
+   "field": "MHTERM",
+   "expr": "isblank(MHTERM)",
+   "message": "Condition or event is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "MHTERM": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "MHTERM": "Entered"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "MH-02",
+   "title": "Ongoing? is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "MH",
+   "field": "MHONGO",
+   "expr": "isblank(MHONGO)",
+   "message": "Ongoing? is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "MHONGO": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "MHONGO": "Y"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "VS-01",
+   "title": "Date of measurement is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "VS",
+   "field": "VSDAT",
+   "expr": "isblank(VSDAT)",
+   "message": "Date of measurement is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "VSDAT": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "VSDAT": "2026-04-01"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "VS-02",
+   "title": "Systolic blood pressure (seated) is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "VS",
+   "field": "SYSBP",
+   "expr": "isblank(SYSBP)",
+   "message": "Systolic blood pressure (seated) is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "SYSBP": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "SYSBP": "1"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "VS-03",
+   "title": "Diastolic blood pressure (seated) is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "VS",
+   "field": "DIABP",
+   "expr": "isblank(DIABP)",
+   "message": "Diastolic blood pressure (seated) is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "DIABP": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "DIABP": "1"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "VS-04",
+   "title": "Pulse rate is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "VS",
+   "field": "PULSE",
+   "expr": "isblank(PULSE)",
+   "message": "Pulse rate is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "PULSE": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "PULSE": "1"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "VS-05",
+   "title": "Weight is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "VS",
+   "field": "WEIGHT",
+   "expr": "isblank(WEIGHT)",
+   "message": "Weight is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "WEIGHT": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "WEIGHT": "1"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "LBC-01",
+   "title": "Was the central laboratory sample collected? is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "LBC",
+   "field": "LBPERF",
+   "expr": "isblank(LBPERF)",
+   "message": "Was the central laboratory sample collected? is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "LBPERF": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "LBPERF": "Y"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "PREG-01",
+   "title": "Is the participant of childbearing potential? is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "PREG",
+   "field": "PREGCBP",
+   "expr": "isblank(PREGCBP)",
+   "message": "Is the participant of childbearing potential? is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "PREGCBP": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "PREGCBP": "Y"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "EX-01",
+   "title": "Was study drug dispensed at this visit? is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "EX",
+   "field": "EXDISP",
+   "expr": "isblank(EXDISP)",
+   "message": "Was study drug dispensed at this visit? is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "EXDISP": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "EXDISP": "Y"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "AE-01",
+   "title": "Adverse event (verbatim) is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "AE",
+   "field": "AETERM",
+   "expr": "isblank(AETERM)",
+   "message": "Adverse event (verbatim) is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "AETERM": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "AETERM": "Entered"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "AE-02",
+   "title": "Start date is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "AE",
+   "field": "AESTDAT",
+   "expr": "isblank(AESTDAT)",
+   "message": "Start date is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "AESTDAT": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "AESTDAT": "2026-04-01"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "AE-03",
+   "title": "Ongoing? is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "AE",
+   "field": "AEONGO",
+   "expr": "isblank(AEONGO)",
+   "message": "Ongoing? is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "AEONGO": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "AEONGO": "Y"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "AE-04",
+   "title": "Severity is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "AE",
+   "field": "AESEV",
+   "expr": "isblank(AESEV)",
+   "message": "Severity is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "AESEV": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "AESEV": "MILD"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "AE-05",
+   "title": "Serious? is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "AE",
+   "field": "AESER",
+   "expr": "isblank(AESER)",
+   "message": "Serious? is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "AESER": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "AESER": "Y"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "AE-06",
+   "title": "Relationship to study drug is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "AE",
+   "field": "AEREL",
+   "expr": "isblank(AEREL)",
+   "message": "Relationship to study drug is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "AEREL": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "AEREL": "NOT RELATED"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "AE-07",
+   "title": "Action taken with study drug is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "AE",
+   "field": "AEACN",
+   "expr": "isblank(AEACN)",
+   "message": "Action taken with study drug is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "AEACN": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "AEACN": "DOSE NOT CHANGED"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "AE-08",
+   "title": "Outcome is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "AE",
+   "field": "AEOUT",
+   "expr": "isblank(AEOUT)",
+   "message": "Outcome is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "AEOUT": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "AEOUT": "RECOVERED/RESOLVED"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "CM-01",
+   "title": "Medication (trade or generic name) is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "CM",
+   "field": "CMTRT",
+   "expr": "isblank(CMTRT)",
+   "message": "Medication (trade or generic name) is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "CMTRT": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "CMTRT": "Entered"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "CM-02",
+   "title": "Indication is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "CM",
+   "field": "CMINDC",
+   "expr": "isblank(CMINDC)",
+   "message": "Indication is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "CMINDC": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "CMINDC": "Entered"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "CM-03",
+   "title": "Dose per administration is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "CM",
+   "field": "CMDSTXT",
+   "expr": "isblank(CMDSTXT)",
+   "message": "Dose per administration is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "CMDSTXT": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "CMDSTXT": "1"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "CM-04",
+   "title": "Dose unit is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "CM",
+   "field": "CMDOSU",
+   "expr": "isblank(CMDOSU)",
+   "message": "Dose unit is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "CMDOSU": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "CMDOSU": "mg"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "CM-05",
+   "title": "Route is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "CM",
+   "field": "CMROUTE",
+   "expr": "isblank(CMROUTE)",
+   "message": "Route is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "CMROUTE": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "CMROUTE": "ORAL"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "CM-06",
+   "title": "Start date is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "CM",
+   "field": "CMSTDAT",
+   "expr": "isblank(CMSTDAT)",
+   "message": "Start date is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "CMSTDAT": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "CMSTDAT": "2026-04-01"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "CM-07",
+   "title": "Ongoing? is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "CM",
+   "field": "CMONGO",
+   "expr": "isblank(CMONGO)",
+   "message": "Ongoing? is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "CMONGO": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "CMONGO": "Y"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "EOS-01",
+   "title": "Status at end of study is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "EOS",
+   "field": "DSDECOD",
+   "expr": "isblank(DSDECOD)",
+   "message": "Status at end of study is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "DSDECOD": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "DSDECOD": "COMPLETED"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  },
+  {
+   "id": "EOS-02",
+   "title": "Date of completion or discontinuation is missing",
+   "category": "missing",
+   "action": "query",
+   "form": "EOS",
+   "field": "EOSDAT",
+   "expr": "isblank(EOSDAT)",
+   "message": "Date of completion or discontinuation is blank. Please enter the value from the source document, or record why it is not available.",
+   "tests": [
+    {
+     "name": "Blank fires",
+     "values": {
+      "EOSDAT": ""
+     },
+     "fire": true
+    },
+    {
+     "name": "Entered value passes",
+     "values": {
+      "EOSDAT": "2026-04-01"
+     },
+     "fire": false
+    }
+   ],
+   "active": true
+  }
+ ],
+ "ccg": {
+  "general": [
+   "Enter data in the EDC within 5 working days of the visit, from the source document.",
+   "Dates are entered as YYYY-MM-DD. If part of a date is unknown, contact data management; do not guess.",
+   "Never leave a required field blank. If a value was not collected, record why in the comment or answer the query.",
+   "Every change after first entry needs a reason for change. The audit trail keeps the old value.",
+   "Answer queries within 5 working days. Answer the question asked; if data are wrong, correct them in the form.",
+   "Record laboratory values exactly as on the report, with the unit on the report. Do not convert units."
+  ],
+  "forms": {},
+  "fields": {}
+ }
+}

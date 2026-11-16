@@ -11,16 +11,17 @@ import Schedule from './views/Schedule'
 import Checks from './views/Checks'
 import Export from './views/Export'
 import Amendments from './views/Amendments'
+import Crosswalks from './views/Crosswalks'
 import { MissionBar } from './views/Missions'
 
-export type View = 'overview' | 'sections' | 'estimands' | 'schedule' | 'checks' | 'amendments' | 'export'
+export type View = 'overview' | 'sections' | 'estimands' | 'schedule' | 'checks' | 'crosswalks' | 'amendments' | 'export'
 interface Nav { view: View; arg?: string; go: (v: View, arg?: string) => void }
 const NavCtx = createContext<Nav>({ view: 'overview', go: () => {} })
 export const useNav = () => useContext(NavCtx)
 
 const VIEWS: { id: View; label: string }[] = [
   { id: 'overview', label: 'Overview' }, { id: 'sections', label: 'Sections' }, { id: 'estimands', label: 'Objectives and estimands' },
-  { id: 'schedule', label: 'Schedule of activities' }, { id: 'checks', label: 'Consistency checks' }, { id: 'amendments', label: 'Versions and amendments' }, { id: 'export', label: 'Export' },
+  { id: 'schedule', label: 'Schedule of activities' }, { id: 'checks', label: 'Consistency checks' }, { id: 'crosswalks', label: 'Cross-walks' }, { id: 'amendments', label: 'Versions and amendments' }, { id: 'export', label: 'Export' },
 ]
 
 function Shell() {
@@ -29,7 +30,7 @@ function Shell() {
   const [page, setPage] = useState<'home' | 'learn'>(() => (location.hash === '#/learn' ? 'learn' : 'home'))
   const go = (view: View, arg?: string) => { setNav({ view, arg }); window.scrollTo({ top: 0 }) }
   const st = p ? status(p) : null
-  const V = { overview: Overview, sections: Sections, estimands: Estimands, schedule: Schedule, checks: Checks, amendments: Amendments, export: Export }[nav.view]
+  const V = { overview: Overview, sections: Sections, estimands: Estimands, schedule: Schedule, checks: Checks, crosswalks: Crosswalks, amendments: Amendments, export: Export }[nav.view]
   return (
     <NavCtx.Provider value={{ ...nav, go }}>
       <div className="min-h-screen bg-lab-bg text-lab-text flex flex-col">

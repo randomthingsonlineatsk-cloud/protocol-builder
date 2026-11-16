@@ -9,9 +9,10 @@ import { REQUIRED_TEXT } from './rules'
 import { planProblems } from './stats'
 import { approve, amendmentFindings, grade as gradeChange, REGIONS, CATEGORIES } from './amend'
 import type { Region } from './types'
+import { coverage } from './crosswalk'
 
 export interface Question { id: string; q: string; options: string[]; answer: string; section: string }
-export interface MissionDef { id: string; title: string; brief: string; core: boolean; steps: string[]; pass: number; expert: number; start: () => Project; questions?: Question[]; classify?: { text: string; category: string }[] }
+export interface MissionDef { id: string; title: string; brief: string; core: boolean; steps: string[]; pass: number; expert: number; start: () => Project; questions?: Question[]; classify?: { text: string; category: string }[]; handoff?: boolean }
 
 // ---------- M1: read a protocol ----------
 const Q = (id: string, q: string, answer: string, wrong: string[], section: string): Question => ({ id, q, answer, options: [answer, ...wrong].sort((a, b) => a.localeCompare(b)), section })
@@ -81,6 +82,44 @@ function m7Start(): Project {
   approve(p, '2026-01-20')
   return p
 }
+// M9 starts from VERDANT-1 as written for the US alone: the region-specific content is missing.
+export function m9Start(): ProtocolData {
+  const d = EXAMPLES['HRP-301'].data(), n = d.narrative
+  d.title['EU CT Number'] = ''; d.title['CTRI Number'] = ''; d.title['Sponsor Signatory'] = ''
+  for (const k of ['4.1.1', '6.4', '12.2']) n[k] = ''
+  const cut = (k: string, from: string) => { const i = n[k].indexOf(from); if (i > 0) n[k] = n[k].slice(0, i).trim() }
+  cut('6.1', ' Lumiravostat is not authorised'); cut('6.6', ' Bottles are labelled'); cut('7.2', ' Participants who withdraw')
+  cut('9.2', ' The following are reported'); cut('11.8', ' In the EU the GDPR')
+  n['12.1'] = n['12.1'].replace(/^Samples are analysed[^.]*\.[^.]*\. /, '')
+  n['11.12'] = 'Results are submitted for publication whatever the outcome.'
+  return d
+}
+export const m9Gaps = () => { const d = m9Start(); return { ctr: coverage(d, 'ctr').gaps.map((g) => g.item.id), ndct: coverage(d, 'ndct').gaps.map((g) => g.item.id) } }
+
+// M10: the hand-off to the EDC Study Build Lab. The learner loads the first-pass build the lab
+// generated from this protocol's USDM file, then says which of these statements are true of it.
+// The truth is read from the build itself, so it holds whatever version of the lab drafted it.
+export interface EdcBuild { format: string; study: { protocol: string; source?: string }; visits: { id: string; name: string; day: number; lo: number; hi: number; forms: string[] }[]; forms: Record<string, { id: string; name: string; domain: string; fields: { id: string; type: string }[] }>; codelists: Record<string, { value: string }[]>; checks: { category: string }[] }
+export const M10_CLAIMS: { id: string; text: string; truth: (b: EdcBuild) => boolean; why: string }[] = [
+  { id: 'scr', text: 'The screening visit sits after Day 1: its “before Day 1” timing was read as days after the anchor.', truth: (b) => { const v = b.visits.find((x) => x.id === 'SCR'); return !!v && v.day > 0 }, why: 'USDM times the screening encounter Before the Day 1 anchor; the generator ignores the timing type. The protocol says day −14, window −28 to −1.' },
+  { id: 'logs', text: 'Adverse events and concomitant medications are forms on each visit instead of log forms.', truth: (b) => b.visits.some((v) => v.forms.includes('AE') || v.forms.includes('CM')), why: 'The schedule shows them continuously from consent (footnote e); in an EDC they are subject-level log forms, not visit forms.' },
+  { id: 'generic', text: 'The hand eczema scales and the hepatitis B panel became generic forms with text fields.', truth: (b) => Object.values(b.forms).some((f) => f.domain === 'XX'), why: 'The CDASH library has no form for those biomedical concepts (surrogates in the USDM file), so the generator made text fields: scores need numeric or coded fields, ranges and a QS or LB domain.' },
+  { id: 'notes', text: 'The schedule footnotes (HBV DNA from Week 4, serum or urine pregnancy test, itch completed first) are not in the build.', truth: (b) => !Object.values(b.forms).some((f) => f.fields.some((x) => /SPEC|METHOD|TPT/i.test(x.id))), why: 'Footnotes are free text in USDM; the generator does not turn them into fields, conditions or completion guidelines.' },
+  { id: 'checks', text: 'Only missing-value checks were generated; there are no range, date, cross-form or eligibility checks.', truth: (b) => b.checks.length > 0 && b.checks.every((c) => c.category === 'missing'), why: 'Checks such as ALT above 2 × ULN at screening (EX03) or IGA-CHE 3 or 4 (IN03) must be programmed from the protocol.' },
+  { id: 'uns', text: 'There is no unscheduled visit.', truth: (b) => !b.visits.some((v) => v.id === 'UNS' || v.lo < -9000), why: 'Not in the schedule of activities, but every build needs one to record extra safety assessments.' },
+  { id: 'dv', text: 'There is no protocol deviation form.', truth: (b) => !b.forms.DV, why: 'Section 11.10 requires deviations to be recorded; they are not a scheduled procedure, so the generator skips them.' },
+  { id: 'w2', text: 'The Week 2 visit is missing.', truth: (b) => !b.visits.some((v) => v.id === 'W2'), why: 'Every encounter becomes a visit; Week 2 is there.' },
+  { id: 'ietest', text: 'The eligibility criteria list (IETEST) is empty.', truth: (b) => !(b.codelists.IETEST?.length), why: 'The generator builds the list from the USDM eligibility criteria.' },
+  { id: 'preg', text: 'The pregnancy test has no form.', truth: (b) => !b.forms.PREG, why: 'For HRP-301 the pregnancy test concept maps to the PREG form. (The lab’s own VASCLEAR-2 file leaves it unmapped on purpose.)' },
+]
+export function readEdcBuild(text: string, protocolId: string): EdcBuild {
+  let b: EdcBuild
+  try { b = JSON.parse(text) } catch { throw new Error('The file is not JSON.') }
+  if (b?.format !== 'cdm-study-build' || !Array.isArray(b.visits)) throw new Error('This is not a study build from the EDC Study Build Lab. Download it there: Release, Study build (JSON).')
+  if (b.study?.protocol !== protocolId) throw new Error(`The build is for ${b.study?.protocol || 'another protocol'}; this mission's protocol is ${protocolId}.`)
+  return b
+}
+
 export const M8_CHANGES = [
   { text: 'Add ALT, AST and bilirubin at Weeks 2 and 12 after the data monitoring committee reports a hepatic signal.', category: 'safety-add' },
   { text: 'Stop the Week 16 ECG because the phase 2 data showed no QT effect.', category: 'safety-drop' },
@@ -121,7 +160,10 @@ export const MISSIONS: MissionDef[] = [
     start: () => m7Start() },
   { id: 'M8', title: 'Classify 15 changes for the US, EU and India', core: false, pass: 70, expert: 93, brief: 'Fifteen proposed changes to the phase 3 VERDANT-1 protocol. For each, decide how it is handled under 21 CFR 312.30, the EU Clinical Trials Regulation and India’s NDCT Rules 2019.', steps: ['Classify every change for each region on the mission bar.', 'Submit, then read the reasons for any you missed.'], classify: M8_CHANGES,
     start: () => newProject('M8: classify 15 changes', EXAMPLES['HRP-301'].data(), 'mission', 'Phase 3') },
-]
+  { id: 'M9', title: 'Region readiness: close the EU and India gaps', core: false, pass: 70, expert: 100, brief: 'VERDANT-1 was written for the US IND. Before it goes to the EU (Clinical Trials Regulation, Annex I) and India (NDCT Rules 2019, Third Schedule Table 2), close every gap the two cross-walks show, without breaking anything else.', steps: ['Open Cross-walks: read the EU CTR and NDCT gaps.', 'Close each gap in the section it names (title page, 4.1.1, 6, 7.2, 9.2, 11, 12.1, 12.2). The hint under each gap says what is missing.', 'Keep the consistency checks clean, then submit.'],
+    start: () => newProject('M9: VERDANT-1 for the EU and India', m9Start(), 'mission', 'Phase 3') },
+  { id: 'M10', title: 'Hand off: from the protocol to the EDC build', core: false, pass: 70, expert: 100, handoff: true, brief: 'VERDANT-1 is approved. Export it as USDM, let the EDC Study Build Lab draft a first-pass database build from it, and report what the automated build missed, so the build team knows what to fix.', steps: ['Export: download the full USDM v4 file (it must pass the export checks).', 'In the EDC Study Build Lab: Start, “Generate a build from a USDM file”, then Release, download the study build (JSON) without changing it.', 'Load that build file on the mission bar, mark each statement true or false, and submit.'],
+    start: () => { const p = newProject('M10: VERDANT-1 hand-off to the EDC build', EXAMPLES['HRP-301'].data(), 'mission', 'Phase 3'); approve(p, '2026-01-20'); return p } },]
 export const missionById = (id: string) => MISSIONS.find((m) => m.id === id)!
 export function startMission(id: string): Project { const m = missionById(id); const p = m.start(); p.mission = { id, startedUtc: new Date().toISOString(), answers: {} }; return p }
 
@@ -186,6 +228,24 @@ export function grade(p: Project): Score {
       line('Summary and impacts given (substantial impact on safety: Yes)', !!a?.summary.trim() && a?.safetyRights === 'Yes' && !!a?.dataImpact, 10),
       line('Every changed section is in the summary of changes, each with a rationale', !!a && !am.some((f) => /^AM-0[128]/.test(f.id)), 10),
       line('The schedule change is a safety-monitoring change, classified for all three regions', !!lab13 && lab13.category === 'safety-add' && g13.every((x) => x.ok || x.justified), 15),
+      line('No high consistency findings', !fs.some((f) => f.severity === 'high'), 10)]
+  }
+  if (id === 'M10') {
+    const ans = p.mission!.answers ?? {}
+    let b: EdcBuild | null = null
+    try { b = ans.build ? (JSON.parse(ans.build) as EdcBuild) : null } catch { b = null }
+    const errors = checkUsdm(usdmOf(d)).filter((i) => i.level === 'error').length
+    const each = 70 / M10_CLAIMS.length
+    detail = [line('The USDM export has no errors', errors === 0, 15), line(`The EDC lab’s build of ${d.title['Sponsor Protocol Identifier']} is loaded`, !!b, 15),
+      ...M10_CLAIMS.map((c) => ({ label: c.text, got: b && ans[`claim:${c.id}`] === (c.truth(b) ? 'true' : 'false') ? each : 0, of: each }))]
+  }
+  if (id === 'M9') {
+    const g = m9Gaps(), ctr = coverage(d, 'ctr'), ndct = coverage(d, 'ndct')
+    const open = new Set([...ctr.gaps.map((x) => `ctr:${x.item.id}`), ...ndct.gaps.map((x) => `ndct:${x.item.id}`)])
+    const all = [...g.ctr.map((x) => `ctr:${x}`), ...g.ndct.map((x) => `ndct:${x}`)]
+    const each = 80 / all.length
+    detail = [...all.map((k) => ({ label: `${k.startsWith('ctr') ? 'EU CTR Annex I' : 'NDCT Table 2'} ${k.split(':')[1]} closed`, got: open.has(k) ? 0 : each, of: each })),
+      line('No new gaps in either cross-walk', [...open].every((k) => all.includes(k)), 10),
       line('No high consistency findings', !fs.some((f) => f.severity === 'high'), 10)]
   }
   if (id === 'M8') {

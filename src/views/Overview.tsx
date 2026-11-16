@@ -41,7 +41,9 @@ export default function Overview() {
           <li><b>Objectives and estimands</b>: each objective with its endpoints; each estimand with the five ICH E9(R1) attributes.</li>
           <li><b>Schedule of activities</b>: visits with windows, procedures by visit, and what each procedure is for.</li>
           <li><b>Consistency checks</b>: 40 rules across the synopsis and body. Fix a finding at its source, or justify it.</li>
-          <li><b>Export</b>: USDM v4 (full, and the teaching subset for the EDC Study Build Lab), the readable protocol as PDF, the project file and the hand-off for the pharmolecule journey.</li>
+          <li><b>Cross-walks</b>: the protocol against SPIRIT 2025, EU CTR Annex I, India’s NDCT Table 2 and 21 CFR 312.23(a)(6), with the gaps for each.</li>
+          <li><b>Versions and amendments</b>: approve a version, amend it with tracked changes, and classify each change for the US, the EU and India.</li>
+          <li><b>Export</b>: USDM v4 (full, and the teaching subset for the EDC Study Build Lab), the readable protocol as PDF or Word, the SDTM trial design datasets, the application bundle for the Clinical Trial Simulator, the project file and the hand-off for the pharmolecule journey.</li>
         </ol>
       </Panel>
     </div>

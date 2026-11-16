@@ -1,5 +1,8 @@
 import { useRef, useState } from 'react'
 import { useStore } from '../state'
+import { simulatorProject } from '../domain/simulator'
+import { certificate, certificateHtml, passportRecord, PASSPORT_PAGE } from '../domain/certificate'
+import { download } from '../domain/store'
 import { blankProject, exampleProject, libraryProject, lifecycleProject, usdmProject, readProjectFile, status, protocolId, getLearner, setLearner } from '../domain/project'
 import { EXAMPLES, PRODUCTS, INDICATIONS, DESIGNS, type ExampleId } from '../domain/examples'
 import { CODELISTS } from '../domain/m11'
@@ -10,10 +13,10 @@ export default function Home({ onOpen }: { onOpen: () => void }) {
   const { projects, open, remove, setError } = useStore()
   const [learner, setL] = useState(getLearner())
   const [lib, setLib] = useState({ product: 'lumiravostat', indication: 'che', design: 'dose', phase: 'Phase 2', id: 'HRP-201', name: 'HRP-201 dose-ranging' })
-  const usdmFile = useRef<HTMLInputElement>(null), projFile = useRef<HTMLInputElement>(null)
+  const usdmFile = useRef<HTMLInputElement>(null), projFile = useRef<HTMLInputElement>(null), simFile = useRef<HTMLInputElement>(null)
   const go = (p: Parameters<typeof open>[0]) => { open(p); onOpen() }
-  const readFile = async (f: File, kind: 'usdm' | 'project') => {
-    try { const t = await f.text(); go(kind === 'usdm' ? usdmProject(t, f.name.replace(/\.json$/, '')) : readProjectFile(t)) } catch (e) { setError(`Could not open ${f.name}: ${(e as Error).message}`) }
+  const readFile = async (f: File, kind: 'usdm' | 'project' | 'simulator') => {
+    try { const t = await f.text(); go(kind === 'usdm' ? usdmProject(t, f.name.replace(/\.json$/, '')) : kind === 'simulator' ? simulatorProject(t) : readProjectFile(t)) } catch (e) { setError(`Could not open ${f.name}: ${(e as Error).message}`) }
   }
   const missionDone = (id: string) => projects.filter((p) => p.mission?.id === id && p.mission.submittedUtc).sort((a, b) => (b.mission!.score ?? 0) - (a.mission!.score ?? 0))[0]
   return (
@@ -52,6 +55,8 @@ export default function Home({ onOpen }: { onOpen: () => void }) {
             <div className="flex flex-wrap gap-2">
               <Btn tone="grey" onClick={() => usdmFile.current?.click()}>Import a USDM v4 file</Btn>
               <Btn tone="grey" onClick={() => projFile.current?.click()}>Open a project file</Btn>
+              <Btn tone="grey" onClick={() => simFile.current?.click()} title="A design file exported from the Clinical Trial Simulator's final report">Start from a Clinical Trial Simulator design</Btn>
+              <input ref={simFile} type="file" accept=".json,application/json" className="hidden" aria-label="Clinical Trial Simulator design file" onChange={(e) => { const f = e.target.files?.[0]; if (f) readFile(f, 'simulator'); e.target.value = '' }} />
               <input ref={usdmFile} type="file" accept=".json,application/json" className="hidden" aria-label="USDM file" onChange={(e) => { const f = e.target.files?.[0]; if (f) readFile(f, 'usdm'); e.target.value = '' }} />
               <input ref={projFile} type="file" accept=".json,application/json" className="hidden" aria-label="Project file" onChange={(e) => { const f = e.target.files?.[0]; if (f) readFile(f, 'project'); e.target.value = '' }} />
             </div>
@@ -65,6 +70,7 @@ export default function Home({ onOpen }: { onOpen: () => void }) {
                 <div className="flex items-center gap-2">{best && <Pill tone={best.mission!.level === 'expert' ? 'purple' : best.mission!.level === 'pass' ? 'green' : 'amber'}>{best.mission!.score} · {best.mission!.level}</Pill>}<Btn onClick={() => go(startMission(m.id))}>Start</Btn></div>
               </li>) })}
           </ul>
+          <CertificatePanel learner={learner} />
         </Panel>
       </div>
 
@@ -74,6 +80,25 @@ export default function Home({ onOpen }: { onOpen: () => void }) {
           <Pill tone={st.high ? 'red' : st.medium ? 'amber' : 'green'}>{st.high} / {st.medium} / {st.low}</Pill>, fmtUtc(p.updatedUtc),
           <Btn tone="red" onClick={() => { if (window.confirm(`Delete “${p.name}” from this browser?`)) remove(p.id) }}>Delete</Btn>] })} />
       </Panel>
+    </div>
+  )
+}
+
+function CertificatePanel({ learner }: { learner: { name: string; userId: string } }) {
+  const { projects } = useStore()
+  let quiz: Record<string, boolean> = {}
+  try { quiz = JSON.parse(localStorage.getItem('protocol-builder:quiz') ?? '{}') } catch { /* storage blocked */ }
+  const c = certificate(projects, quiz, learner)
+  const left = c.criteria.filter((x) => !x.met)
+  return (
+    <div className="rounded border border-lab-line p-2 space-y-1 text-sm">
+      <p className="font-semibold">Certificate {c.eligible ? <Pill tone={c.distinction ? 'purple' : 'green'}>{c.distinction ? 'with distinction' : 'earned'}</Pill> : <Pill tone="grey">{c.criteria.length - left.length} of {c.criteria.length}</Pill>}</p>
+      <p className="text-xs text-lab-text-muted">Pass M1 to M10 (core and workflow missions) and every Learn quiz. Distinction: every mission passed, three or more at expert level. The verification code can be checked on the <a className="underline text-lab-fda" href={PASSPORT_PAGE} target="_blank" rel="noreferrer">Skills Passport</a>.</p>
+      {!c.eligible && <p className="text-xs">Still to do: {left.map((x) => x.label).join('; ')}.</p>}
+      {c.eligible && <div className="flex flex-wrap items-center gap-2"><span className="font-mono text-lab-cdsco">{c.code}</span>
+        <Btn disabled={!learner.name.trim()} onClick={() => download('protocol-builder-certificate.html', certificateHtml(c, learner), 'text/html')}>Certificate (HTML)</Btn>
+        <Btn tone="grey" disabled={!learner.name.trim()} onClick={() => download('protocol-builder-passport-record.json', JSON.stringify(passportRecord(c, learner), null, 2))}>Passport record (JSON)</Btn>
+        {!learner.name.trim() && <span className="text-xs text-lab-amber">Enter your name above first.</span>}</div>}
     </div>
   )
 }

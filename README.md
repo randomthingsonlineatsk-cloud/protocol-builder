@@ -58,13 +58,29 @@ Training only. All protocols, products and sponsors are fictional.
      application).
    The app's key, with the reason for each answer, checks your classification; a different
    answer counts when you justify it.
-7. **Export**: USDM v4 (full, with every amendment as a StudyAmendment, and the teaching subset
+7. **Cross-walks**: the protocol read against four other lists of protocol content, item by
+   item, with a coverage score and the gaps: SPIRIT 2025 (34 items), EU Regulation 536/2014 Annex I
+   section D (paragraphs 15 to 24, with 17(a) to (am)), India's NDCT Rules 2019 Third Schedule
+   Table 2 (title page and 16 headings) and 21 CFR 312.23(a)(6) (scaled by phase). Each item links to
+   the M11 sections that meet it, and each section shows the items it serves.
+8. **Export**: USDM v4 (full, with every amendment as a StudyAmendment, and the teaching subset
    the EDC lab reads), the print layout, a Word document (title page, amendment details and
    overview of changes, table of contents, every section, the schedule of activities in landscape),
-   the project file, and the hand-off for the pharmolecule Ostrevia lifecycle journey.
+   the project file, the hand-off for the pharmolecule Ostrevia lifecycle journey, and:
+   - **SDTM trial design datasets** TA, TE, TV, TI and TS (SDTMIG v3.4) written from the protocol,
+     as CSV and as a file the SDTM Mapping Trainer reads as the reference for its trial design
+     mission. TS parameters that come from the data (ACTSUB, SSTDTC, SENDTC, the data cut-off and
+     the standards versions) are left for the SDTM programmer.
+   - **An application bundle** for the trial application step of the Clinical Trial Simulator: the
+     protocol, a synopsis, the cross-walk results and, for an amendment, the summary of changes
+     with a cover note for the US (312.30), the EU (CTIS) and India (Third Schedule 1(v) and (vi)).
 
-Learn mode covers the protocol as data, every M11 section from 1 to 14, and amendments in the US,
-the EU and India, each lesson with the VERDANT-1 worked example and a quiz.
+A protocol can also start from a **Clinical Trial Simulator design**: the simulator's final report
+exports the phase 2 and phase 3 choices, which fill the title page and sections 1 to 5 and 10.
+
+Learn mode covers the protocol as data, every M11 section from 1 to 14, the four content
+checklists, and amendments in the US, the EU and India, each lesson with the VERDANT-1 worked
+example and a quiz.
 
 ## Missions
 
@@ -78,6 +94,12 @@ the EU and India, each lesson with the VERDANT-1 worked example and a quiz.
 | M6 | Size VERDANT-1 and control multiplicity across its six hypotheses |
 | M7 | Write amendment 1 of VERDANT-1 after a liver safety signal |
 | M8 | Classify 15 proposed changes for the US, the EU and India |
+| M9 | Region readiness: close VERDANT-1's gaps against EU CTR Annex I and NDCT Table 2 |
+| M10 | Hand off: export USDM, let the EDC Study Build Lab draft a build, and report what it missed |
+
+**Certificate**: M1 to M10 passed and every Learn quiz passed, with a verification code the
+[Skills Passport](https://randomthingsonlineatsk-cloud.github.io/pharmolecule/passport.html) checks
+(prefix PB-). Distinction: every mission passed, three or more at expert level.
 
 ## Worked examples and the other apps
 
@@ -89,10 +111,16 @@ the EU and India, each lesson with the VERDANT-1 worked example and a quiz.
   rule and the responder definitions are the same.
 - **HLV-204-201 (VASCLEAR-2)**, the hypertension trial of the CDM console's Protocol-to-Database
   Twin and the EDC Study Build Lab, with the twin's three inconsistencies resolved.
+- **GLV-12-301**, Glyvantra (GLV-12) added on to metformin in type 2 diabetes: the study of the
+  SDTM Mapping Trainer and the TLF Programming Lab, with their visits, criteria, laboratory schedule
+  and TS codes, the ANCOVA of HbA1c at Week 26, the MMRM and placebo-based imputation, and the
+  30-day window for treatment-emergent adverse events. Its trial design datasets match the
+  trainer's reference.
 - **NFR-118-201 (NORTHFELL-2)**, a teravelin dose-finding study in COPD.
 
 The data model follows the CDM console's M11 object (title page, design, objectives, criteria,
-visits, procedures), so a protocol written here can drive that console's twin. The
+visits, procedures): the console's Protocol-to-Database Twin opens a project file from here and
+traces the protocol to that study's database build. The
 [pharmolecule journey](https://randomthingsonlineatsk-cloud.github.io/pharmolecule/journey.html)
 checks the VERDANT-1 hand-off at step 2, before the CDM step.
 
@@ -110,9 +138,9 @@ checks the VERDANT-1 hand-off at step 2, before the CDM step.
   `tools/validate_usdm.py` to check.
 - ICH E9(R1) estimands; E6(R3) (EU effective 23 July 2025; Annex 2 effective 15 January 2027);
   E8(R1); E20 adaptive designs (draft).
-- SPIRIT 2025 (JAMA, 5 August 2025); Regulation (EU) No 536/2014 Annex I section D; New Drugs and
+- SPIRIT 2025 (BMJ 2025;389:e081477; JAMA 2025); Regulation (EU) No 536/2014 Annex I section D; New Drugs and
   Clinical Trials Rules 2019, Third Schedule Table 2; 21 CFR 312.23(a)(6) and 312.30. The
-  cross-walks to these, the IB section set and the ISO 14155 device variant come in later phases.
+  IB section set and the ISO 14155 device variant come in the next phase.
 - Amendments: 21 CFR 312.30; Regulation (EU) No 536/2014, Articles 2(2)(13), 15 to 24, 54 and
   81(9); NDCT Rules 2019, Third Schedule. The classification key is this app's reading of those
   texts for teaching, not regulatory advice.
@@ -127,7 +155,7 @@ optional class ID for the classroom mode to come. Export a project file to keep 
 ```
 npm install
 npm run dev
-npm test        # rules, statistics, amendments, USDM, Word export, missions, hand-off
+npm test        # rules, statistics, amendments, cross-walks, trial design, USDM, Word, missions, hand-offs
 npm run build
 ```
 

@@ -1,6 +1,7 @@
 import { dataForEdit } from '../domain/amend'
 import { useState } from 'react'
 import { useStore } from '../state'
+import { itemsFor } from '../domain/crosswalk'
 import { useNav } from '../App'
 import { current } from '../domain/project'
 import { TOC, TITLE_ELEMENTS, DESIGN_ELEMENTS, CODELISTS, type ElementDef, type SectionDef } from '../domain/m11'
@@ -163,6 +164,7 @@ export default function Sections() {
       <div className="space-y-3">
         <Panel title={`${s.num === 'TP' ? '' : s.num + ' '}${s.title}`} right={<Pill tone={confTone(s.conf)}>{s.conf === 'R' ? 'Required' : s.conf === 'C' ? `Conditional: ${s.when}` : 'Optional'}</Pill>}>
           <p className="text-xs text-lab-text-muted">{s.guidance}</p>
+          {(() => { const it = itemsFor(s.num); return it.length ? <p className="text-xs text-lab-text-muted flex flex-wrap gap-1 items-center">Also serves: {it.map((x) => <span key={x.fw + x.id} title={x.text} className="rounded border border-lab-line px-1 font-mono">{x.fw} {x.id}</span>)}</p> : null })()}
           {mine.length > 0 && <ul className="space-y-1">{mine.map((f) => <li key={f.id} className="text-xs rounded border border-lab-red/40 bg-lab-red-soft/40 px-2 py-1"><span className="font-mono">{f.rule}</span> {f.text} <i className="text-lab-text-muted">{f.fix}</i></li>)}</ul>}
           <Structured s={s} d={d} act={actD} />
           {s.num !== 'TP' && s.editor !== 'sample' && (

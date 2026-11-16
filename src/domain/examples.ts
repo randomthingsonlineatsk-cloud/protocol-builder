@@ -87,7 +87,7 @@ const P = (id: string, name: string, section: string, concept: string, form: str
 const HRP_PROCS: Procedure[] = [
   P('P01', 'Informed consent', '11.3', 'Informed Consent Obtained', 'IC', ['SCR'], ['conduct'], { minutes: 30 }),
   P('P02', 'Demographics', '8.2', 'Demographics', 'DM', ['SCR'], ['conduct'], { minutes: 5 }),
-  P('P03', 'Eligibility criteria', '5.2, 5.3', 'Eligibility Criteria Not Met', 'IE', ['SCR', 'D1'], ['conduct'], { minutes: 10 }),
+  P('P03', 'Eligibility criteria', '5.2, 5.3', 'Eligibility Criteria Not Met', 'IE', ['SCR'], ['conduct'], { minutes: 10 }),
   P('P04', 'Medical history, including hand eczema history', '8.2', 'Medical History', 'MH', ['SCR'], ['conduct'], { minutes: 15 }),
   P('P05', 'Vital signs (blood pressure, pulse) and weight', '8.4.2', 'Vital Signs (Blood Pressure, Pulse)', 'VS', ['SCR', 'D1', 'W4', 'W8', 'W16'], ['safety'], { minutes: 10, bcs: ['SYSTOLIC BLOOD PRESSURE', 'DIASTOLIC BLOOD PRESSURE', 'PULSE', 'WEIGHT'] }),
   P('P06', 'Hepatitis B screening (HBsAg, anti-HBc; HBV DNA if anti-HBc positive)', '8.2, 12.1', 'Hepatitis B Screening Panel', 'LB', ['SCR'], ['eligibility'], { bloodMl: 5, minutes: 5 }),
@@ -119,7 +119,7 @@ const hrpData = (): ProtocolData => {
       'Trial Acronym': 'VERDANT-1', 'Sponsor Protocol Identifier': 'HRP-301', 'Original Protocol Indicator': 'Yes', 'Version Number': '1.0', 'Version Date': '2026-01-20',
       "Sponsor's Investigational Product Code(s)": 'HRP-4417', 'Investigational Product Name(s)': 'lumiravostat (Ostrevia)', 'Trial Phase': 'Phase 3',
       'Short Title': 'Lumiravostat in moderate to severe chronic hand eczema', 'Sponsor Name and Address': 'Halcyon Ridge Pharmaceuticals (fictional), 1 Harbour Row, Dublin, Ireland',
-      'FDA IND Number': '000000 (fictional)', 'EU CT Number': '2026-500000-00-00 (fictional)', 'CTRI Number': 'CTRI/2026/00/000000 (fictional)',
+      'FDA IND Number': '000000 (fictional)', 'NCT Number': 'NCT99930101 (fictional)', 'EU CT Number': '2026-500000-00-00 (fictional)', 'CTRI Number': 'CTRI/2026/00/000000 (fictional)',
       'Sponsor Approval': '2026-01-20, electronic signature in the sponsor’s document system', 'Sponsor Signatory': 'Medical Director, Dermatology (fictional)',
     },
     design: {
@@ -135,9 +135,9 @@ const hrpData = (): ProtocolData => {
     },
     facts: { participants: 324, perArm: 108, dropoutPct: 10, treatmentWeeks: 16, followUpWeeks: 4, participationWeeks: 25, ageMin: 18, ageMax: 75, power: 0.9, alpha: 0.05, sided: 2, assumption: { kind: 'proportions', p0: 0.15, p1: 0.35 } },
     arms: [
-      { id: 'ARM1', name: 'Lumiravostat 25 mg', type: 'Investigational', intervention: 'Lumiravostat 25 mg orally once daily for 16 weeks', ratio: 1 },
-      { id: 'ARM2', name: 'Lumiravostat 10 mg', type: 'Investigational', intervention: 'Lumiravostat 10 mg orally once daily for 16 weeks', ratio: 1 },
-      { id: 'ARM3', name: 'Placebo', type: 'Placebo', intervention: 'Matching placebo orally once daily for 16 weeks', ratio: 1 },
+      { id: 'ARM1', code: 'HRP25', name: 'Lumiravostat 25 mg', type: 'Investigational', intervention: 'Lumiravostat 25 mg orally once daily for 16 weeks', ratio: 1 },
+      { id: 'ARM2', code: 'HRP10', name: 'Lumiravostat 10 mg', type: 'Investigational', intervention: 'Lumiravostat 10 mg orally once daily for 16 weeks', ratio: 1 },
+      { id: 'ARM3', code: 'PBO', name: 'Placebo', type: 'Placebo', intervention: 'Matching placebo orally once daily for 16 weeks', ratio: 1 },
     ],
     epochs: [{ id: 'EP_SCR', name: 'Screening', type: 'Screening' }, { id: 'EP_TRT', name: 'Treatment', type: 'Treatment' }, { id: 'EP_FU', name: 'Follow-up', type: 'Follow-up' }],
     interventions: [
@@ -193,6 +193,24 @@ const hrpData = (): ProtocolData => {
     '12.1': 'Haematology: haemoglobin, white cells with differential (including neutrophils and lymphocytes), platelets. Chemistry: ALT, AST, alkaline phosphatase, bilirubin, creatinine, potassium. Hepatitis B: HBsAg, anti-HBc and, if anti-HBc positive, HBV DNA. Pregnancy: serum β-hCG at screening, urine at other visits.',
     '13': 'ALT: alanine aminotransferase. anti-HBc: antibody to hepatitis B core antigen. HBsAg: hepatitis B surface antigen. HBV: hepatitis B virus. HECSI: Hand Eczema Severity Index. IGA-CHE: Investigator Global Assessment for chronic hand eczema. ITT: intent-to-treat. NRS: numeric rating scale. ULN: upper limit of normal.',
   }
+  // Region readiness: the content the SPIRIT 2025, EU CTR Annex I, NDCT Table 2 and 312.23
+  // cross-walks ask for beyond the M11 template sections.
+  const n = d.narrative
+  d.title['Medical Expert Contact'] = 'Medical monitor, Halcyon Ridge Pharmaceuticals (fictional); 24-hour safety line in 12.2'
+  n['4.1'] += ' Each dose is tested for superiority over placebo.'
+  n['4.1.1'] = 'A panel of six adults living with chronic hand eczema, recruited through a patient organisation (fictional), reviewed the draft protocol. Their advice made itch a key secondary endpoint, cut two on-site visits to telephone calls and simplified the consent form. The panel will review the lay summary of results.'
+  n['6.1'] += ' Lumiravostat is not authorised in any country. The rescue topical corticosteroid (6.9) is an auxiliary medicinal product authorised in the EU, the US and India and used within its authorisation. Tablets are supplied in child-resistant bottles of 35.'
+  n['6.4'] = 'No dose reduction is allowed. The investigator may interrupt the trial intervention for up to 14 days for an adverse event; it is restarted only if the event has resolved and no criterion in 7.1 is met.'
+  n['6.6'] += ' Bottles are labelled as Annex VI of Regulation (EU) No 536/2014 and the local rules require, without showing the treatment. Unused tablets and empty bottles are returned to the depot for destruction.'
+  n['6.7'] += ' An independent statistician generates the randomisation list; it is held in the system, and site staff who enrol participants cannot see it, which conceals the allocation.'
+  n['7.2'] += ' Participants who withdraw are not replaced.'
+  n['9.2'] += ' The following are reported within 24 hours as if serious, as adverse events of special interest: ALT above 3 × ULN with total bilirubin above 2 × ULN, and hepatitis B reactivation. No serious adverse event is exempt from immediate reporting. In the EU the sponsor reports SUSARs to EudraVigilance (Article 42); in the US as IND safety reports (21 CFR 312.32); in India to CDSCO and the ethics committee. Adverse events are followed up until they resolve or stabilise, or to the end of follow-up for non-serious events.'
+  n['11.1'] += ' Amendments are approved before they are made, except to remove an immediate hazard, and are communicated to the investigators, the ethics committees and the registries.'
+  n['11.2'] += ' Halcyon Ridge Pharmaceuticals funds the trial and is responsible for its design, conduct, analysis and publication. Investigators and committee members declare conflicts of interest before the trial and each year.'
+  n['11.8'] += ' In the EU the GDPR (Regulation (EU) 2016/679) applies, and in India the Digital Personal Data Protection Act 2023. Data are pseudonymised: records leave the site coded by participant number, and the key stays at the site. After a breach the sponsor contains it, assesses the risk to participants and notifies the authorities and participants as the law requires.'
+  n['11.12'] = 'A summary of results is posted in CTIS, ClinicalTrials.gov and CTRI within one year of the end of the trial, with a lay summary sent to participants. The results are submitted for publication whatever the outcome, under the sponsor’s publication policy. The protocol and statistical analysis plan are posted with the results. De-identified participant-level data are shared with qualified researchers on request, once the product is approved or development has stopped.'
+  n['12.1'] = 'Samples are analysed at the central laboratory (Northgate Central Laboratory, fictional) and destroyed within 12 months after the end of the trial; none are kept for future research. ' + n['12.1']
+  n['12.2'] = 'India: sites and investigators (fictional): Dr A. Rao, Department of Dermatology, Western Coast Medical College, Mumbai; Dr S. Iyer, Lakeside Skin Institute, Bengaluru. Each investigator signs the undertaking in Table 4 of the Third Schedule of the NDCT Rules 2019, kept with this protocol. Serious adverse events are reported to CDSCO, the sponsor and the ethics committee within 24 hours. Consent is recorded on audio-video where the Rules require it.\n\nUnited States: the investigators, their research facilities and the reviewing IRB at each site are listed on each investigator’s Form FDA 1572 in the IND.\n\n24-hour safety line (fictional): +353 1 000 0000.'
   return structuredClone(d)
 }
 
@@ -262,6 +280,90 @@ const hlvData = (): ProtocolData => {
   return structuredClone(d)
 }
 
+
+// ---------- GLV-12-301: Glyvantra in type 2 diabetes ----------
+// The HbA1c study of the SDTM Mapping Trainer and the TLF Programming Lab. Visits, windows,
+// criteria, laboratory schedule, kit legs and the TS codes are the trainer's; the analysis is the
+// TLF lab's: ANCOVA of the Week 26 change in HbA1c in the intent-to-treat population, an MMRM
+// under a hypothetical strategy, placebo-based multiple imputation, and treatment-emergent adverse
+// events up to 30 days after the last dose.
+const GLV_VISITS: Visit[] = [V('SCR', 'Screening', -14, -21, -1, 'Screening'), V('D1', 'Day 1', 1, 1, 1, 'Treatment'), V('W2', 'Week 2', 15, 12, 18, 'Treatment'), V('W4', 'Week 4', 29, 26, 32, 'Treatment'), V('W8', 'Week 8', 57, 52, 62, 'Treatment'), V('W12', 'Week 12', 85, 80, 90, 'Treatment'), V('W16', 'Week 16', 113, 108, 118, 'Treatment'), V('W20', 'Week 20', 141, 136, 146, 'Treatment'), V('W26', 'Week 26', 183, 176, 190, 'Treatment'), V('FU', 'Follow-up', 211, 204, 218, 'Follow-up')]
+const GLV_ALL = GLV_VISITS.map((v) => v.id), GLV_LAB = ['SCR', 'W4', 'W12', 'W26']
+const GLV_PROCS: Procedure[] = [
+  P('P01', 'Informed consent', '11.3', 'Informed Consent Obtained', 'IC', ['SCR'], ['conduct'], { minutes: 30 }),
+  P('P02', 'Demographics', '8.2', 'Demographics', 'DM', ['SCR'], ['conduct'], { minutes: 5 }),
+  P('P03', 'Eligibility criteria', '5.2, 5.3', 'Eligibility Criteria Not Met', 'IE', ['SCR', 'D1'], ['conduct'], { minutes: 10 }),
+  P('P04', 'Medical history, including diabetes history', '8.2', 'Medical History', 'MH', ['SCR'], ['conduct'], { minutes: 15 }),
+  P('P05', 'Vital signs (sitting blood pressure, pulse) and weight', '8.4.2', 'Vital Signs (Blood Pressure, Pulse)', 'VS', GLV_ALL, ['safety'], { minutes: 10, bcs: ['SYSTOLIC BLOOD PRESSURE', 'DIASTOLIC BLOOD PRESSURE', 'PULSE', 'WEIGHT'] }),
+  P('P06', 'Height and oral temperature', '8.2, 8.4.2', 'Body Height', 'VS', ['SCR'], ['conduct'], { minutes: 3, footnote: 'a: temperature also on Day 1.' }),
+  P('P07', 'HbA1c (central laboratory)', '8.3, 12.1', 'Hemoglobin A1C', 'LB', GLV_LAB, ['endpoint', 'eligibility'], { bloodMl: 2, minutes: 5, bcs: ['HEMOGLOBIN A1C CONCENTRATION IN BLOOD'] }),
+  P('P08', 'Central safety chemistry and fasting glucose (ALT, AST, creatinine, total cholesterol, glucose)', '8.4.4, 12.1', 'Central Laboratory Sample', 'LB', GLV_LAB, ['safety', 'eligibility'], { bloodMl: 6, minutes: 5, bcs: ['ALANINE AMINOTRANSFERASE CONCENTRATION IN SERUM OR PLASMA', 'ASPARTATE AMINOTRANSFERASE IN SERUM OR PLASMA', 'CREATININE CONCENTRATION IN SERUM OR PLASMA', 'CHOLESTEROL CONCENTRATION IN SERUM OR PLASMA', 'GLUCOSE CONCENTRATION IN SERUM OR PLASMA'], footnote: 'b: fasting for at least 8 hours; at Week 12 glucose is taken before the dose and 2 hours after it.' }),
+  P('P09', 'Diabetes education session', '8.1', 'Diabetes Education', 'EDU', ['D1', 'W4'], ['conduct'], { minutes: 30 }),
+  P('P10', 'Dispense trial intervention; tablet count and adherence', '6.6, 6.8', 'Study Drug Dispensing and Accountability', 'EX', ['D1', 'W4', 'W12', 'W20', 'W26'], ['conduct'], { minutes: 10, footnote: 'c: a kit for each leg (Day 1 to Week 4, Week 4 to 12, Week 12 to 20, Week 20 to 26); returned tablets are counted at Week 26.' }),
+  P('P11', 'Adverse events', '9.2', 'Adverse Event', 'AE', 'continuous', ['safety'], { from: 'SCR', footnote: 'd: collected from the signing of informed consent until the follow-up visit.' }),
+  P('P12', 'Concomitant therapy, including metformin and rescue', '6.9, 6.10', 'Concomitant Medication', 'CM', 'continuous', ['safety', 'conduct'], { from: 'SCR' }),
+  P('P13', 'End of trial status', '7.2', 'Disposition', 'DS', ['FU'], ['conduct'], { minutes: 5 }),
+]
+const glvData = (): ProtocolData => {
+  const d: ProtocolData = {
+    title: { 'Full Title': 'A randomised, double-blind, placebo-controlled, parallel-group phase 3 study of the efficacy and safety of Glyvantra (GLV-12) 5 mg and 10 mg once daily in adults with type 2 diabetes inadequately controlled on metformin', 'Trial Acronym': 'GLYDE-3', 'Sponsor Protocol Identifier': 'GLV-12-301', 'Original Protocol Indicator': 'Yes', 'Version Number': '1.0', 'Version Date': '2025-11-03', "Sponsor's Investigational Product Code(s)": 'GLV-12', 'Investigational Product Name(s)': 'Glyvantra (GLV-12)', 'Trial Phase': 'Phase 3', 'Short Title': 'Glyvantra (GLV-12) in type 2 diabetes', 'Sponsor Name and Address': 'Glyvant Pharmaceuticals (fictional), 40 Canal Street, Boston, MA, United States', 'NCT Number': 'NCT99912301 (fictional)', 'FDA IND Number': '000001 (fictional)', 'Sponsor Approval': '2025-11-03', 'Sponsor Signatory': 'Vice President, Clinical Development (fictional)', 'Medical Expert Contact': 'Medical monitor, Glyvant Pharmaceuticals (fictional)' },
+    design: { 'Intervention Model': 'Parallel Group', 'Population Type': 'With Disease', 'Population Diagnosis or Condition': 'Type 2 diabetes mellitus inadequately controlled on metformin', 'Population Age (Minimum and Maximum)': '18 to 75', 'Units of Age': 'Years', 'Control Type': 'Placebo', 'Control Description': 'Matching placebo tablets once daily, added on to metformin', 'Intervention Assignment Method': 'Randomisation', 'Randomisation Type': 'Block randomisation 1:1:1 through an interactive response technology system.', 'Stratification Indicator': 'No', 'Site Distribution': '5 sites', 'Site Geographic Scope': 'United States, Japan, Germany, India and Brazil', 'Master Protocol Indicator': 'No', 'Drug/Device Combination Product Indicator': 'No', 'Adaptive Trial Design Indicator': 'No', 'Number of Arms': '3', 'Trial Blind Schema': 'Double Blind', 'Blinded Roles': 'Participant, investigator, outcomes assessor, sponsor study team', 'Target/Maximum Number of Participants': '90', 'Number of Participants Randomly Assigned': '90', 'Total Planned Duration of Trial Intervention': '26 weeks', 'Total Planned Duration of Trial Participation': 'Up to 34 weeks with visit windows (screening up to 3 weeks, 26 weeks of treatment, follow-up 4 weeks after the last dose)', 'Independent Committees': 'Independent data monitoring committee' },
+    facts: { participants: 90, perArm: 30, dropoutPct: 15, treatmentWeeks: 26, followUpWeeks: 4, participationWeeks: 33, ageMin: 18, ageMax: 75, power: 0.8, alpha: 0.05, sided: 2, assumption: { kind: 'means', delta: 0.8, sd: 1 } },
+    arms: [
+      { id: 'ARM1', code: 'GLV5', name: 'GLV-12 5 mg', type: 'Investigational', intervention: 'GLV-12 5 mg orally once daily for 26 weeks, with metformin', ratio: 1 },
+      { id: 'ARM2', code: 'GLV10', name: 'GLV-12 10 mg', type: 'Investigational', intervention: 'GLV-12 10 mg orally once daily for 26 weeks, with metformin', ratio: 1 },
+      { id: 'ARM3', code: 'PBO', name: 'Placebo', type: 'Placebo', intervention: 'Matching placebo orally once daily for 26 weeks, with metformin', ratio: 1 },
+    ],
+    epochs: [{ id: 'EP_SCR', name: 'Screening', type: 'Screening' }, { id: 'EP_TRT', name: 'Treatment', type: 'Treatment' }, { id: 'EP_FU', name: 'Follow-up', type: 'Follow-up' }],
+    interventions: [
+      { id: 'INT1', name: 'GLV-12 5 mg', role: 'Investigational', dose: '5 mg film-coated tablet', doseValue: 5, doseUnit: 'mg', route: 'Oral', frequency: 'once daily', durationWeeks: 26 },
+      { id: 'INT2', name: 'GLV-12 10 mg', role: 'Investigational', dose: '10 mg film-coated tablet', doseValue: 10, doseUnit: 'mg', route: 'Oral', frequency: 'once daily', durationWeeks: 26 },
+      { id: 'INT3', name: 'Placebo', role: 'Placebo', dose: 'matching placebo tablet', doseValue: 0, doseUnit: 'tablet', route: 'Oral', frequency: 'once daily', durationWeeks: 26 },
+      { id: 'INT4', name: 'Metformin (background)', role: 'Auxiliary', dose: 'at least 1500 mg a day, the participant’s own stable dose', doseValue: 1500, doseUnit: 'mg', route: 'Oral', frequency: 'daily', durationWeeks: 0 },
+    ],
+    objectives: [
+      { id: 'OBJ1', level: 'Primary', kind: 'Efficacy', text: 'To show that GLV-12 lowers HbA1c more than placebo after 26 weeks in adults with type 2 diabetes inadequately controlled on metformin', endpointIds: ['END1'] },
+      { id: 'OBJ2', level: 'Secondary', kind: 'Safety', text: 'To assess the safety and tolerability of GLV-12 5 mg and 10 mg over 26 weeks', endpointIds: ['END2'] },
+    ],
+    endpoints: [
+      { id: 'END1', level: 'Primary', text: 'Change from baseline in HbA1c at Week 26', variableType: 'continuous', procedureIds: ['P07'], visitIds: ['W26'], purpose: 'Efficacy' },
+      { id: 'END2', level: 'Secondary', text: 'Treatment-emergent adverse events; change in ALT, AST, creatinine and fasting glucose; vital signs', variableType: 'binary', procedureIds: ['P11', 'P08', 'P05'], visitIds: [], purpose: 'Safety' },
+    ],
+    estimands: [],
+    analysisSets: [{ id: 'ITT', name: 'Intent-to-treat population', text: 'All randomised participants, analysed as randomised.' }, { id: 'SAF', name: 'Safety population', text: 'All randomised participants who took at least one dose, analysed as treated.' }],
+    criteria: [C('IN01', 'Adults aged 18 to 75 years with type 2 diabetes for at least 6 months', ['P02', 'P04']), C('IN02', 'HbA1c 7.0% to 10.5% at screening', ['P07']), C('IN03', 'Stable metformin of at least 1500 mg a day for 12 weeks', ['P12']), C('EX01', 'eGFR below 45 mL/min/1.73 m2', ['P08']), C('EX02', 'Any other glucose-lowering drug in the last 12 weeks', ['P12']), C('EX03', 'History of diabetic ketoacidosis', ['P04'])],
+    visits: GLV_VISITS, procedures: GLV_PROCS, narrative: {},
+    statements: { '10.11': 'A sample size of 90 randomised participants (30 per arm) gives 80% power to detect a difference of 0.8% in the change from baseline in HbA1c between a dose of GLV-12 and placebo (standard deviation 1.0%, two-sided alpha 0.05), allowing for 15% of participants without a Week 26 value.' },
+    multiplicity: 'The two doses are tested in a fixed sequence: GLV-12 10 mg against placebo first, at two-sided 0.05; GLV-12 5 mg only if the 10 mg test is significant. This keeps the familywise type I error rate at 0.05.',
+    multiplicityPlan: { method: 'fixed-sequence', hypotheses: [{ id: 'H1', label: 'EST1 · GLV-12 10 mg', weight: 1 }, { id: 'H2', label: 'EST1 · GLV-12 5 mg', weight: 0 }], transitions: [[0, 1], [0, 0]] },
+    rescue: 'Rescue therapy (a sulfonylurea or basal insulin, by local practice) is started for fasting glucose above 13.3 mmol/L (240 mg/dL) after Week 4 or above 11.1 mmol/L (200 mg/dL) after Week 12, confirmed on a second sample.',
+    aeFrom: 'consent', aeTo: 'FU',
+    sdtm: { indic: { code: '44054006', ref: 'SNOMED', ver: '2026-03-01' }, trt: { code: 'GLV12TRN01', ref: 'UNII', ver: '2026-09-01' }, curtrt: { code: '9100L32L2N', ref: 'UNII', ver: '2026-09-01' }, pclas: { value: 'Glucose transport modulator', code: 'GLVPC0001', ref: 'MED-RT', ver: '2026-09-01' } },
+  }
+  d.estimands = [{ id: 'EST1', objectiveId: 'OBJ1', endpointId: 'END1', population: 'Adults with type 2 diabetes inadequately controlled on metformin (HbA1c 7.0% to 10.5%)', analysisSetId: 'ITT', treatment: 'GLV-12 5 mg or 10 mg once daily vs placebo for 26 weeks, added on to metformin',
+    intercurrentEvents: [
+      { id: 'EST1-IE1', name: 'Permanent discontinuation of trial intervention', strategy: 'Hypothetical', description: 'The HbA1c the participant would have had at Week 26 had they continued treatment.' },
+      { id: 'EST1-IE2', name: 'Start of rescue therapy', strategy: 'Hypothetical', description: 'The HbA1c the participant would have had without rescue; values after rescue are not used.' },
+    ],
+    summary: 'Difference in means', estimator: 'ANCOVA of the change from baseline in HbA1c at Week 26 with treatment as a factor and baseline HbA1c as a covariate; least-squares mean differences from placebo with 95% confidence intervals. A mixed model for repeated measures (treatment, visit, treatment by visit, baseline and baseline by visit; unstructured covariance) is the supplementary analysis.',
+    missing: 'Values missing after discontinuation or rescue are assumed missing at random, consistent with the hypothetical strategy.', sensitivity: 'Placebo-based (reference-based) multiple imputation of missing Week 26 values, then ANCOVA, combined with Rubin’s rules.' }]
+  d.narrative = { ...defaultNarrative(d, { name: 'Glyvantra (GLV-12)', cls: 'once-daily oral glucose transport modulator (a fictional class)', indication: 'type 2 diabetes inadequately controlled on metformin' }),
+    '4.1': 'This is a double-blind, parallel-group, placebo-controlled trial with 3 arms (GLV-12 5 mg, GLV-12 10 mg, placebo), allocated 1:1:1, added on to metformin. Each dose is tested for superiority over placebo. Screening lasts up to 21 days, treatment 26 weeks and follow-up 4 weeks after the last dose. 90 participants are randomised.',
+    '4.2.4': '26 weeks of treatment is the duration regulators expect for the HbA1c endpoint, as HbA1c reflects about three months of glycaemia; 4 weeks of follow-up covers the 30-day window for treatment-emergent adverse events.',
+    '4.3': 'The sponsor may stop the trial, or an arm, on the recommendation of the independent data monitoring committee, for unacceptable risk, or if new information changes the benefit-risk balance.',
+    '6.9': `6.9.1 Background therapy: metformin at the participant’s stable dose of at least 1500 mg a day, unchanged during the trial. 6.9.2 Rescue therapy: ${d.rescue}`,
+    '6.10': 'Prohibited: any glucose-lowering medicine other than metformin and rescue therapy, and systemic corticosteroids for more than 7 days. Strong inhibitors of CYP3A4 are prohibited because they raise GLV-12 exposure (a possible interaction). All concomitant therapy is recorded.',
+    '7.1': 'The trial intervention is stopped permanently for a confirmed fasting glucose above 15 mmol/L, an eGFR below 30 mL/min/1.73 m2, ALT above 3 × ULN with total bilirubin above 2 × ULN, pregnancy, or if the investigator judges it in the participant’s interest. Participants who stop stay in the trial and attend every visit.',
+    '8.1': 'Procedures follow the schedule of activities (1.3). Laboratory samples are taken fasting. Each participant receives diabetes education on Day 1 and at Week 4 (diet, physical activity, foot care, recognising hypoglycaemia); sessions are recorded in a study-specific form.',
+    '8.3': 'HbA1c is measured at the central laboratory (Meridian Central Laboratories, fictional) at screening and Weeks 4, 12 and 26, by an NGSP-certified method.',
+    '9.2': '9.2.1 Timing: adverse events are collected from the signing of informed consent until the follow-up visit. Serious adverse events are reported to the sponsor within 24 hours of the site becoming aware. Hypoglycaemia is recorded on the adverse event form with the glucose value.',
+    '10.4': 'The change from baseline in HbA1c at Week 26 is analysed in the intent-to-treat population with ANCOVA (treatment as a factor, baseline HbA1c as a covariate), on observed values after excluding values after rescue or discontinuation. Supplementary: an MMRM over all visits. Sensitivity: placebo-based multiple imputation. Subgroups (age, sex, region, baseline HbA1c below or at least 8.5%) are shown in a forest plot.',
+    '10.7': 'Adverse events are coded with MedDRA. Treatment-emergent adverse events are those starting on or after the first dose and no later than 30 days after the last dose; they are summarised by arm in the safety population, with time to the first treatment-emergent adverse event by Kaplan-Meier. Laboratory values are shown as shift tables and vital signs by analysis window.',
+    '12.1': 'Central laboratory (Meridian Central Laboratories, fictional): HbA1c; chemistry: ALT, AST, creatinine with eGFR (CKD-EPI), total cholesterol, fasting glucose. Samples are destroyed after analysis; none are kept for future research.',
+    '13': 'ANCOVA: analysis of covariance. eGFR: estimated glomerular filtration rate. HbA1c: glycated haemoglobin. ITT: intent to treat. MMRM: mixed model for repeated measures. TEAE: treatment-emergent adverse event.',
+  }
+  return structuredClone(d)
+}
 
 // ---------- NFR-118-201: teravelin dose-finding in COPD (missions M2 and M3) ----------
 const NFR_VISITS: Visit[] = [V('SCR', 'Screening', -14, -21, -7, 'Screening'), V('D1', 'Day 1 (randomisation)', 1, 1, 1, 'Treatment'), V('W2', 'Week 2', 15, 13, 17, 'Treatment'), V('W4', 'Week 4', 29, 26, 32, 'Treatment'), V('W8', 'Week 8', 57, 53, 61, 'Treatment'), V('W12', 'Week 12 (end of treatment)', 85, 81, 89, 'Treatment'), V('FU', 'Week 14 follow-up', 99, 96, 102, 'Follow-up')]
@@ -363,6 +465,7 @@ export function fromLibrary(productId: string, indicationId: string, designId: s
 export const EXAMPLES = {
   'HRP-301': { name: 'VERDANT-1 (HRP-301): lumiravostat in chronic hand eczema', phase: 'Phase 3', data: hrpData },
   'HLV-204-201': { name: 'VASCLEAR-2 (HLV-204-201): Vasclarin in hypertension', phase: 'Phase 2', data: hlvData },
+  'GLV-12-301': { name: 'GLV-12-301: Glyvantra (GLV-12) in type 2 diabetes', phase: 'Phase 3', data: glvData },
   'NFR-118-201': { name: 'NORTHFELL-2 (NFR-118-201): teravelin dose-finding in COPD', phase: 'Phase 2', data: nfrData },
 } as const
 export type ExampleId = keyof typeof EXAMPLES

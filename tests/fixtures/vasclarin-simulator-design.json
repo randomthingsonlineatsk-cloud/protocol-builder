@@ -1,0 +1,49 @@
+{
+ "kind": "clinical-trial-simulator/design",
+ "schema": 1,
+ "createdAt": "2026-11-16T00:00:00.000Z",
+ "userId": "u-test",
+ "classId": null,
+ "notice": "Training only. Fictional product and trial.",
+ "phase": "p3",
+ "scenario": {
+  "code": "VSC-9",
+  "drug": "Vasclarin",
+  "modality": "Small molecule — oral, once-daily",
+  "indication": "Resistant hypertension on three antihypertensive agents",
+  "area": "Cardiovascular",
+  "moa": "Selective antagonist of a fictional vascular receptor, reducing peripheral resistance without affecting heart rate or renal potassium handling.",
+  "preclinical": "Sustained blood-pressure reduction in a salt-sensitive rat model; clean 13-week toxicology with a wide NOAEL margin and no QT liability.",
+  "known": "Wide therapeutic margin and predictable, mechanism-based pharmacology.",
+  "unknown": "Human dose-response, food effect, and whether benefit is preserved on top of three background agents.",
+  "soc": "Multi-agent antihypertensive therapy",
+  "socExists": true,
+  "surrogate": "Change in 24-hour ambulatory systolic blood pressure"
+ },
+ "choices": {
+  "p2_endpoint": "surrogate",
+  "p2_comparator": "placebo_addon",
+  "p2_blinding": "double_blind",
+  "p2_ratio": "1_1",
+  "p2_size": "realistic",
+  "p2_adaptive": "none",
+  "p3_endpoint": "abpm",
+  "p3_design": "superiority",
+  "p3_size": "discounted",
+  "p3_interim": "alpha_spending",
+  "p3_inclusion": "broad"
+ },
+ "labels": {
+  "p2_endpoint": "Surrogate / intermediate endpoint — Change in 24-hour ambulatory systolic blood pressure",
+  "p2_comparator": "Add-on placebo-controlled (all patients keep standard of care)",
+  "p2_blinding": "Double-blind",
+  "p2_ratio": "1:1",
+  "p2_size": "Power on a conservative, clinically meaningful effect at 80-90% power",
+  "p2_adaptive": "No interim analysis",
+  "p3_endpoint": "Change from baseline in 24-hour ambulatory systolic BP at week 12",
+  "p3_design": "Superiority",
+  "p3_size": "Power on a discounted Phase II effect, with dropout allowance",
+  "p3_interim": "Group-sequential design with alpha-spending and hierarchical secondary testing",
+  "p3_inclusion": "Broad and representative, with pre-specified subgroups"
+ }
+}
