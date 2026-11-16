@@ -1,9 +1,10 @@
 import { useRef, useState } from 'react'
 import { useStore } from '../state'
 import { simulatorProject } from '../domain/simulator'
+import { cipFindings } from '../domain/cip'
 import { certificate, certificateHtml, passportRecord, PASSPORT_PAGE } from '../domain/certificate'
 import { download } from '../domain/store'
-import { blankProject, exampleProject, libraryProject, lifecycleProject, usdmProject, readProjectFile, status, protocolId, getLearner, setLearner } from '../domain/project'
+import { deviceProject, blankProject, exampleProject, libraryProject, lifecycleProject, usdmProject, readProjectFile, status, protocolId, getLearner, setLearner } from '../domain/project'
 import { EXAMPLES, PRODUCTS, INDICATIONS, DESIGNS, type ExampleId } from '../domain/examples'
 import { CODELISTS } from '../domain/m11'
 import { MISSIONS, startMission } from '../domain/missions'
@@ -38,6 +39,7 @@ export default function Home({ onOpen }: { onOpen: () => void }) {
             </div>
             <div className="flex flex-wrap gap-2">
               <Btn tone="solid" onClick={() => go(blankProject())}>Blank protocol</Btn>
+              <Btn tone="grey" onClick={() => go(deviceProject())} title="A clinical investigation plan for a medical device, in the topics of ISO 14155:2026 Annex A">Device CIP (ISO 14155)</Btn>
               {(Object.keys(EXAMPLES) as ExampleId[]).map((k) => <Btn key={k} tone="grey" onClick={() => go(exampleProject(k))}>Worked example: {EXAMPLES[k].name.split(':')[0]}</Btn>)}
             </div>
             <div className="rounded border border-lab-line p-3 space-y-2">
@@ -75,7 +77,7 @@ export default function Home({ onOpen }: { onOpen: () => void }) {
       </div>
 
       <Panel title="Your protocols" sub="Saved in this browser. Export a project file to keep a copy or move it to another browser.">
-        <Table head={['Project', 'Protocol', 'Source', 'Checks', 'Updated (UTC)', '']} empty="No protocols yet." rows={projects.map((p) => { const st = status(p); return [
+        <Table head={['Project', 'Protocol', 'Source', 'Checks', 'Updated (UTC)', '']} empty="No protocols yet." rows={projects.map((p) => { const st = p.type === 'device' ? (() => { const f = p.cip ? cipFindings(p.cip) : []; return { high: f.filter((x) => x.severity === 'high').length, medium: f.filter((x) => x.severity === 'medium').length, low: f.filter((x) => x.severity === 'low').length } })() : status(p); return [
           <button className="text-lab-fda underline text-left" onClick={() => go(p)}>{p.name}</button>, protocolId(p), p.mission ? `Mission ${p.mission.id}` : p.source,
           <Pill tone={st.high ? 'red' : st.medium ? 'amber' : 'green'}>{st.high} / {st.medium} / {st.low}</Pill>, fmtUtc(p.updatedUtc),
           <Btn tone="red" onClick={() => { if (window.confirm(`Delete “${p.name}” from this browser?`)) remove(p.id) }}>Delete</Btn>] })} />

@@ -3,6 +3,8 @@ import type { Project, ProtocolData, Finding } from './types'
 import { EXAMPLES, emptyData, fromLibrary, type ExampleId } from './examples'
 import { findings, counts } from './rules'
 import { usdmOf, checkUsdm, protocolFromUsdm } from './usdm'
+import { hrpIb } from './ib'
+import { blankCip } from './cip'
 
 export const FORMAT = 'protocol-builder-project' as const
 export const HANDOFF = 'protocol-builder-handoff' as const
@@ -32,7 +34,13 @@ export function newProject(name: string, data: ProtocolData, source: Project['so
     createdUtc: now(), updatedUtc: now(), versions: [{ number: data.title['Version Number'] || '0.1', date: now().slice(0, 10), status: 'draft', data }], marks: {} }
 }
 export const blankProject = (name = 'New protocol') => newProject(name, emptyData(), 'blank')
-export const exampleProject = (id: ExampleId) => newProject(EXAMPLES[id].name, EXAMPLES[id].data(), 'example', EXAMPLES[id].phase)
+// A device project holds a clinical investigation plan (ISO 14155) instead of an M11 protocol.
+export function deviceProject(name = 'New clinical investigation plan', source: Project['source'] = 'blank'): Project {
+  const p = newProject(name, emptyData(), source, 'Device')
+  p.type = 'device'; p.cip = blankCip(); p.regions = ['EU', 'US', 'IN']
+  return p
+}
+export const exampleProject = (id: ExampleId) => { const p = newProject(EXAMPLES[id].name, EXAMPLES[id].data(), 'example', EXAMPLES[id].phase); if (id === 'HRP-301') p.ib = hrpIb(); return p }
 export const libraryProject = (name: string, product: string, indication: string, design: string, phase: string, protocolId: string) => newProject(name, fromLibrary(product, indication, design, phase, protocolId), 'library', phase)
 export function usdmProject(text: string, name: string): Project {
   let u: unknown
@@ -59,7 +67,7 @@ export const current = (p: Project) => p.versions[p.versions.length - 1].data
 export const docOpts = (p: Project) => ({ amendment: p.versions[p.versions.length - 1].amendment, prior: p.versions.slice(0, -1).flatMap((v) => (v.amendment ? [v.amendment] : [])) })
 // The USDM export of the current version, with every amendment so far.
 export const usdmOfProject = (p: Project) => usdmOf(current(p), { amendments: p.versions.flatMap((v) => (v.amendment ? [v.amendment] : [])) })
-export const protocolId = (p: Project) => current(p).title['Sponsor Protocol Identifier'] || '(no identifier)'
+export const protocolId = (p: Project) => (p.type === 'device' ? p.cip?.number || '(no CIP reference)' : current(p).title['Sponsor Protocol Identifier'] || '(no identifier)')
 export function open(p: Project): Finding[] { return findings(current(p)).filter((f) => !p.marks[f.id]) }
 export function status(p: Project) {
   const all = findings(current(p)), openF = all.filter((f) => !p.marks[f.id])

@@ -63,7 +63,18 @@ Training only. All protocols, products and sponsors are fictional.
    section D (paragraphs 15 to 24, with 17(a) to (am)), India's NDCT Rules 2019 Third Schedule
    Table 2 (title page and 16 headings) and 21 CFR 312.23(a)(6) (scaled by phase). Each item links to
    the M11 sections that meet it, and each section shows the items it serves.
-8. **Export**: USDM v4 (full, with every amendment as a StudyAmendment, and the teaching subset
+8. **Investigator's brochure**: the product's IB in the ICH E6(R3) Appendix A sections (summary,
+   introduction, properties and formulation, nonclinical studies, effects in humans, guidance for
+   the investigator) with the reference safety information in its own section, started from the
+   library product. Five checks read it against the protocol: the IB edition the protocol cites,
+   every expected adverse reaction among the risks in 2.2.1, doses within the highest dose given to
+   humans, and completeness.
+9. **Review**: a readiness summary (required elements, consistency findings, SPIRIT score,
+   cross-walks, IB, USDM), reviewer comments on a section or on quoted words (corrections and
+   consistency comments block readiness until resolved), and a plain-language check of the
+   synopsis and of a lay summary: Flesch-Kincaid grade, reading ease, sentence length and
+   technical words with plainer ones.
+10. **Export**: USDM v4 (full, with every amendment as a StudyAmendment, and the teaching subset
    the EDC lab reads), the print layout, a Word document (title page, amendment details and
    overview of changes, table of contents, every section, the schedule of activities in landscape),
    the project file, the hand-off for the pharmolecule Ostrevia lifecycle journey, and:
@@ -75,11 +86,23 @@ Training only. All protocols, products and sponsors are fictional.
      protocol, a synopsis, the cross-walk results and, for an amendment, the summary of changes
      with a cover note for the US (312.30), the EU (CTIS) and India (Third Schedule 1(v) and (vi)).
 
+**Device projects** hold a clinical investigation plan instead of an M11 protocol, in the topics of
+ISO 14155:2026 Annex A (fourth edition, March 2026): identification, sponsor, investigators,
+synopsis, the device (model, software version, intended purpose, classification), the design
+justification, benefits and risks from the ISO 14971 risk management file in the three categories
+of the 2026 edition, objectives, design, statistics, data management, amendments, deviations, device
+accountability, compliance, consent, adverse device effects and device deficiencies, vulnerable
+populations, suspension and publication. Ten device checks include the 2026 points: a justification
+when there is no data monitoring committee, a clinical events committee considered, calibration of
+measuring equipment, and eligibility exemptions only by CIP amendment. The section numbers are the
+app's; check Annex A's own numbering in the standard.
+
 A protocol can also start from a **Clinical Trial Simulator design**: the simulator's final report
 exports the phase 2 and phase 3 choices, which fill the title page and sections 1 to 5 and 10.
 
 Learn mode covers the protocol as data, every M11 section from 1 to 14, the four content
-checklists, and amendments in the US, the EU and India, each lesson with the VERDANT-1 worked
+checklists, the Investigator's Brochure, device CIPs under ISO 14155:2026, and amendments in the
+US, the EU and India, each lesson with the VERDANT-1 worked
 example and a quiz.
 
 ## Missions
@@ -96,10 +119,18 @@ example and a quiz.
 | M8 | Classify 15 proposed changes for the US, the EU and India |
 | M9 | Region readiness: close VERDANT-1's gaps against EU CTR Annex I and NDCT Table 2 |
 | M10 | Hand off: export USDM, let the EDC Study Build Lab draft a build, and report what it missed |
+| M11 | Write teravelin's Investigator's Brochure and bring NORTHFELL-2 into line with it |
+| M12 | Write the ISO 14155:2026 CIP for a fictional wearable ECG patch |
 
 **Certificate**: M1 to M10 passed and every Learn quiz passed, with a verification code the
 [Skills Passport](https://randomthingsonlineatsk-cloud.github.io/pharmolecule/passport.html) checks
-(prefix PB-). Distinction: every mission passed, three or more at expert level.
+(prefix PB-). Distinction: all twelve missions passed, three or more at expert level.
+
+**Classroom mode** uses the shared classroom server (Cloudflare Worker and D1, kept in the eCTD
+Dossier Builder repository) under `/pb/v1`: instructors create a class and assign missions,
+students join with a code and send their mission projects, and instructors re-score each one in
+their own browser, comment and see a leaderboard. The server's status page lists the Protocol
+Builder with the other apps.
 
 ## Worked examples and the other apps
 
@@ -140,7 +171,8 @@ checks the VERDANT-1 hand-off at step 2, before the CDM step.
   E8(R1); E20 adaptive designs (draft).
 - SPIRIT 2025 (BMJ 2025;389:e081477; JAMA 2025); Regulation (EU) No 536/2014 Annex I section D; New Drugs and
   Clinical Trials Rules 2019, Third Schedule Table 2; 21 CFR 312.23(a)(6) and 312.30. The
-  IB section set and the ISO 14155 device variant come in the next phase.
+  ICH E6(R3) Appendix A (Investigator's Brochure). ISO 14155:2026 (fourth edition, March 2026),
+  Annex A; ISO 14971 for risk management; Regulation (EU) 2017/745 Annex XV.
 - Amendments: 21 CFR 312.30; Regulation (EU) No 536/2014, Articles 2(2)(13), 15 to 24, 54 and
   81(9); NDCT Rules 2019, Third Schedule. The classification key is this app's reading of those
   texts for teaching, not regulatory advice.

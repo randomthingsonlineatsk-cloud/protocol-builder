@@ -3,13 +3,15 @@
 import type { Project, ProtocolData } from './types'
 import { EXAMPLES, fromLibrary, nfrData, NFR_PROCS } from './examples'
 import { findings } from './rules'
-import { newProject, current } from './project'
+import { newProject, current, deviceProject } from './project'
 import { usdmOf, checkUsdm } from './usdm'
 import { REQUIRED_TEXT } from './rules'
 import { planProblems } from './stats'
 import { approve, amendmentFindings, grade as gradeChange, REGIONS, CATEGORIES } from './amend'
 import type { Region } from './types'
 import { coverage } from './crosswalk'
+import { ibFindings, IB_SECTIONS } from './ib'
+import { cipCoverage, cipFindings, DEVICE_RULES } from './cip'
 
 export interface Question { id: string; q: string; options: string[]; answer: string; section: string }
 export interface MissionDef { id: string; title: string; brief: string; core: boolean; steps: string[]; pass: number; expert: number; start: () => Project; questions?: Question[]; classify?: { text: string; category: string }[]; handoff?: boolean }
@@ -163,7 +165,12 @@ export const MISSIONS: MissionDef[] = [
   { id: 'M9', title: 'Region readiness: close the EU and India gaps', core: false, pass: 70, expert: 100, brief: 'VERDANT-1 was written for the US IND. Before it goes to the EU (Clinical Trials Regulation, Annex I) and India (NDCT Rules 2019, Third Schedule Table 2), close every gap the two cross-walks show, without breaking anything else.', steps: ['Open Cross-walks: read the EU CTR and NDCT gaps.', 'Close each gap in the section it names (title page, 4.1.1, 6, 7.2, 9.2, 11, 12.1, 12.2). The hint under each gap says what is missing.', 'Keep the consistency checks clean, then submit.'],
     start: () => newProject('M9: VERDANT-1 for the EU and India', m9Start(), 'mission', 'Phase 3') },
   { id: 'M10', title: 'Hand off: from the protocol to the EDC build', core: false, pass: 70, expert: 100, handoff: true, brief: 'VERDANT-1 is approved. Export it as USDM, let the EDC Study Build Lab draft a first-pass database build from it, and report what the automated build missed, so the build team knows what to fix.', steps: ['Export: download the full USDM v4 file (it must pass the export checks).', 'In the EDC Study Build Lab: Start, “Generate a build from a USDM file”, then Release, download the study build (JSON) without changing it.', 'Load that build file on the mission bar, mark each statement true or false, and submit.'],
-    start: () => { const p = newProject('M10: VERDANT-1 hand-off to the EDC build', EXAMPLES['HRP-301'].data(), 'mission', 'Phase 3'); approve(p, '2026-01-20'); return p } },]
+    start: () => { const p = newProject('M10: VERDANT-1 hand-off to the EDC build', EXAMPLES['HRP-301'].data(), 'mission', 'Phase 3'); approve(p, '2026-01-20'); return p } },
+  { id: 'M11', title: 'Write the Investigator’s Brochure and check it against the protocol', core: false, pass: 70, expert: 100, brief: 'NORTHFELL-2 tests inhaled teravelin, a new product with no IB yet. Write its Investigator’s Brochure in the ICH E6(R3) sections, with the reference safety information, and bring the protocol into line with it.', steps: ['Investigator’s brochure: start the IB from the library product (teravelin) and write the summary, the introduction, the guidance for the investigator and the introduction to the reference safety information.', 'Check the expected adverse reactions, the highest dose given to humans and the edition.', 'Fix the protocol where the IB checks say it disagrees: section 2.2.1 risks and the edition cited in 9.2. Then submit.'],
+    start: () => newProject('M11: the teravelin IB', nfrData(), 'mission', 'Phase 2') },
+  { id: 'M12', title: 'Write a device CIP (ISO 14155:2026) for a wearable', core: false, pass: 70, expert: 100, brief: 'Corvane Medical (fictional) makes the HeartPatch HP-2: a single-lead ECG patch worn on the chest for up to 14 days, with software (version 2.1) that flags atrial fibrillation. Write the clinical investigation plan for its pivotal investigation: AF detection compared with a 12-lead Holter recording read by cardiologists, in adults referred for ambulatory ECG monitoring, at sites in the EU, India and the US.', steps: ['Clinical investigation plan: identify the CIP and the device (name, model, software version, manufacturer, intended purpose, classification).', 'List the risks from the ISO 14971 risk management file in all three categories, each with its control and residual risk.', 'Write every Annex A topic. Decide on a data monitoring committee and a clinical events committee and say why. Cover the 2026 points: calibration of measuring equipment, eligibility exemptions only by amendment, device deficiencies.', 'Clear the device checks, then submit.'],
+    start: () => deviceProject('M12: HeartPatch HP-2 clinical investigation plan', 'mission') },
+]
 export const missionById = (id: string) => MISSIONS.find((m) => m.id === id)!
 export function startMission(id: string): Project { const m = missionById(id); const p = m.start(); p.mission = { id, startedUtc: new Date().toISOString(), answers: {} }; return p }
 
@@ -228,6 +235,23 @@ export function grade(p: Project): Score {
       line('Summary and impacts given (substantial impact on safety: Yes)', !!a?.summary.trim() && a?.safetyRights === 'Yes' && !!a?.dataImpact, 10),
       line('Every changed section is in the summary of changes, each with a rationale', !!a && !am.some((f) => /^AM-0[128]/.test(f.id)), 10),
       line('The schedule change is a safety-monitoring change, classified for all three regions', !!lab13 && lab13.category === 'safety-add' && g13.every((x) => x.ok || x.justified), 15),
+      line('No high consistency findings', !fs.some((f) => f.severity === 'high'), 10)]
+  }
+  if (id === 'M12') {
+    const c = p.cip, cov = c ? cipCoverage(c) : null, f = c ? cipFindings(c) : []
+    detail = [line(`ISO 14155 Annex A topics covered (${cov?.covered ?? 0} of ${cov?.total ?? 0})`, cov ? cov.covered / cov.total : 0, 60),
+      ...DEVICE_RULES.map((r) => line(`${r.id} has no finding (${r.title.charAt(0).toLowerCase() + r.title.slice(1)})`, !!c && (r.id !== 'PB-D03' || c.hazards.length > 0) && !f.some((x) => x.rule === r.id), 4))]
+  }
+  if (id === 'M11') {
+    const ib = p.ib, bf = ibFindings(p)
+    const req = IB_SECTIONS.filter((x) => x.required)
+    const written = ib ? req.filter((x) => (ib.sections[x.id] ?? '').trim().length >= (x.id === 'rsiIntro' ? 40 : 80)).length : 0
+    detail = [line('An IB for teravelin', !!ib && ib.productId === 'teravelin', 5),
+      line(`IB sections written (${written} of ${req.length})`, req.length ? written / req.length : 0, 30),
+      line('Reference safety information: at least three expected adverse reactions, each with its system organ class and frequency', !!ib && ib.rsi.length >= 3 && ib.rsi.every((t) => t.term && t.soc && t.frequency), 10),
+      line('The protocol cites the IB edition that holds the RSI (PB-B01)', !!ib && !bf.some((f) => f.rule === 'PB-B01'), 15),
+      line('Every expected adverse reaction is a risk in section 2.2.1 (PB-B02)', !!ib && ib.rsi.length > 0 && !bf.some((f) => f.rule === 'PB-B02'), 20),
+      line('Doses within the highest dose given to humans (PB-B03)', !!ib && ib.maxHumanDose.value > 0 && !bf.some((f) => f.rule === 'PB-B03'), 10),
       line('No high consistency findings', !fs.some((f) => f.severity === 'high'), 10)]
   }
   if (id === 'M10') {

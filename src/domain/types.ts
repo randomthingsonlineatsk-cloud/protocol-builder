@@ -1,3 +1,6 @@
+import type { Ib } from './ib'
+import type { Cip } from './cip'
+import type { ReviewComment } from './review'
 // The protocol held as data. Each object maps to a USDM v4 class (named in the comment) and to
 // the ICH M11 section that presents it. The shape of the title page, design, objectives,
 // criteria, visits and procedures follows the CDM Query & Edit-Check Console's M11 object, so a
@@ -81,5 +84,9 @@ export interface Project {
   createdUtc: string; updatedUtc: string
   versions: ProtocolVersion[]          // the last one is being edited
   marks: Record<string, Mark>          // finding id -> resolved or justified
+  ib?: Ib                              // the product's Investigator's Brochure (drug projects)
+  cip?: Cip                            // the clinical investigation plan (device projects)
+  reviews?: ReviewComment[]            // reviewer comments
+  pls?: string                         // a plain-language (lay) summary written for the check
   mission?: { id: string; startedUtc: string; submittedUtc?: string; score?: number; level?: 'pass' | 'expert' | 'not yet'; answers?: Record<string, string>; detail?: { label: string; got: number; of: number }[] }
 }
