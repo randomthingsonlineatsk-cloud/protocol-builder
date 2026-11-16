@@ -83,7 +83,7 @@ export const CONCEPT_PROPS: Record<string, string[]> = {
   'Informed Consent Obtained': ['DSSTDAT', 'ICVER'], Demographics: ['BRTHYR', 'SEX', 'RACE'], 'Eligibility Criteria Not Met': ['IEYN', 'IETESTCD'], 'Medical History': ['MHTERM', 'MHSTDAT', 'MHONGO'],
   'Vital Signs (Blood Pressure, Pulse)': ['VSDAT', 'SYSBP', 'DIABP', 'PULSE', 'WEIGHT'], 'Body Weight': ['WEIGHT'], 'Body Height': ['HEIGHT'],
   'Hepatitis B Screening Panel': ['HBVDAT', 'HBSAG', 'HBCAB', 'HBVDNA'], 'Central Laboratory Sample': ['LBPERF', 'LBREFID', 'LBDAT', 'LBTIM'], 'Local Safety Laboratory Panel': ['LBDAT', 'K', 'CREAT', 'ALT'],
-  'Pregnancy Test (Choriogonadotropin Beta)': ['PREGDAT', 'PREGRES'], '12-Lead ECG': ['EGDAT', 'QTCF', 'EGINTP'],
+  'Pregnancy Test (Choriogonadotropin Beta)': ['PREGCBP', 'PREGDAT', 'PREGTYP', 'PREGRES'], '12-Lead ECG': ['EGDAT', 'QTCF', 'EGINTP'],
   'Investigator Global Assessment for Chronic Hand Eczema': ['HEADAT', 'ASSESSOR', 'IGACHE'], 'Hand Eczema Severity Index': ['HECSI'], 'Itch Numeric Rating Scale': ['ITCHNRS'],
   'Study Drug Dispensing and Accountability': ['EXDISP', 'EXKIT', 'EXDSPQ', 'EXRET', 'EXCOMPL'], 'Adverse Event': ['AETERM', 'AESTDAT', 'AEONGO', 'AEENDAT', 'AESEV', 'AESER', 'AEREL', 'AEACN', 'AEOUT'],
   'Concomitant Medication': ['CMTRT', 'CMINDC', 'CMDSTXT', 'CMDOSU', 'CMROUTE', 'CMSTDAT', 'CMONGO', 'CMENDAT'], Disposition: ['DSDECOD', 'EOSDAT'],
