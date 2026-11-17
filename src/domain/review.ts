@@ -11,6 +11,7 @@ import { ibFindings } from './ib'
 import { cipCoverage, cipFindings } from './cip'
 import { annex2Findings, elementsIn } from './annex2'
 import { adaptiveFindings } from './adaptive'
+import { JARGON_TERMS, findJargon } from '../shared/jargon'
 
 export type CommentKind = 'Correction' | 'Consistency' | 'Clarity' | 'Style' | 'Question'
 export const COMMENT_KINDS: CommentKind[] = ['Correction', 'Consistency', 'Clarity', 'Style', 'Question']
@@ -72,18 +73,8 @@ export function syllables(word: string): number {
   const s = w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '').replace(/^y/, '').match(/[aeiouy]{1,2}/g)
   return Math.max(1, s?.length ?? 1)
 }
-// Words a lay reader may not know, with plainer words (EU CTR Annex V lay summaries; common
-// plain-language guidance for patient documents).
-export const JARGON: [RegExp, string][] = [
-  [/\brandomi[sz]ed\b/i, 'put into a group by chance'], [/\bplacebo\b/i, 'a dummy treatment with no medicine in it'], [/\bdouble[- ]blind\b/i, 'neither you nor the study team know which treatment you get'],
-  [/\befficacy\b/i, 'how well it works'], [/\badverse events?\b/i, 'side effects or other health problems'], [/\bendpoints?\b/i, 'what the study measures'],
-  [/\bestimands?\b/i, 'the exact question the study answers'], [/\bintercurrent\b/i, 'something that happens during the study, such as stopping treatment'], [/\bprimary objective\b/i, 'main aim'],
-  [/\bparticipants?\b/i, 'people taking part'], [/\bpharmacokinetic/i, 'how the body handles the medicine'], [/\bconcomitant\b/i, 'other medicines you take'],
-  [/\bcontraindicat/i, 'reasons not to use'], [/\bbaseline\b/i, 'the start of the study'], [/\binclusion criteria\b/i, 'who can take part'], [/\bexclusion criteria\b/i, 'who cannot take part'],
-  [/\bsuperiority\b/i, 'better than'], [/\bnon-?inferiority\b/i, 'no worse than'], [/\bstatistically significant\b/i, 'unlikely to be due to chance'], [/\bcohort\b/i, 'group'],
-  [/\bsubcutaneous/i, 'under the skin'], [/\bintravenous/i, 'into a vein'], [/\boral(ly)?\b/i, 'by mouth'], [/\bhepat/i, 'liver'], [/\brenal\b/i, 'kidney'],
-  [/\bULN\b/, 'the upper limit of normal'], [/\bALT\b/, 'a liver blood test'], [/\bmitigat/i, 'reduce'], [/\bsponsor\b/i, 'the company running the study'], [/\bprotocol\b/i, 'the study plan'],
-]
+// Words a lay reader may not know, with plainer words: the dictionary shared with the Plain Language Lab.
+export const JARGON: [RegExp, string][] = JARGON_TERMS.map((t) => [t.re, t.plain])
 export interface PlainResult { words: number; sentences: number; wordsPerSentence: number; longWordsPct: number; fre: number; fkGrade: number; longSentences: string[]; jargon: { word: string; plain: string }[]; verdict: string }
 export function plainLanguage(text: string): PlainResult {
   const clean = text.replace(/\s+/g, ' ').trim()
@@ -94,7 +85,7 @@ export function plainLanguage(text: string): PlainResult {
   const fre = Math.round((206.835 - 1.015 * (W / S) - 84.6 * (syl / W)) * 10) / 10
   const fk = Math.round((0.39 * (W / S) + 11.8 * (syl / W) - 15.59) * 10) / 10
   const longWords = words.filter((w) => syllables(w) >= 3).length
-  const jargon = JARGON.flatMap(([re, plain]) => { const m = re.exec(clean); return m ? [{ word: m[0], plain }] : [] })
+  const jargon = findJargon(clean).map((j) => ({ word: j.word, plain: j.plain }))
   const longSentences = sents.filter((s) => (s.match(/[A-Za-z][A-Za-z'’-]*/g) ?? []).length > 25)
   const verdict = fk <= 8 ? 'Plain: most adults can read it.' : fk <= 12 ? 'Fairly difficult: shorten sentences and replace technical words for a lay reader.' : 'Difficult: written for specialists. A lay summary needs shorter sentences and everyday words.'
   return { words: words.length, sentences: sents.length, wordsPerSentence: Math.round((W / S) * 10) / 10, longWordsPct: Math.round((100 * longWords) / W), fre, fkGrade: fk, longSentences, jargon, verdict }
