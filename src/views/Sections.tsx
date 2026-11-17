@@ -2,6 +2,8 @@ import { dataForEdit } from '../domain/amend'
 import { useState } from 'react'
 import { useStore } from '../state'
 import { itemsFor } from '../domain/crosswalk'
+import { STANDARD_TEXT, textState } from '../domain/standard'
+import { ADAPTATIONS, ADAPTIVE_FIELDS, adaptiveFindings, adaptiveText, blankAdaptive } from '../domain/adaptive'
 import { useNav } from '../App'
 import { current } from '../domain/project'
 import { TOC, TITLE_ELEMENTS, DESIGN_ELEMENTS, CODELISTS, type ElementDef, type SectionDef } from '../domain/m11'
@@ -164,6 +166,15 @@ export default function Sections() {
       <div className="space-y-3">
         <Panel title={`${s.num === 'TP' ? '' : s.num + ' '}${s.title}`} right={<Pill tone={confTone(s.conf)}>{s.conf === 'R' ? 'Required' : s.conf === 'C' ? `Conditional: ${s.when}` : 'Optional'}</Pill>}>
           <p className="text-xs text-lab-text-muted">{s.guidance}</p>
+          {s.num === '4.2.5' && d.design['Adaptive Trial Design Indicator'] === 'Yes' && <AdaptivePanel />}
+          {STANDARD_TEXT[s.num] && (() => { const st = textState(d, s.num); return (
+            <div className="flex flex-wrap items-center gap-2 text-xs">
+              <Pill tone={st === 'reviewed' ? 'green' : st === 'edited' ? 'blue' : st === 'standard' ? 'amber' : 'grey'}>{st === 'reviewed' ? 'standard text reviewed for this trial' : st === 'edited' ? 'edited from the standard text' : st === 'standard' ? 'standard text, not yet reviewed' : 'standard text available'}</Pill>
+              {st === 'none' && <Btn tone="grey" className="px-2 py-0.5 text-xs" onClick={() => actD((x) => { x.narrative[s.num] = STANDARD_TEXT[s.num] })}>Insert the standard text</Btn>}
+              {st === 'standard' && <Btn tone="grey" className="px-2 py-0.5 text-xs" onClick={() => actD((x) => { x.reviewedText = [...new Set([...(x.reviewedText ?? []), s.num])] })}>Mark as reviewed for this trial</Btn>}
+              {st === 'reviewed' && <button className="underline text-lab-fda" onClick={() => actD((x) => { x.reviewedText = (x.reviewedText ?? []).filter((y) => y !== s.num) })}>Undo</button>}
+              {st === 'edited' && <button className="underline text-lab-fda" onClick={() => { if (window.confirm('Replace this section with the standard text?')) actD((x) => { x.narrative[s.num] = STANDARD_TEXT[s.num] }) }}>Restore the standard text</button>}
+            </div>) })()}
           {(() => { const it = itemsFor(s.num); return it.length ? <p className="text-xs text-lab-text-muted flex flex-wrap gap-1 items-center">Also serves: {it.map((x) => <span key={x.fw + x.id} title={x.text} className="rounded border border-lab-line px-1 font-mono">{x.fw} {x.id}</span>)}</p> : null })()}
           {mine.length > 0 && <ul className="space-y-1">{mine.map((f) => <li key={f.id} className="text-xs rounded border border-lab-red/40 bg-lab-red-soft/40 px-2 py-1"><span className="font-mono">{f.rule}</span> {f.text} <i className="text-lab-text-muted">{f.fix}</i></li>)}</ul>}
           <Structured s={s} d={d} act={actD} />
@@ -174,6 +185,23 @@ export default function Sections() {
           )}
         </Panel>
       </div>
+    </div>
+  )
+}
+
+// ICH E20 (draft) adaptive design fields, shown at 4.2.5 when the design is adaptive.
+function AdaptivePanel() {
+  const { p, act } = useStore()
+  const d = current(p!), a = d.adaptive ?? blankAdaptive(), fs = adaptiveFindings(d)
+  const set = (fn: (x: NonNullable<ProtocolData['adaptive']>) => void) => act((x) => { const dd = dataForEdit(x); dd.adaptive ??= blankAdaptive(); fn(dd.adaptive) })
+  return (
+    <div className="rounded border border-lab-amber/60 p-2 space-y-2 text-sm">
+      <p className="font-semibold">Adaptive design <Pill tone="amber">ICH E20 draft</Pill></p>
+      <p className="text-xs text-lab-text-muted">E20 reached Step 2 in June 2025; Step 4 is planned for February 2027. These fields follow the draft and may change.</p>
+      <div className="grid sm:grid-cols-2 gap-1">{ADAPTATIONS.map((x) => <label key={x.id} className="flex gap-2 text-xs"><input type="checkbox" checked={a.types.includes(x.id)} onChange={(e) => set((y) => { y.types = e.target.checked ? [...y.types, x.id] : y.types.filter((z) => z !== x.id) })} />{x.label}</label>)}</div>
+      {ADAPTIVE_FIELDS.map((f) => <label key={f.k} className="block text-xs text-lab-text-muted">{f.label}<TextArea className="min-h-16" placeholder={f.hint} value={a[f.k]} onChange={(e) => set((y) => { y[f.k] = e.target.value })} /></label>)}
+      {fs.length > 0 && <ul className="text-xs text-lab-amber list-disc pl-5">{fs.map((f) => <li key={f.id}>{f.text}</li>)}</ul>}
+      <Btn tone="grey" onClick={() => act((x) => { const dd = dataForEdit(x); dd.narrative['4.2.5'] = adaptiveText(dd.adaptive ?? blankAdaptive()) })}>Write 4.2.5 from these fields</Btn>
     </div>
   )
 }

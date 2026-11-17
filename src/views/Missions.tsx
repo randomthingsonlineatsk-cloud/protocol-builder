@@ -5,6 +5,10 @@ import { Btn, Panel, Pill, Select } from './ui'
 import { REGIONS, OPTIONS, CATEGORIES } from '../domain/amend'
 import { M10_CLAIMS, readEdcBuild, type EdcBuild } from '../domain/missions'
 import { current as currentData } from '../domain/project'
+import { LEGACY } from '../domain/legacy'
+import { AI_DRAFT, AI_ERR } from '../domain/aidraft'
+import { TOC } from '../domain/m11'
+import { dataForEdit } from '../domain/amend'
 
 export function MissionBar() {
   const { p, act } = useStore()
@@ -36,9 +40,11 @@ export function MissionBar() {
             </div>) })}
         </div>)}
       {m.handoff && <HandoffPanel />}
+      {m.legacy && <LegacyPanel />}
+      {m.aiReview && <AiReviewPanel />}
       <div className="flex flex-wrap items-center gap-3">
         <Btn tone="purple" onClick={() => act((x) => { submit(x) })}>{r.submittedUtc ? 'Submit again' : 'Submit'}</Btn>
-        {!m.questions && !m.classify && !m.handoff && <span className="text-xs text-lab-text-muted">Score now: {live.score} of 100</span>}
+        {!m.questions && !m.classify && !m.handoff && !m.legacy && !m.aiReview && <span className="text-xs text-lab-text-muted">Score now: {live.score} of 100</span>}
       </div>
       {r.detail && (
         <ul className="text-xs space-y-0.5 max-h-56 overflow-y-auto">{r.detail.map((x, i) => <li key={i} className={x.got >= x.of && x.of > 0 ? 'text-lab-cdsco' : x.got < 0 ? 'text-lab-red' : 'text-lab-text-muted'}>{x.of > 0 ? `${x.got}/${x.of}` : x.got} · {x.label}</li>)}</ul>)}
@@ -68,6 +74,46 @@ function HandoffPanel() {
             <Select aria-label={c.text} value={v} onChange={(e) => act((x) => { x.mission!.answers = { ...x.mission!.answers, [`claim:${c.id}`]: e.target.value } })} options={[{ value: '', label: '(choose)' }, { value: 'true', label: 'True of this build' }, { value: 'false', label: 'Not true' }]} /></div>
           {r.submittedUtc && b && <p className={v === truth ? 'text-lab-cdsco mt-1' : 'text-lab-amber mt-1'}>{v === truth ? 'Right. ' : `It is ${truth === 'true' ? 'true' : 'not true'} of this build. `}{c.why}</p>}
         </li>) })}</ul>
+    </div>
+  )
+}
+
+// M14: place each passage extracted from the legacy PDF in its M11 section.
+function LegacyPanel() {
+  const { p, act } = useStore()
+  const r = p!.mission!, ans = r.answers ?? {}
+  const opts = [{ value: '', label: '(choose the M11 section)' }, ...TOC.map((s) => ({ value: s.num, label: `${s.num} ${s.title}` }))]
+  const place = () => act((x) => { const d = dataForEdit(x); for (const l of LEGACY) { const n = x.mission!.answers?.[`map:${l.id}`]; if (!n || n === 'TP') continue; const cur = d.narrative[n] ?? ''; if (!cur.includes(l.text)) d.narrative[n] = cur.trim() ? `${cur.trim()}\n\n${l.text}` : l.text } })
+  const done = LEGACY.filter((l) => ans[`map:${l.id}`]).length
+  return (
+    <div className="mt-3 space-y-2">
+      <p className="text-xs text-lab-text-muted">Text extracted from HRP-201 v2.0 (PDF), in its original headings. {done} of {LEGACY.length} placed.</p>
+      <div className="max-h-[28rem] overflow-y-auto space-y-2 pr-1">{LEGACY.map((l) => { const v = ans[`map:${l.id}`] ?? ''; return (
+        <div key={l.id} className="rounded border border-lab-line/60 p-2 text-sm">
+          <p className="text-[11px] text-lab-text-muted font-mono">{l.id} · {l.old}</p>
+          <p className="my-1">{l.text}</p>
+          <div className="flex items-center gap-2"><Select aria-label={`M11 section for ${l.id}`} className="max-w-md" value={v} onChange={(e) => act((x) => { x.mission!.answers = { ...x.mission!.answers, [`map:${l.id}`]: e.target.value } })} options={opts} />
+            {r.submittedUtc && <span className={`text-xs ${l.m11.includes(v) ? 'text-lab-cdsco' : 'text-lab-amber'}`}>{l.m11.includes(v) ? 'Right' : `M11: ${l.m11.join(' or ')}`}</span>}</div>
+        </div>) })}</div>
+      <Btn tone="grey" onClick={place}>Place the text in the chosen sections</Btn>
+    </div>
+  )
+}
+
+// M15: mark each sentence of the AI-drafted text as correct or name its error.
+function AiReviewPanel() {
+  const { p, act } = useStore()
+  const r = p!.mission!, ans = r.answers ?? {}
+  const opts = [{ value: '', label: '(choose)' }, { value: 'ok', label: 'Correct' }, ...AI_ERR.map((e) => ({ value: e.id, label: e.label }))]
+  return (
+    <div className="mt-3 space-y-2">
+      <p className="text-xs text-lab-text-muted">Draft produced by a drafting assistant (simulated). Marked “AI-drafted: needs human review”.</p>
+      {AI_DRAFT.map((s) => { const v = ans[`ai:${s.id}`] ?? '', right = s.err ? v === s.err : v === 'ok'; return (
+        <div key={s.id} className="rounded border border-lab-line/60 p-2 text-sm">
+          <p><span className="font-mono text-[11px] text-lab-text-muted">{s.id} · {s.section}</span> {s.text}</p>
+          <div className="flex flex-wrap items-center gap-2 mt-1"><Select aria-label={`Review of ${s.id}`} className="max-w-xs" value={v} onChange={(e) => act((x) => { x.mission!.answers = { ...x.mission!.answers, [`ai:${s.id}`]: e.target.value } })} options={opts} />
+            {r.submittedUtc && <span className={`text-xs ${right ? 'text-lab-cdsco' : 'text-lab-amber'}`}>{right ? 'Right. ' : `${s.err ? AI_ERR.find((e) => e.id === s.err)!.label : 'Correct'}. `}{s.why}</span>}</div>
+        </div>) })}
     </div>
   )
 }

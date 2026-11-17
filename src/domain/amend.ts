@@ -177,3 +177,32 @@ export function amendmentFindings(p: Project): { id: string; text: string }[] {
   }
   return out
 }
+
+// ---------- downstream impact ----------
+// Which documents and systems built from the protocol must change with an amendment. The
+// protocol is the source; these follow it. Read from the sections the changes touch and from the
+// amendment's reasons.
+export interface Impact { doc: string; why: string; sections: string[]; action: string }
+const touches = (secs: string[], ...prefixes: string[]) => secs.filter((s) => prefixes.some((p) => s === p || s.startsWith(p + '.')))
+export function impactOf(p: Project): Impact[] {
+  const v = last(p), a = v.amendment
+  if (!a) return []
+  const prev = p.versions[p.versions.length - 2]
+  const items = prev ? diff(prev.data, v.data) : []
+  const secs = [...new Set([...a.changes.flatMap((c) => c.sections), ...items.map((i) => i.section)])]
+  const labels = items.map((i) => i.label).join(' ')
+  const out: Impact[] = []
+  const icf = touches(secs, '1.3', '2.2', '4.1', '5', '6.1', '6.3', '7', '8', '9', '11.3', '11.8')
+  if (icf.length) out.push({ doc: 'Informed consent form', sections: icf, why: 'Procedures, visits, risks, eligibility, treatment or data use that participants are told about have changed.', action: 'Update the ICF; have the ethics committee approve it; re-consent participants already enrolled where the change may affect their willingness to continue (ICH E6(R3)).' })
+  const ecrf = touches(secs, '1.3', '1.1.2', '5.2', '5.3', '6.1', '7', '8', '9.2', '12.1')
+  if (ecrf.length) out.push({ doc: 'eCRF, visit schedule and edit checks', sections: ecrf, why: 'The schedule, windows, criteria, dosing, assessments or the adverse event period read by the database have changed.', action: 'Change the database build and its edit checks, test them (UAT) and release a new build version before the amendment is in force at a site.' })
+  const sap = touches(secs, '3', '1.1.1', '10', '4.2.1')
+  if (sap.length || /participants|Sample size|estimand|endpoint/i.test(labels)) out.push({ doc: 'Statistical analysis plan', sections: sap.length ? sap : ['10'], why: 'Objectives, endpoints, estimands, analysis sets or the sample size have changed.', action: 'Amend the SAP (and the TLF shells) before unblinding, and record the change in the SAP history.' })
+  if (a.primaryReason === 'C207609' || a.secondaryReasons.includes('C207609') || touches(secs, '2.2', '9').length) out.push({ doc: "Investigator's Brochure and reference safety information", sections: touches(secs, '2.2', '9'), why: a.primaryReason === 'C207609' || a.secondaryReasons.includes('C207609') ? 'New safety information prompted the amendment.' : 'The risks or safety reporting have changed.', action: 'Make sure the new safety information is in the IB and its RSI, and that 9.2 cites the IB edition in force.' })
+  if (touches(secs, '6.7', '1.2').length || /Number of Arms|Randomisation|ratio/i.test(labels)) out.push({ doc: 'Randomisation and drug supply (IRT)', sections: touches(secs, '6.7', '1.2', '1.1.2'), why: 'Arms, allocation or blinding have changed.', action: 'Update the randomisation specification and the drug supply plan; test the IRT change.' })
+  if (touches(secs, '6.6', '6.1').length) out.push({ doc: 'Pharmacy manual and drug labels', sections: touches(secs, '6.6', '6.1'), why: 'Doses, presentation, storage or accountability have changed.', action: 'Revise the pharmacy manual; check the labels still match.' })
+  if (touches(secs, '12.1', '8.4').length) out.push({ doc: 'Laboratory manual and central laboratory set-up', sections: touches(secs, '12.1', '8.4'), why: 'Laboratory tests or their timing have changed.', action: 'Update the laboratory manual, the requisitions and the data transfer agreement.' })
+  if (secs.some((s) => ['TP', '1.1.2', '3', '5', '4.4'].some((x) => s === x || s.startsWith(x + '.'))) || /Title|participants/i.test(labels)) out.push({ doc: 'Trial registry records', sections: secs.filter((s) => ['TP', '1.1.2', '3', '5', '4.4'].some((x) => s === x || s.startsWith(x + '.'))), why: 'Registered data elements (titles, design, outcomes, eligibility, enrolment) may have changed.', action: 'Update ClinicalTrials.gov, CTIS and CTRI as each registry requires.' })
+  out.push({ doc: 'Site training and the trial master file', sections: secs, why: 'Every amendment.', action: 'Train site staff on the changes and file the approvals, the amended protocol and the training records.' })
+  return out
+}

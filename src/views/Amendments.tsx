@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { useStore } from '../state'
-import { approve, startAmendment, diff, wordDiff, draftChanges, amendmentFindings, CATEGORIES, OPTIONS, REGIONS, grade, categoryById, last } from '../domain/amend'
+import { startAmendment, diff, wordDiff, draftChanges, amendmentFindings, CATEGORIES, OPTIONS, REGIONS, grade, categoryById, last } from '../domain/amend'
+import { signState, sign, SIGN_ROLES } from '../domain/signoff'
+import { impactOf } from '../domain/amend'
 import { CODELISTS } from '../domain/m11'
 import CT from '../domain/ct-usdm.json'
 import type { Amendment, Change, Region } from '../domain/types'
-import { Btn, Panel, Pill, Select, TextArea, inputCls } from './ui'
+import { SignForm, Btn, Panel, Pill, Select, TextArea, inputCls } from './ui'
 
 const REASONS = (CT.codelists as unknown as Record<string, { terms: [string, string, string][] }>).C207415.terms.map(([c, , pt]) => ({ value: c, label: pt }))
 
@@ -29,12 +31,12 @@ export default function Amendments() {
   const prevItems = n > 1 ? diff(p!.versions[n - 2].data, v.data) : []
   return (
     <div className="space-y-4">
-      <Panel title="Versions" sub="Approve a version to freeze it; an amendment starts the next version from it. Older versions stay as they were.">
+      <Panel title="Versions" sub="A version is approved by sign-off: the author, a reviewer and the approver each sign, with the meaning of the signature recorded. Approval freezes the version; an amendment starts the next version from it.">
         <ul className="space-y-1 text-sm">{p!.versions.map((x, i) => <li key={i} className="flex flex-wrap items-center gap-2"><span className="font-mono">Version {x.number}</span><Pill tone={x.status === 'approved' ? 'green' : 'amber'}>{x.status}</Pill><span className="text-xs text-lab-text-muted">{x.date}{x.amendment ? ` · amendment ${x.amendment.identifier}` : ' · original protocol'}</span></li>)}</ul>
         <div className="flex gap-2">
-          <Btn tone="green" disabled={v.status === 'approved'} onClick={() => act((x) => approve(x))}>Approve version {v.number}</Btn>
           <Btn disabled={v.status !== 'approved'} onClick={() => act((x) => startAmendment(x))}>Start amendment (version {Math.floor(Number(v.number) || 0) + 1}.0)</Btn>
         </div>
+        <SignOff />
       </Panel>
 
       {n > 1 && (
@@ -88,8 +90,30 @@ export default function Amendments() {
           <p className="text-[11px] text-lab-text-muted">Bases: {REGIONS.map((r) => `${r.id}: ${r.basis}`).join(' · ')}. The key is this app's reading of those texts for teaching, not regulatory advice.</p>
         </Panel>
 
+        <Panel title="Downstream impact" sub="The documents and systems built from the protocol that must change with this amendment, read from the sections it touches and its reasons.">
+          <ul className="space-y-1 text-sm">{impactOf(p!).map((x) => <li key={x.doc}><b>{x.doc}</b>{x.sections.length && x.doc !== 'Site training and the trial master file' ? <span className="text-xs text-lab-text-muted"> (sections {x.sections.join(', ')})</span> : null}. {x.why} <span className="text-lab-text-muted">{x.action}</span></li>)}</ul>
+        </Panel>
         <Panel title="Amendment checks">{findings.length ? <ul className="text-xs space-y-0.5">{findings.map((f) => <li key={f.id}><span className="font-mono text-lab-amber">{f.id.split(':')[0]}</span> {f.text}</li>)}</ul> : <p className="text-sm text-lab-cdsco">The amendment is complete.</p>}</Panel>
       </>)}
+    </div>
+  )
+}
+
+// Author, reviewer and approver signatures; the approver's signature approves the version.
+function SignOff() {
+  const { p, act } = useStore()
+  const [err, setErr] = useState('')
+  const st = signState(p!)
+  return (
+    <div className="mt-3 space-y-2">
+      <p className="text-sm font-semibold">Sign-off of version {last(p!).number}</p>
+      <div className="grid md:grid-cols-3 gap-2">{st.map((s) => { const r = SIGN_ROLES.find((x) => x.role === s.role)!; return (
+        <div key={s.role} className="rounded border border-lab-line/60 p-2 text-xs space-y-1">
+          <p className="flex items-center gap-2"><b>{s.role}</b>{s.valid ? <Pill tone="green">signed</Pill> : s.sig ? <Pill tone="red">void: content changed</Pill> : <Pill>not signed</Pill>}</p>
+          {s.sig && <p className="text-lab-text-muted">{s.sig.name}, {s.sig.title} · {s.sig.utc.replace('T', ' ').slice(0, 16)} UTC<br />Meaning: {s.sig.meaning}</p>}
+          {s.canSign ? <SignForm meaning={r.meaning} label={`Sign as ${s.role.toLowerCase()}`} who={{ name: '', role: r.who }} onSign={(x) => { try { act((pp) => sign(pp, s.role, x.name, x.role)); setErr('') } catch (e) { setErr((e as Error).message) } }} /> : !s.valid && <p className="text-lab-amber">{s.blocked}</p>}
+        </div>) })}</div>
+      {err && <p className="text-xs text-lab-red">{err}</p>}
     </div>
   )
 }

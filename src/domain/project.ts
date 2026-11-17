@@ -5,6 +5,9 @@ import { findings, counts } from './rules'
 import { usdmOf, checkUsdm, protocolFromUsdm } from './usdm'
 import { hrpIb } from './ib'
 import { blankCip } from './cip'
+import { signState } from './signoff'
+import { impactOf } from './amend'
+import { withStandardText } from './standard'
 
 export const FORMAT = 'protocol-builder-project' as const
 export const HANDOFF = 'protocol-builder-handoff' as const
@@ -33,7 +36,7 @@ export function newProject(name: string, data: ProtocolData, source: Project['so
   return { format: FORMAT, schema: SCHEMA, id: `P-${rid()}`, name, userId: l.userId, classId: l.classId, type: 'drug', phase, regions: ['US', 'EU', 'IN'], source,
     createdUtc: now(), updatedUtc: now(), versions: [{ number: data.title['Version Number'] || '0.1', date: now().slice(0, 10), status: 'draft', data }], marks: {} }
 }
-export const blankProject = (name = 'New protocol') => newProject(name, emptyData(), 'blank')
+export const blankProject = (name = 'New protocol') => newProject(name, withStandardText(emptyData()), 'blank')
 // A device project holds a clinical investigation plan (ISO 14155) instead of an M11 protocol.
 export function deviceProject(name = 'New clinical investigation plan', source: Project['source'] = 'blank'): Project {
   const p = newProject(name, emptyData(), source, 'Device')
@@ -41,7 +44,7 @@ export function deviceProject(name = 'New clinical investigation plan', source: 
   return p
 }
 export const exampleProject = (id: ExampleId) => { const p = newProject(EXAMPLES[id].name, EXAMPLES[id].data(), 'example', EXAMPLES[id].phase); if (id === 'HRP-301') p.ib = hrpIb(); return p }
-export const libraryProject = (name: string, product: string, indication: string, design: string, phase: string, protocolId: string) => newProject(name, fromLibrary(product, indication, design, phase, protocolId), 'library', phase)
+export const libraryProject = (name: string, product: string, indication: string, design: string, phase: string, protocolId: string) => newProject(name, withStandardText(fromLibrary(product, indication, design, phase, protocolId)), 'library', phase)
 export function usdmProject(text: string, name: string): Project {
   let u: unknown
   try { u = JSON.parse(text) } catch { throw new Error('The file is not JSON.') }
@@ -64,7 +67,7 @@ export function lifecycleProject(): Project {
 
 export const current = (p: Project) => p.versions[p.versions.length - 1].data
 // The current amendment and the ones before it, for the printed and Word protocol.
-export const docOpts = (p: Project) => ({ amendment: p.versions[p.versions.length - 1].amendment, prior: p.versions.slice(0, -1).flatMap((v) => (v.amendment ? [v.amendment] : [])) })
+export const docOpts = (p: Project) => ({ amendment: p.versions[p.versions.length - 1].amendment, prior: p.versions.slice(0, -1).flatMap((v) => (v.amendment ? [v.amendment] : [])), impacts: impactOf(p), signatures: signState(p).flatMap((s) => (s.sig ? [{ ...s.sig, valid: s.valid }] : [])) })
 // The USDM export of the current version, with every amendment so far.
 export const usdmOfProject = (p: Project) => usdmOf(current(p), { amendments: p.versions.flatMap((v) => (v.amendment ? [v.amendment] : [])) })
 export const protocolId = (p: Project) => (p.type === 'device' ? p.cip?.number || '(no CIP reference)' : current(p).title['Sponsor Protocol Identifier'] || '(no identifier)')

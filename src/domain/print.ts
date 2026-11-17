@@ -18,7 +18,7 @@ export function soaGrid(d: ProtocolData) {
   return table(head, rows) + d.procedures.filter((p) => p.footnote).map((p) => `<p class="fn">${esc(p.footnote)}</p>`).join('')
 }
 
-export interface DocOpts { amendment?: Amendment; prior?: Amendment[] }
+export interface DocOpts { amendment?: Amendment; prior?: Amendment[]; impacts?: { doc: string; action: string }[]; signatures?: { role: string; name: string; title: string; meaning: string; utc: string; valid: boolean }[] }
 export const reasonName = (c: string) => (CT.codelists as unknown as Record<string, { terms: [string, string, string][] }>).C207415.terms.find((t) => t[0] === c)?.[2] ?? c
 export function amendmentRows(a: Amendment): [string, string][] {
   return [['Amendment identifier', a.identifier], ['Amendment scope', a.scope + (a.scopeDetail ? ` (${a.scopeDetail})` : '')], ['Approximate % enrolled at sponsor approval', a.enrolledPct ? `${a.enrolledPct}%` : ''], ['Primary reason', reasonName(a.primaryReason)], ['Secondary reasons', a.secondaryReasons.map(reasonName).join('; ')], ['Amendment summary', a.summary], ['Substantial impact on safety or rights', a.safetyRights], ['Impact on reliability and robustness of the data', a.dataImpact]]
@@ -60,7 +60,8 @@ export function protocolHtml(d: ProtocolData, opts: DocOpts = {}) {
   .note { font: 8pt sans-serif; color: #555 } ol.crit { list-style: none; padding: 0 } ol.crit li { margin-bottom: 1mm }
   </style></head><body>
   <section class="tp"><p class="note">Fictional protocol written in the Protocol Builder (training only). ICH M11 CeSHarP structure.</p><h1>${esc(d.title['Full Title'])}</h1>${tp}</section>
-  ${opts.amendment ? `<section class="tp"><h2>Amendment details</h2>${table(['', ''], amendmentRows(opts.amendment).filter((r) => r[1]).map((r) => r.map(esc)))}<h3>Overview of changes in the current amendment</h3>${table(['Section', 'Description of change', 'Brief rationale'], changeRows(opts.amendment).map((r) => r.slice(0, 3).map(esc)))}</section>` : ''}
+  ${opts.signatures?.length ? `<section class="tp"><h2>Signatures</h2>${table(['Role', 'Name and title', 'Date and time (UTC)', 'Meaning'], opts.signatures.map((g) => [g.role, `${g.name}, ${g.title}${g.valid ? '' : ' (void: content changed after signing)'}`, g.utc.replace('T', ' ').slice(0, 16), g.meaning].map(esc)))}</section>` : ''}
+  ${opts.amendment ? `<section class="tp"><h2>Amendment details</h2>${table(['', ''], amendmentRows(opts.amendment).filter((r) => r[1]).map((r) => r.map(esc)))}<h3>Overview of changes in the current amendment</h3>${table(['Section', 'Description of change', 'Brief rationale'], changeRows(opts.amendment).map((r) => r.slice(0, 3).map(esc)))}${opts.impacts?.length ? `<h3>Documents to update</h3>${table(['Document', 'Action'], opts.impacts.map((i) => [esc(i.doc), esc(i.action)]))}` : ''}</section>` : ''}
   <nav class="toc"><h2>Table of contents</h2>${TOC.filter((s) => s.num !== 'TP' && s.num.split('.').length <= 2).map((s) => `<a href="#s${s.num}">${esc(s.num)} ${esc(s.title)}</a>`).join('')}</nav>
   ${body.join('\n')}
   </body></html>`

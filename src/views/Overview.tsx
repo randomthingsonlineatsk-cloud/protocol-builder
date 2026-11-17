@@ -3,6 +3,7 @@ import { useNav } from '../App'
 import { current, status } from '../domain/project'
 import { REQUIRED_TEXT, GROUPS, RULES } from '../domain/rules'
 import { burden } from '../domain/missions'
+import { complexity } from '../domain/complexity'
 import { checkUsdm, usdmOf } from '../domain/usdm'
 import { Panel, Stat, Table, Btn } from './ui'
 
@@ -20,7 +21,7 @@ export default function Overview() {
         <Stat label="Low" value={st.low} />
         <Stat label="Required sections written" value={`${written}/${REQUIRED_TEXT.length}`} tone={written === REQUIRED_TEXT.length ? 'green' : 'amber'} />
         <Stat label="USDM errors" value={usdm.filter((i) => i.level === 'error').length} tone={usdm.some((i) => i.level === 'error') ? 'red' : 'green'} />
-        <Stat label="Time on site per participant" value={`${Math.round(b.minutes / 60 * 10) / 10} h`} />
+        <Stat label="Complexity score" value={`${complexity(d).score} (${complexity(d).band.toLowerCase()})`} tone={complexity(d).band === 'High' ? 'red' : complexity(d).band === 'Moderate' ? 'amber' : 'green'} />
       </div>
       <div className="grid lg:grid-cols-2 gap-4">
         <Panel title="Open findings by group" right={<Btn tone="grey" onClick={() => go('checks')}>Open the checks</Btn>}>
