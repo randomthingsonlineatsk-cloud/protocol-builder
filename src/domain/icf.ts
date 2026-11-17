@@ -12,7 +12,7 @@ export const GAP = '[To be written:'
 export const SITE = '[Site to complete:'
 export interface DocSection { id: string; heading: string; text: string }
 
-const lc = (s: string) => s.charAt(0).toLowerCase() + s.slice(1)
+const lc = (s: string) => (/^[A-Z][a-z]/.test(s) ? s.charAt(0).toLowerCase() + s.slice(1) : s)
 function chance(d: ProtocolData) {
   const tot = d.arms.reduce((n, a) => n + a.ratio, 0) || 1
   const pbo = d.arms.filter((a) => a.type === 'Placebo').reduce((n, a) => n + a.ratio, 0)
@@ -20,8 +20,8 @@ function chance(d: ProtocolData) {
   return { groups: d.arms.length, pbo: pbo ? frac(pbo) : '', each: d.arms.map((a) => `${a.name} (${frac(a.ratio)})`).join(', ') }
 }
 
-export function icfSections(p: Project): DocSection[] {
-  const d = p.versions[p.versions.length - 1].data, t = d.title, f = d.facts
+export function icfSections(p: Project, version = p.versions.length - 1): DocSection[] {
+  const d = p.versions[version].data, t = d.title, f = d.facts
   const cond = d.design['Population Diagnosis or Condition'] || 'the condition studied'
   const prod = t['Investigational Product Name(s)'] || 'the study medicine'
   const onSite = d.visits.filter((v) => v.type === 'On site').length, other = d.visits.length - onSite
@@ -54,7 +54,7 @@ export function icfSections(p: Project): DocSection[] {
     { id: 'contacts', heading: 'Who to contact', text: `For questions about the study or if you think you have been harmed by it: ${SITE} the study doctor’s name and 24-hour telephone number]. For questions about your rights as a participant: ${SITE} the ethics committee’s name and telephone number].` },
     { id: 'consent', heading: 'Consent', text: 'I have read this information (or it has been read to me), had time to ask questions and to discuss it with others, and my questions were answered. I agree to take part. I will receive a signed copy of this form.\n\nParticipant name, signature, date: ____________\nPerson obtaining consent, signature, date: ____________\nImpartial witness (if the participant cannot read), signature, date: ____________' },
   ]
-  const o = p.docs?.icf ?? {}
+  const o = version === p.versions.length - 1 ? p.docs?.icf ?? {} : {}
   return s.map((x) => ({ ...x, text: o[x.id] ?? x.text }))
 }
 

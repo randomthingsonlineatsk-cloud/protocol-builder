@@ -9,10 +9,15 @@ import { sapOutline } from '../domain/sap'
 import { registries, registryIssues, registriesFor, registryUpdates, REGISTRIES, type RegistryId } from '../domain/registry'
 import { siteBudget, budgetCsv, DEFAULTS, type BudgetKey } from '../domain/budget'
 import { rtsmSpec } from '../domain/rtsm'
+import { deviationPlan, deviationCsv } from '../domain/deviations'
+import { laySummary, layText } from '../domain/laysummary'
+import { plainLanguage } from '../domain/review'
+import { reconsent } from '../domain/reconsent'
 import { download } from '../domain/store'
+import { wordDiff } from '../domain/amend'
 import { Btn, Panel, Pill, Table, Tabs, TextArea, inputCls } from './ui'
 
-type Tab = 'icf' | 'sap' | 'registry' | 'budget' | 'rtsm'
+type Tab = 'icf' | 'sap' | 'registry' | 'budget' | 'rtsm' | 'deviations' | 'lay'
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 const saveDocx = async (file: string, title: string, secs: DocSection[]) => { const { sectionsDocxBlob } = await import('../domain/docx'); const b = await sectionsDocxBlob(title, secs); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = file; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000) }
 function Downloads({ file, title, secs }: { file: string; title: string; secs: DocSection[] }) {
@@ -34,11 +39,18 @@ export default function Documents() {
   const [tab, setTab] = useState<Tab>('icf')
   return (
     <div className="space-y-3">
-      <Tabs tabs={[{ id: 'icf', label: 'Informed consent form' }, { id: 'sap', label: 'SAP outline' }, { id: 'registry', label: 'Registry entries' }, { id: 'budget', label: 'Site budget' }, { id: 'rtsm', label: 'Randomisation and supply (RTSM)' }]} value={tab} onChange={setTab} />
+      <Tabs tabs={[{ id: 'icf', label: 'Informed consent form' }, { id: 'sap', label: 'SAP outline' }, { id: 'registry', label: 'Registry entries' }, { id: 'budget', label: 'Site budget' }, { id: 'rtsm', label: 'Randomisation and supply (RTSM)' }, { id: 'deviations', label: 'Deviation plan' }, { id: 'lay', label: 'Lay summary' }]} value={tab} onChange={setTab} />
       {tab === 'icf' && <Icf />}
       {tab === 'sap' && <Panel title="Statistical analysis plan: outline" sub="Headings follow the published guidance on SAP content (Gamble et al., JAMA 2017) with ICH E9 and E9(R1). The estimands, analysis sets, sample size and multiplicity come from the protocol." right={<Downloads file={`${id}_SAP_outline`} title={`${d.title['Trial Acronym'] ?? id}: statistical analysis plan (outline)`} secs={sapOutline(d)} />}><Sections secs={sapOutline(d)} /></Panel>}
       {tab === 'registry' && <Registries />}
       {tab === 'budget' && <BudgetGrid />}
+      {tab === 'deviations' && (() => { const rows = deviationPlan(d); return <Panel title="Important protocol deviations plan" sub="Drafted from the criteria, the primary endpoint's visits and windows, the dosing, the stopping rules, the blinding and safety reporting: what counts as an important deviation, how it is found and how it is handled. Agree it before the first participant and before unblinding." right={<Btn tone="grey" onClick={() => download(`${id}_deviation_plan.csv`, deviationCsv(rows), 'text/csv')}>Download CSV</Btn>}>
+        <Table head={['ID', 'Category', 'Deviation', 'Important', 'How it is found', 'Handling', 'Section']} rows={rows.map((r) => [<span className="font-mono">{r.id}</span>, r.category, r.text, r.important ? <Pill tone="amber">Important</Pill> : 'No', <span className="text-xs">{r.detect}</span>, <span className="text-xs">{r.handling}</span>, r.source])} />
+      </Panel> })()}
+      {tab === 'lay' && (() => { const secs = laySummary(d), pl = plainLanguage(layText(secs)); return <Panel title="Summary of results for laypersons (EU CTR Annex V)" sub="The ten required elements. What the protocol knows is drafted in plain words now; the results, side effects and comments are written after the trial. Submitted with the results summary within one year of the end of the trial." right={<Downloads file={`${id}_lay_summary`} title={`${d.title['Trial Acronym'] ?? id}: summary of results for laypersons`} secs={secs} />}>
+        <p className="text-xs mb-3">Reading level of the drafted text: grade <b>{pl.fkGrade}</b> (Flesch reading ease {pl.fre}), {pl.wordsPerSentence} words a sentence. <i>{pl.verdict}</i>{pl.jargon.length > 0 && <> Words to replace: {pl.jargon.slice(0, 8).map((j) => `“${j.word}” → ${j.plain}`).join('; ')}.</>}</p>
+        <Sections secs={secs} />
+      </Panel> })()}
       {tab === 'rtsm' && <Panel title="RTSM specification" sub="The randomisation and trial supply system’s requirements, drafted from the design, the arms, the dosing and the dispensing visits." right={<Downloads file={`${id}_RTSM_specification`} title={`${d.title['Trial Acronym'] ?? id}: RTSM specification`} secs={rtsmSpec(d)} />}><Sections secs={rtsmSpec(d)} /></Panel>}
     </div>
   )
@@ -57,6 +69,7 @@ function Icf() {
     const R: { r: 'US' | 'EU' | 'IN'; name: string }[] = [{ r: 'US', name: 'US: 21 CFR 50.25' }, { r: 'EU', name: 'EU: CTR Article 29' }, { r: 'IN', name: 'India: NDCT Rules, Third Schedule Table 3' }]
     return (
       <div className="grid lg:grid-cols-[1fr_24rem] gap-4">
+        {(() => { const rc = reconsent(p!); return rc && rc.needed !== 'None' ? <div className="lg:col-span-2"><ReconsentPanel /></div> : null })()}
         <Panel title="Participant information and consent form" sub="Generated from the protocol in plain words. Edit any section; “regenerate” returns it to the generated text. Marked gaps are for you; site details are for the site." right={<Downloads file={`${id}_ICF`} title={`${d.title['Trial Acronym'] ?? id}: participant information and consent form`} secs={secs} />}>
           <Sections secs={secs} edit={set} reset={reset} />
         </Panel>
@@ -110,3 +123,19 @@ function BudgetGrid() {
       </Panel>
     )
   }
+
+// After an amendment: what changes in the consent form and whether participants sign again.
+export function ReconsentPanel() {
+  const { p } = useStore()
+  const rc = reconsent(p!)
+  if (!rc) return null
+  return (
+    <Panel title="Consent form after this amendment" sub="The consent form drafted from the previous version and from this one, compared." right={<Pill tone={rc.needed === 'Re-consent' ? 'red' : rc.needed === 'Inform' ? 'amber' : 'green'}>{rc.needed === 'Re-consent' ? 'Re-consent needed' : rc.needed === 'Inform' ? 'Inform participants' : 'No change'}</Pill>}>
+      <p className="text-sm">{rc.reason}</p>
+      {rc.steps.length > 0 && <ol className="list-decimal pl-5 text-sm space-y-1 mt-2">{rc.steps.map((s) => <li key={s}>{s}</li>)}</ol>}
+      {rc.changes.length > 0 && <details className="mt-2 text-sm"><summary className="cursor-pointer text-lab-text-muted">Changed sections ({rc.changes.length})</summary>
+        <div className="space-y-2 mt-2">{rc.changes.map((c) => <div key={c.id}><p className="font-semibold">{c.heading}{c.decisive && <> <Pill tone="amber">affects the decision to stay</Pill></>}</p>
+          <p className="text-xs">{wordDiff(c.before, c.after).map((g, i) => <span key={i} className={g.t === '+' ? 'bg-lab-cdsco/25' : g.t === '-' ? 'line-through text-lab-red' : ''}>{g.s}</span>)}</p></div>)}</div></details>}
+    </Panel>
+  )
+}
