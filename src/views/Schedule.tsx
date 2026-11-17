@@ -1,10 +1,12 @@
 import { dataForEdit } from '../domain/amend'
+import { ELEMENTS, elementsIn, annex2Findings } from '../domain/annex2'
 import { useStore } from '../state'
 import { current } from '../domain/project'
 import { findings } from '../domain/rules'
-import { burden, m3Target } from '../domain/missions'
+import { burden, m3Target, m13Target } from '../domain/missions'
+import { complexity } from '../domain/complexity'
 import type { ProtocolData, Procedure, Visit } from '../domain/types'
-import { Btn, Panel, Select, Stat, inputCls } from './ui'
+import { Btn, Panel, Select, Stat, inputCls, Pill } from './ui'
 
 const PURPOSES = ['endpoint', 'safety', 'eligibility', 'conduct'] as const
 
@@ -26,6 +28,7 @@ export default function Schedule() {
         <Stat label="Time on site per participant" value={`${b.minutes} min`} tone={p!.mission?.id === 'M3' && b.minutes > m3Target() * 1.1 ? 'red' : 'grey'} />
         <Stat label="Blood per participant" value={`${b.blood} mL`} />
       </div>
+      <ComplexityPanel d={d} target={p!.mission?.id === 'M13' ? m13Target() : undefined} />
       {p!.mission?.id === 'M3' && <p className="text-xs text-lab-text-muted">Mission target: at most {Math.round(m3Target() * 1.1)} minutes on site per participant.</p>}
       {fs.length > 0 && <Panel title="Open findings here"><ul className="space-y-1">{fs.map((f) => <li key={f.id} className="text-xs"><span className="font-mono text-lab-red">{f.rule}</span> {f.text} <i className="text-lab-text-muted">{f.fix}</i></li>)}</ul></Panel>}
       <Panel title="Schedule of activities (1.3)" sub="Tick a procedure at each visit where it is done. Continuous procedures (adverse events, medications) run from the visit chosen.">
@@ -89,6 +92,41 @@ export default function Schedule() {
           </div>
         </Panel>
       </div>
+      <Annex2Panel />
     </div>
+  )
+}
+
+// Decentralised and pragmatic elements (ICH E6(R3) Annex 2) as design options, with their checks.
+function Annex2Panel() {
+  const { p, act } = useStore()
+  const d = current(p!), on = elementsIn(d), fs = annex2Findings(d)
+  const auto = (id: string) => (id === 'remote' && d.visits.some((v) => v.type === 'Remote' || v.type === 'Phone')) || (id === 'home' && d.visits.some((v) => v.type === 'Home nurse'))
+  return (
+    <Panel title="Decentralised and pragmatic elements (ICH E6(R3) Annex 2)" sub="Annex 2 was adopted by ICH on 3 June 2026 and applies in the EU from 15 January 2027. Choose the elements this trial uses; remote and home visits are picked up from the visit types above. Each element needs its arrangements written into the protocol.">
+      <div className="grid md:grid-cols-2 gap-2 text-sm">{ELEMENTS.map((e) => (
+        <label key={e.id} className="flex gap-2 items-start rounded border border-lab-line p-2">
+          <input type="checkbox" checked={on.includes(e.id)} disabled={auto(e.id)} onChange={(ev) => act((x) => { const dd = dataForEdit(x); const set = new Set(dd.annex2 ?? []); if (ev.target.checked) set.add(e.id); else set.delete(e.id); dd.annex2 = [...set] })} />
+          <span><b>{e.name}</b>{auto(e.id) ? ' (from the visit types)' : ''}<br /><span className="text-xs text-lab-text-muted">{e.what} Sections: {e.sections.join(', ')}.</span></span>
+        </label>))}</div>
+      {on.length > 0 && (fs.length ? <ul className="space-y-1 text-sm">{fs.map((f) => <li key={f.id} className="flex gap-2"><Pill className="shrink-0" tone={f.severity === 'medium' ? 'amber' : 'grey'}>{f.severity}</Pill><span className="font-mono text-xs whitespace-nowrap">{f.rule}</span><span>{f.text} <span className="text-xs text-lab-text-muted">{f.fix}</span></span></li>)}</ul> : <p className="text-sm text-lab-cdsco">Every element’s arrangements are written.</p>)}
+    </Panel>
+  )
+}
+
+// Complexity and burden score with the amendment-risk flags (a teaching measure, not a validated index).
+function ComplexityPanel({ d, target }: { d: ProtocolData; target?: number }) {
+  const c = complexity(d), tone = (x: string) => (x === 'High' ? 'red' : x === 'Medium' || x === 'Moderate' ? 'amber' : 'green') as 'red' | 'amber' | 'green'
+  return (
+    <Panel title="Complexity and burden" sub="A teaching score from the protocol’s structure (0 to 100): under 35 low, 35 to 55 moderate, over 55 high. Industry analyses link heavier protocols to more amendments and higher dropout." right={<span className="flex gap-1"><Pill tone={tone(c.band)}>{`Score ${c.score}: ${c.band.toLowerCase()}`}</Pill><Pill tone={tone(c.risk)}>{`Amendment risk: ${c.risk.toLowerCase()}`}</Pill></span>}>
+      {target !== undefined && <p className="text-xs">Mission target: a score of at most <b>{target}</b>.</p>}
+      <div className="grid md:grid-cols-2 gap-3">
+        <table className="text-xs w-full"><thead><tr className="text-left text-lab-text-muted"><th>Driver</th><th className="text-right">Value</th><th className="text-right">Points</th></tr></thead>
+          <tbody>{c.factors.map((f) => <tr key={f.id} className="border-t border-lab-line/60" title={f.note}><td className="py-0.5">{f.label}</td><td className="text-right font-mono">{f.value}{f.unit && ` ${f.unit}`}</td><td className="text-right font-mono">{f.points}/{f.max}</td></tr>)}</tbody></table>
+        <table className="text-xs w-full"><thead><tr className="text-left text-lab-text-muted"><th>Visit</th><th className="text-right">Procedures</th><th className="text-right">Minutes</th><th className="text-right">Blood mL</th></tr></thead>
+          <tbody>{c.visits.map((v) => <tr key={v.id} className="border-t border-lab-line/60"><td className="py-0.5">{v.name}{v.type !== 'On site' && <span className="text-lab-text-muted"> ({v.type.toLowerCase()})</span>}</td><td className="text-right font-mono">{v.procedures}</td><td className={`text-right font-mono ${v.minutes > 120 ? 'text-lab-red' : ''}`}>{v.minutes}</td><td className="text-right font-mono">{v.bloodMl}</td></tr>)}</tbody></table>
+      </div>
+      {c.flags.length > 0 ? <ul className="text-xs space-y-1 mt-2">{c.flags.map((f) => <li key={f.id}><span className="text-lab-amber">⚑</span> {f.text} <i className="text-lab-text-muted">{f.fix}</i></li>)}</ul> : <p className="text-xs text-lab-cdsco mt-2">No amendment-risk flags.</p>}
+    </Panel>
   )
 }

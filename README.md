@@ -39,11 +39,23 @@ Training only. All protocols, products and sponsors are fictional.
    missing data and sensitivity analysis for section 10.
 4. **Schedule of activities**: visits with study days, windows, epochs and type (on site, remote,
    phone, home nurse), procedures by visit, what each procedure serves, and the burden per
-   participant (time on site, blood volume).
+   participant (time on site, blood volume). A **complexity and burden score** (0 to 100, a
+   teaching measure) counts procedures, endpoints, data points, on-site visits, criteria, time and
+   blood, shows the load of each visit, and raises **amendment-risk flags** (many criteria,
+   procedures that serve no endpoint, visits over two hours, tight windows, on-site visits that
+   collect nothing). Visits marked remote or home nurse, and the decentralised and pragmatic
+   elements chosen from **ICH E6(R3) Annex 2** (effective in the EU from 15 January 2027), are
+   checked for the arrangements each needs (PB-DC01 to PB-DC09).
+   **Feasibility**: the criteria run against 10,000 synthetic patients (fixed seed) with an
+   editable pass rate each, giving the pre-screening and screening funnel, the screen failure
+   rate, recruitment per site per month and the months to full recruitment as sites open.
 5. **Consistency checks**: 40 rules in eight groups (completeness, synopsis against body,
    objectives and estimands, schedule against endpoints, eligibility against population,
    intervention, statistics, safety and oversight). Fix a finding at its source, or justify it.
-6. **Versions and amendments**: approve a version to freeze it, then start an amendment (the next
+6. **Versions and amendments**: a version is approved by **sign-off**: author, reviewer and
+   approver, three different people, each signature showing the printed name, date and time and
+   its meaning (21 CFR 11.50) and linked to a hash of the content, so an edit after signing voids
+   it; the reviewer cannot sign with corrections open. Approval freezes the version; then start an amendment (the next
    version, with Original Protocol Indicator No and an Amendment Identifier). Tracked changes
    compare any two versions, element by element and word by word. The amendment details follow
    M11: scope, percentage enrolled, primary and secondary reasons (CDISC C207415), summary, and
@@ -57,7 +69,18 @@ Training only. All protocols, products and sponsors are fictional.
      immediate change to remove a hazard, ethics committee approval with CDSCO informed, new
      application).
    The app's key, with the reason for each answer, checks your classification; a different
-   answer counts when you justify it.
+   answer counts when you justify it. Each amendment lists its **downstream impact**: the
+   consent form, the eCRF and edit checks, the SAP, the IB and its reference safety information,
+   the IRT, the pharmacy and laboratory manuals, the registry records and site training.
+7. **Pre-filled standard text**: common template wording for 13 sections, marked as standard,
+   edited or reviewed. **ICH E20 adaptive design fields** (labelled as a draft: Step 2 in June
+   2025, Step 4 planned for February 2027) appear at 4.2.5 when the design is adaptive.
+8. **Documents** generated from the protocol: the **consent form**, checked against 21 CFR 50.25,
+   EU CTR Article 29 and NDCT Rules Third Schedule Table 3; a **SAP outline** with the estimands
+   and the list of tables, figures and listings; **registry entries** for ClinicalTrials.gov,
+   EU CTIS and CTRI, with the fields and deadlines to update after an amendment; a **per-visit
+   site budget** (illustrative rates, editable); and an **RTSM specification** (randomisation,
+   kits, dispensing, resupply, emergency unblinding).
 7. **Cross-walks**: the protocol read against four other lists of protocol content, item by
    item, with a coverage score and the gaps: SPIRIT 2025 (34 items), EU Regulation 536/2014 Annex I
    section D (paragraphs 15 to 24, with 17(a) to (am)), India's NDCT Rules 2019 Third Schedule
@@ -121,10 +144,13 @@ example and a quiz.
 | M10 | Hand off: export USDM, let the EDC Study Build Lab draft a build, and report what it missed |
 | M11 | Write teravelin's Investigator's Brochure and bring NORTHFELL-2 into line with it |
 | M12 | Write the ISO 14155:2026 CIP for a fictional wearable ECG patch |
+| M13 | Cut VERDANT-1's burden without losing an endpoint or weakening safety monitoring |
+| M14 | Convert HRP-201 from a legacy (ICH E6(R2) layout) PDF into M11 |
+| M15 | Review an AI-drafted section set with eight planted errors (simulated; no AI runs) |
 
 **Certificate**: M1 to M10 passed and every Learn quiz passed, with a verification code the
 [Skills Passport](https://randomthingsonlineatsk-cloud.github.io/pharmolecule/passport.html) checks
-(prefix PB-). Distinction: all twelve missions passed, three or more at expert level.
+(prefix PB-). Distinction: all missions passed, three or more at expert level.
 
 **Classroom mode** uses the shared classroom server (Cloudflare Worker and D1, kept in the eCTD
 Dossier Builder repository) under `/pb/v1`: instructors create a class and assign missions,
@@ -176,6 +202,12 @@ checks the VERDANT-1 hand-off at step 2, before the CDM step.
 - Amendments: 21 CFR 312.30; Regulation (EU) No 536/2014, Articles 2(2)(13), 15 to 24, 54 and
   81(9); NDCT Rules 2019, Third Schedule. The classification key is this app's reading of those
   texts for teaching, not regulatory advice.
+
+## Offline use and shortcuts
+
+After the first visit the app works offline (a service worker keeps a copy; the Classroom needs
+the network). Press `?` for keyboard shortcuts: `g` then a letter goes to a page, Alt + 1 to 9
+opens a tab, Ctrl or ⌘ + S confirms the work is saved.
 
 ## Data
 

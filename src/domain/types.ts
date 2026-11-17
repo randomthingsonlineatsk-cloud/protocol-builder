@@ -1,3 +1,4 @@
+import type { Adaptive } from './adaptive'
 import type { Ib } from './ib'
 import type { Cip } from './cip'
 import type { ReviewComment } from './review'
@@ -54,6 +55,9 @@ export interface ProtocolData {
   statements: Record<string, string>
   // Codes the SDTM trial summary (TS) needs that M11 does not hold: dictionary codes for the
   // indication and treatments, and the pharmacologic class.
+  adaptive?: Adaptive                        // ICH E20 (draft) adaptive design fields
+  reviewedText?: string[]                   // sections whose standard text the writer marked as reviewed for this trial
+  annex2?: string[]                         // ICH E6(R3) Annex 2 elements the trial uses (decentralised, pragmatic, RWD)
   sdtm?: { indic?: TsCode; trt?: TsCode; curtrt?: TsCode; pclas?: { value: string } & TsCode }
   multiplicity: string; multiplicityPlan?: MultiplicityPlan; interim?: InterimPlan; rescue: string; aeFrom: 'consent' | 'first dose'; aeTo: string
 }
@@ -74,7 +78,7 @@ export interface Amendment {
   primaryReason: string; secondaryReasons: string[]; summary: string
   safetyRights: '' | 'Yes' | 'No'; dataImpact: '' | 'Yes' | 'No'; changes: Change[]
 }
-export interface ProtocolVersion { number: string; date: string; status: 'draft' | 'approved'; data: ProtocolData; amendment?: Amendment }
+export interface ProtocolVersion { number: string; date: string; status: 'draft' | 'approved'; data: ProtocolData; amendment?: Amendment; signatures?: import('./signoff').Signature[] }
 
 export interface Project {
   format: 'protocol-builder-project'; schema: number
@@ -88,5 +92,7 @@ export interface Project {
   cip?: Cip                            // the clinical investigation plan (device projects)
   reviews?: ReviewComment[]            // reviewer comments
   pls?: string                         // a plain-language (lay) summary written for the check
+  feasibility?: { rates?: Record<string, number>; poolPerSiteMonth?: number; consentPct?: number; rampMonths?: number; seed?: number } // feasibility assumptions
+  docs?: { icf?: Record<string, string>; budget?: Record<string, number>; registry?: Record<string, string> } // generated documents: the writer's edits
   mission?: { id: string; startedUtc: string; submittedUtc?: string; score?: number; level?: 'pass' | 'expert' | 'not yet'; answers?: Record<string, string>; detail?: { label: string; got: number; of: number }[] }
 }

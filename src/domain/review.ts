@@ -9,6 +9,8 @@ import { TITLE_ELEMENTS, DESIGN_ELEMENTS } from './m11'
 import { allCoverage } from './crosswalk'
 import { ibFindings } from './ib'
 import { cipCoverage, cipFindings } from './cip'
+import { annex2Findings, elementsIn } from './annex2'
+import { adaptiveFindings } from './adaptive'
 
 export type CommentKind = 'Correction' | 'Consistency' | 'Clarity' | 'Style' | 'Question'
 export const COMMENT_KINDS: CommentKind[] = ['Correction', 'Consistency', 'Clarity', 'Style', 'Question']
@@ -54,6 +56,8 @@ export function readiness(p: Project): Readiness {
     { label: 'SPIRIT 2025 score', ok: spirit.gaps.length === 0, detail: `${spirit.pct}% (${spirit.covered} of ${spirit.scored} items)` },
     { label: 'Region cross-walks (EU CTR, NDCT, 312.23)', ok: cw.filter((c) => c.id !== 'spirit').every((c) => !c.gaps.length), detail: cw.filter((c) => c.id !== 'spirit').map((c) => `${c.name.split(',')[0]} ${c.pct}%`).join(' · ') },
     { label: 'IB agrees with the protocol', ok: !p.ib || !ib.some((f) => f.severity === 'high'), detail: p.ib ? `${ib.length} IB finding(s)` : 'No IB attached' },
+    { label: 'Decentralised and pragmatic elements written (ICH E6(R3) Annex 2)', ok: !annex2Findings(d).some((f) => f.severity !== 'low'), detail: elementsIn(d).length ? `${elementsIn(d).length} element(s), ${annex2Findings(d).length} finding(s)` : 'None used' },
+    ...(d.design['Adaptive Trial Design Indicator'] === 'Yes' ? [{ label: 'Adaptive design described (ICH E20 draft)', ok: adaptiveFindings(d).length === 0, detail: `${adaptiveFindings(d).length} gap(s)` }] : []),
     { label: 'USDM export without errors', ok: usdm === 0, detail: `${usdm} error(s)` },
     { label: 'No open corrections or consistency comments', ok: blocking.length === 0, detail: `${open.length} open comment(s), ${blocking.length} blocking` },
   ]

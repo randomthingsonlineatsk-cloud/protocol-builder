@@ -12,9 +12,12 @@ import type { Region } from './types'
 import { coverage } from './crosswalk'
 import { ibFindings, IB_SECTIONS } from './ib'
 import { cipCoverage, cipFindings, DEVICE_RULES } from './cip'
+import { complexity } from './complexity'
+import { LEGACY, LEGACY_FACTS } from './legacy'
+import { AI_DRAFT } from './aidraft'
 
 export interface Question { id: string; q: string; options: string[]; answer: string; section: string }
-export interface MissionDef { id: string; title: string; brief: string; core: boolean; steps: string[]; pass: number; expert: number; start: () => Project; questions?: Question[]; classify?: { text: string; category: string }[]; handoff?: boolean }
+export interface MissionDef { id: string; title: string; brief: string; core: boolean; steps: string[]; pass: number; expert: number; start: () => Project; questions?: Question[]; classify?: { text: string; category: string }[]; handoff?: boolean; legacy?: boolean; aiReview?: boolean }
 
 // ---------- M1: read a protocol ----------
 const Q = (id: string, q: string, answer: string, wrong: string[], section: string): Question => ({ id, q, answer, options: [answer, ...wrong].sort((a, b) => a.localeCompare(b)), section })
@@ -170,7 +173,33 @@ export const MISSIONS: MissionDef[] = [
     start: () => newProject('M11: the teravelin IB', nfrData(), 'mission', 'Phase 2') },
   { id: 'M12', title: 'Write a device CIP (ISO 14155:2026) for a wearable', core: false, pass: 70, expert: 100, brief: 'Corvane Medical (fictional) makes the HeartPatch HP-2: a single-lead ECG patch worn on the chest for up to 14 days, with software (version 2.1) that flags atrial fibrillation. Write the clinical investigation plan for its pivotal investigation: AF detection compared with a 12-lead Holter recording read by cardiologists, in adults referred for ambulatory ECG monitoring, at sites in the EU, India and the US.', steps: ['Clinical investigation plan: identify the CIP and the device (name, model, software version, manufacturer, intended purpose, classification).', 'List the risks from the ISO 14971 risk management file in all three categories, each with its control and residual risk.', 'Write every Annex A topic. Decide on a data monitoring committee and a clinical events committee and say why. Cover the 2026 points: calibration of measuring equipment, eligibility exemptions only by amendment, device deficiencies.', 'Clear the device checks, then submit.'],
     start: () => deviceProject('M12: HeartPatch HP-2 clinical investigation plan', 'mission') },
+  { id: 'M13', title: 'Cut the burden without losing an endpoint', core: false, pass: 70, expert: 100, brief: 'Before VERDANT-1 went to sites, several functions added procedures: an exploratory cytokine panel at every visit, a 36-item quality of life questionnaire, an ECG at every visit and two extra on-site visits. Its complexity score has risen by a third, amendment-risk flags are raised, and site feasibility feedback warns of dropout. Bring the burden down without losing a primary, secondary or exploratory endpoint, and without weakening the safety monitoring the IB calls for.', steps: ['Open Schedule of activities and read the complexity panel and its amendment-risk flags.', 'Remove what serves nothing; collect the exploratory biomarker only where its endpoint needs it (baseline and Week 16).', 'Keep the liver tests, pregnancy tests and adverse event collection; the IB has no QT signal, so ECGs at screening and end of treatment are enough.', 'Remove the extra on-site visits or make them telephone visits, then submit.'],
+    start: () => newProject('M13: VERDANT-1 burden', m13Start(), 'mission', 'Phase 3') },
+  { id: 'M14', title: 'Convert a legacy protocol to M11', core: false, pass: 70, expert: 100, legacy: true, brief: 'HRP-201, the phase 2 study of lumiravostat, was written in 2023 in the older layout of ICH E6(R2) section 6 and exists only as a PDF. Before it can be amended, it must become a structured M11 protocol. The text extracted from the PDF is below, in its old headings: place each passage in its M11 section, then enter the key facts as structured data.', steps: ['For each passage, choose the M11 section it belongs in. Old headings often split: “Trial design” holds randomisation (6.7) and stopping rules (4.3); “Selection and withdrawal” holds the population (5.1) and discontinuation (7.1, 7.2).', 'Press “Place the text” to copy the passages into the sections.', 'In Sections, enter the facts as data: the four arms, the numbers of participants, the treatment and follow-up weeks, and the primary endpoint at Week 12.', 'Submit.'],
+    start: () => newProject('M14: HRP-201 legacy conversion', fromLibrary('lumiravostat', 'che', 'dose', 'Phase 2', 'HRP-201'), 'mission', 'Phase 2') },
+  { id: 'M15', title: 'Review an AI-drafted section set', core: false, pass: 70, expert: 93, aiReview: true, brief: 'A drafting assistant wrote parts of VERDANT-1 from the sponsor’s notes (simulated: the text is fixed and no AI runs here). It reads well. Some sentences are right; others carry errors that drafting tools are known to make. Check each sentence against the protocol (open Sections, Estimands and Schedule) and the IB, and mark what is wrong with it.', steps: ['Read each sentence and find the protocol section or IB section that confirms or contradicts it.', 'Mark it as correct, or choose the kind of error.', 'Submit. You lose marks for flagging correct sentences, as a reviewer’s false alarms cost the team time.'],
+    start: () => newProject('M15: review an AI draft of VERDANT-1', EXAMPLES['HRP-301'].data(), 'mission', 'Phase 3') },
 ]
+// ---------- M13: cut the burden without losing an endpoint ----------
+// VERDANT-1 after a round of 'nice to have' additions: an exploratory cytokine panel at every visit,
+// a quality-of-life questionnaire nobody analyses, ECGs at every visit (lumiravostat has no QT
+// signal in its IB) and two extra on-site visits that only take vital signs and an ECG.
+export function m13Start(): ProtocolData {
+  const d = EXAMPLES['HRP-301'].data()
+  d.visits.push({ id: 'W6', name: 'Week 6', day: 43, lo: 42, hi: 44, epoch: 'Treatment', type: 'On site' }, { id: 'W10', name: 'Week 10', day: 71, lo: 70, hi: 72, epoch: 'Treatment', type: 'On site' })
+  const all = ['SCR', 'D1', 'W2', 'W4', 'W6', 'W8', 'W10', 'W12', 'W16']
+  d.procedures.find((x) => x.id === 'P05')!.visits = [...all, 'FU']
+  d.procedures.push(
+    { id: 'P16', name: 'Exploratory serum cytokine panel', section: '8.7', concept: 'Biomarker Sample', form: 'LB', visits: all.slice(1), purpose: ['endpoint'], bloodMl: 20, minutes: 10 },
+    { id: 'P17', name: 'Quality of life questionnaire (generic, 36 items)', section: '8.3', concept: 'Questionnaire', form: 'QS', visits: all.slice(1), purpose: [], minutes: 20 },
+    { id: 'P18', name: '12-lead ECG', section: '8.4.3', concept: 'Electrocardiogram', form: 'EG', visits: [...all, 'FU'], purpose: ['safety'], minutes: 15 },
+  )
+  d.endpoints.push({ id: 'END5', level: 'Exploratory', text: 'Change from baseline in serum IL-31 at Week 16', variableType: 'continuous', procedureIds: ['P16'], visitIds: ['W16'], purpose: 'Efficacy' })
+  d.objectives.push({ id: 'OBJ5', level: 'Exploratory', kind: 'Other', text: 'To explore the effect on serum cytokines', endpointIds: ['END5'] })
+  return d
+}
+export const m13Target = () => complexity(EXAMPLES['HRP-301'].data()).score + 5
+
 export const missionById = (id: string) => MISSIONS.find((m) => m.id === id)!
 export function startMission(id: string): Project { const m = missionById(id); const p = m.start(); p.mission = { id, startedUtc: new Date().toISOString(), answers: {} }; return p }
 
@@ -236,6 +265,39 @@ export function grade(p: Project): Score {
       line('Every changed section is in the summary of changes, each with a rationale', !!a && !am.some((f) => /^AM-0[128]/.test(f.id)), 10),
       line('The schedule change is a safety-monitoring change, classified for all three regions', !!lab13 && lab13.category === 'safety-add' && g13.every((x) => x.ok || x.justified), 15),
       line('No high consistency findings', !fs.some((f) => f.severity === 'high'), 10)]
+  }
+  if (id === 'M15') {
+    const a = p.mission!.answers ?? {}, bad = AI_DRAFT.filter((x) => x.err), good = AI_DRAFT.filter((x) => !x.err)
+    const kept = good.filter((x) => a[`ai:${x.id}`] === 'ok').length
+    detail = [...bad.map((x) => line(`${x.id} (${x.section}): the error is found and named`, a[`ai:${x.id}`] === x.err ? 1 : a[`ai:${x.id}`] && a[`ai:${x.id}`] !== 'ok' ? 0.6 : 0, Math.round(85 / bad.length))),
+      line(`Correct sentences left as correct (${kept} of ${good.length})`, kept / good.length, 100 - Math.round(85 / bad.length) * bad.length)]
+    const alarms = good.filter((x) => a[`ai:${x.id}`] && a[`ai:${x.id}`] !== 'ok').length
+    if (alarms) detail.push({ label: `False alarms: ${alarms} correct sentence(s) flagged as errors`, got: -7 * alarms, of: 0 })
+  }
+  if (id === 'M14') {
+    const a = p.mission!.answers ?? {}
+    const right = LEGACY.filter((x) => x.m11.includes(a[`map:${x.id}`] ?? '')).length
+    const placed = LEGACY.filter((x) => x.m11[0] !== 'TP').filter((x) => { const n = a[`map:${x.id}`]; return n && (d.narrative[n] ?? '').includes(x.text.slice(0, 40)) }).length
+    const pe = d.endpoints.find((e) => e.level === 'Primary')
+    detail = [line(`Passages placed in the right M11 section (${right} of ${LEGACY.length})`, right / LEGACY.length, 50),
+      line('The text is in the sections (“Place the text”)', placed >= LEGACY.length - 2, 10),
+      line(`Four arms, ${LEGACY_FACTS.participants} participants (${LEGACY_FACTS.perArm} per arm)`, d.arms.length === LEGACY_FACTS.arms && d.facts.participants === LEGACY_FACTS.participants && d.facts.perArm === LEGACY_FACTS.perArm, 15),
+      line(`${LEGACY_FACTS.treatmentWeeks} weeks of treatment and ${LEGACY_FACTS.followUpWeeks} of follow-up`, d.facts.treatmentWeeks === LEGACY_FACTS.treatmentWeeks && d.facts.followUpWeeks === LEGACY_FACTS.followUpWeeks, 10),
+      line('A primary endpoint on IGA-CHE at Week 12', !!pe && /IGA/i.test(pe.text) && /12/.test(pe.text), 15)]
+  }
+  if (id === 'M13') {
+    const base = EXAMPLES['HRP-301'].data(), cx = complexity(d), pv = (pid: string) => { const x = d.procedures.find((q) => q.id === pid); return !x ? [] : x.visits === 'continuous' ? ['*'] : x.visits }
+    const kept = base.endpoints.every((e) => { const n = d.endpoints.find((x) => x.id === e.id); return !!n && n.text === e.text && e.procedureIds.every((q) => n.procedureIds.includes(q)) })
+    const p16 = pv('P16'), ecg = pv('P18')
+    const safety = ['P07', 'P08'].every((q) => (base.procedures.find((x) => x.id === q)!.visits as string[]).every((v) => pv(q).includes(v))) && pv('P13')[0] === '*'
+    const extra = ['W6', 'W10'].every((v) => { const x = d.visits.find((y) => y.id === v); return !x || x.type !== 'On site' })
+    detail = [line('Every primary and secondary endpoint is kept and still collected where it is measured (PB-A01, PB-A03)', kept && !fs.some((f) => f.rule === 'PB-A01' || f.rule === 'PB-A03'), 25),
+      line('The exploratory endpoint is kept, with the cytokine panel at baseline and Week 16 only', d.endpoints.some((e) => e.id === 'END5') && p16.includes('D1') && p16.includes('W16') && p16.length <= 3, 15),
+      line('Liver tests, pregnancy tests and adverse event collection are kept', safety, 15),
+      line('Nothing is collected that serves no purpose (PB-A02)', !fs.some((f) => f.rule === 'PB-A02') && !d.procedures.some((q) => q.id === 'P17'), 10),
+      line('ECGs at no more than three visits, including screening', ecg.length === 0 || (ecg.length <= 3 && ecg.includes('SCR')), 10),
+      line('Weeks 6 and 10 are removed or no longer on site', extra, 10),
+      line(`Complexity score at most ${m13Target()} (now ${cx.score})`, cx.score <= m13Target(), 15)]
   }
   if (id === 'M12') {
     const c = p.cip, cov = c ? cipCoverage(c) : null, f = c ? cipFindings(c) : []
