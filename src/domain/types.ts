@@ -92,6 +92,7 @@ export interface Project {
   cip?: Cip                            // the clinical investigation plan (device projects)
   reviews?: ReviewComment[]            // reviewer comments
   pls?: string                         // a plain-language (lay) summary written for the check
+  enrolment?: { femalePct?: number; olderPct?: number; oldestPct?: number; countryPct?: Record<string, number> } // enrolment plan assumptions
   feasibility?: { rates?: Record<string, number>; poolPerSiteMonth?: number; consentPct?: number; rampMonths?: number; seed?: number } // feasibility assumptions
   docs?: { icf?: Record<string, string>; budget?: Record<string, number>; registry?: Record<string, string> } // generated documents: the writer's edits
   mission?: { id: string; startedUtc: string; submittedUtc?: string; score?: number; level?: 'pass' | 'expert' | 'not yet'; answers?: Record<string, string>; detail?: { label: string; got: number; of: number }[] }

@@ -48,7 +48,9 @@ Training only. All protocols, products and sponsors are fictional.
    checked for the arrangements each needs (PB-DC01 to PB-DC09).
    **Feasibility**: the criteria run against 10,000 synthetic patients (fixed seed) with an
    editable pass rate each, giving the pre-screening and screening funnel, the screen failure
-   rate, recruitment per site per month and the months to full recruitment as sites open.
+   rate, recruitment per site per month and the months to full recruitment as sites open. An
+   **enrolment plan** sets targets by sex, age group and country against who has the condition,
+   with flags from EU CTR Annex I 17(y), ICH E7 (older patients) and ICH E17 (regions).
 5. **Consistency checks**: 40 rules in eight groups (completeness, synopsis against body,
    objectives and estimands, schedule against endpoints, eligibility against population,
    intervention, statistics, safety and oversight). Fix a finding at its source, or justify it.
@@ -80,7 +82,11 @@ Training only. All protocols, products and sponsors are fictional.
    and the list of tables, figures and listings; **registry entries** for ClinicalTrials.gov,
    EU CTIS and CTRI, with the fields and deadlines to update after an amendment; a **per-visit
    site budget** (illustrative rates, editable); and an **RTSM specification** (randomisation,
-   kits, dispensing, resupply, emergency unblinding).
+   kits, dispensing, resupply, emergency unblinding); an **important protocol deviations plan**
+   (each criterion, the primary endpoint's windows, dosing, stopping rules, blinding and safety
+   reporting, with detection and handling); and the **lay summary of results** (EU CTR Annex V,
+   ten elements) with its reading level. After an amendment, the consent form is compared with
+   the previous version and the app says whether participants must **re-consent**.
 7. **Cross-walks**: the protocol read against four other lists of protocol content, item by
    item, with a coverage score and the gaps: SPIRIT 2025 (34 items), EU Regulation 536/2014 Annex I
    section D (paragraphs 15 to 24, with 17(a) to (am)), India's NDCT Rules 2019 Third Schedule

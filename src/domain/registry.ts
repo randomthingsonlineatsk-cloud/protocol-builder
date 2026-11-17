@@ -24,7 +24,7 @@ const brief = (d: ProtocolData) => {
   const prim = d.endpoints.find((e) => e.level === 'Primary')
   return `${d.title['Trial Acronym'] ? d.title['Trial Acronym'] + ' ' : ''}is a ${(d.design['Trial Blind Schema'] ?? '').toLowerCase()} ${d.design['Control Type']?.toLowerCase() ?? ''}-controlled trial in about ${d.facts.participants} ${d.design['Population Diagnosis or Condition']?.toLowerCase() ?? 'participants'}. Participants are assigned to ${d.arms.map((a) => a.name).join(', ')} for ${d.facts.treatmentWeeks} weeks${d.facts.followUpWeeks ? `, with ${d.facts.followUpWeeks} weeks of follow-up` : ''}. The primary outcome is ${prim ? prim.text.charAt(0).toLowerCase() + prim.text.slice(1) : 'not yet set'}.`.replace(/\s+/g, ' ')
 }
-const countries = (d: ProtocolData) => (d.design['Site Geographic Scope'] ?? '').split(/,| and /).map((x) => x.trim()).filter(Boolean)
+const countries = (d: ProtocolData) => (d.design['Site Geographic Scope'] ?? '').split(/,| and /).map((x) => x.trim().replace(/^the /i, '')).filter(Boolean)
 const EU = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czechia', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'Iceland', 'Liechtenstein', 'Norway']
 const share = (d: ProtocolData, where: string[]) => { const c = countries(d); const n = c.filter((x) => where.includes(x)).length; return c.length ? Math.round((d.facts.participants * n) / c.length) : 0 }
 

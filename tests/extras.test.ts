@@ -190,3 +190,40 @@ test('generated documents export to Word; new lessons have quizzes', async () =>
   expect(b.size).toBeGreaterThan(5000)
   for (const id of ['burden', 'dct', 'downstream']) expect(LESSONS.find((l) => l.id === id)!.quiz.length).toBe(3)
 })
+
+import { reconsent } from '../src/domain/reconsent'
+import { deviationPlan } from '../src/domain/deviations'
+import { laySummary, layText } from '../src/domain/laysummary'
+import { enrolment } from '../src/domain/enrolment'
+import { plainLanguage } from '../src/domain/review'
+describe('round 3: re-consent, deviations, lay summary, enrolment', () => {
+  test('re-consent: a new risk needs re-consent, a sponsor typo does not', () => {
+    const p = exampleProject('HRP-301'); approve(p)
+    expect(reconsent(p)).toBeNull()
+    startAmendment(p)
+    expect(reconsent(p)!.needed).toBe('None')
+    dataForEdit(p).narrative['2.2.1'] += ' A new risk of hair loss was seen.'
+    const r = reconsent(p)!
+    expect(r.needed).toBe('Re-consent'); expect(r.changes.map((c) => c.id)).toContain('risks'); expect(r.steps.length).toBe(5)
+  })
+  test('deviation plan covers every criterion and the primary endpoint', () => {
+    const d = EXAMPLES['HRP-301'].data(), rows = deviationPlan(d)
+    for (const c of d.criteria) expect(rows.some((r) => r.text.includes(c.code))).toBe(true)
+    expect(rows.some((r) => r.category === 'Primary endpoint' && /Day \d+ to \d+/.test(r.text))).toBe(true)
+    expect(rows.some((r) => r.category === 'Blinding')).toBe(true)
+  })
+  test('lay summary has the ten Annex V elements and reads fairly plainly', () => {
+    const d = EXAMPLES['HRP-301'].data(), s = laySummary(d)
+    expect(s.length).toBe(10)
+    expect(s[0].text).toMatch(/EU trial number/)
+    expect(plainLanguage(layText(s)).words).toBeGreaterThan(80)
+  })
+  test('enrolment plan: targets add up; flags when older patients are cut off', () => {
+    const d = EXAMPLES['HRP-301'].data(), e = enrolment(d)
+    expect(e.sex.reduce((n, r) => n + r.target, 0)).toBe(d.facts.participants)
+    expect(e.age.reduce((n, r) => n + r.target, 0)).toBe(d.facts.participants)
+    expect(e.flags.some((f) => f.id === 'e7')).toBe(false)
+    const p = exampleProject('HRP-301'); p.enrolment = { olderPct: 30 }; current(p).facts.ageMax = 65
+    expect(enrolment(current(p), p).flags.some((f) => f.id === 'e7')).toBe(true)
+  })
+})

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useStore } from '../state'
 import { startAmendment, diff, wordDiff, draftChanges, amendmentFindings, CATEGORIES, OPTIONS, REGIONS, grade, categoryById, last } from '../domain/amend'
 import { signState, sign, SIGN_ROLES } from '../domain/signoff'
+import { ReconsentPanel } from './Documents'
 import { impactOf } from '../domain/amend'
 import { CODELISTS } from '../domain/m11'
 import CT from '../domain/ct-usdm.json'
@@ -89,6 +90,8 @@ export default function Amendments() {
           </div>
           <p className="text-[11px] text-lab-text-muted">Bases: {REGIONS.map((r) => `${r.id}: ${r.basis}`).join(' · ')}. The key is this app's reading of those texts for teaching, not regulatory advice.</p>
         </Panel>
+
+        <ReconsentPanel />
 
         <Panel title="Downstream impact" sub="The documents and systems built from the protocol that must change with this amendment, read from the sections it touches and its reasons.">
           <ul className="space-y-1 text-sm">{impactOf(p!).map((x) => <li key={x.doc}><b>{x.doc}</b>{x.sections.length && x.doc !== 'Site training and the trial master file' ? <span className="text-xs text-lab-text-muted"> (sections {x.sections.join(', ')})</span> : null}. {x.why} <span className="text-lab-text-muted">{x.action}</span></li>)}</ul>
