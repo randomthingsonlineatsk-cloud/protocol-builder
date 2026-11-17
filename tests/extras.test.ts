@@ -182,3 +182,11 @@ describe('group 3', () => {
     expect(g.months!).toBeLessThanOrEqual(f.months!)
   })
 })
+
+import { sectionsDocxBlob } from '../src/domain/docx'
+import { LESSONS } from '../src/domain/learn'
+test('generated documents export to Word; new lessons have quizzes', async () => {
+  const b = await sectionsDocxBlob('ICF', icfSections(exampleProject('HRP-301')))
+  expect(b.size).toBeGreaterThan(5000)
+  for (const id of ['burden', 'dct', 'downstream']) expect(LESSONS.find((l) => l.id === id)!.quiz.length).toBe(3)
+})

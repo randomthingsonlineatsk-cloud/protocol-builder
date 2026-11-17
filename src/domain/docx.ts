@@ -71,3 +71,13 @@ export function protocolDocx(d: ProtocolData, opts: DocOpts = {}): Document {
 }
 export const protocolDocxBlob = (d: ProtocolData, opts: DocOpts = {}) => Packer.toBlob(protocolDocx(d, opts))
 export const protocolDocxBuffer = (d: ProtocolData, opts: DocOpts = {}) => Packer.toBuffer(protocolDocx(d, opts))
+
+/** A generated document (consent form, SAP outline, RTSM specification) as Word: a title and one heading per section. */
+export function sectionsDocxBlob(title: string, secs: { heading: string; text: string }[]) {
+  const doc = new Document({ creator: 'Protocol Builder', title, sections: [{ children: [
+    new Paragraph({ heading: HeadingLevel.TITLE, children: [new TextRun(title)] }),
+    ...secs.flatMap((s) => [new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun(s.heading)] }),
+      ...s.text.split('\n').map((t) => new Paragraph({ spacing: { after: 120 }, children: t.split(/(\[(?:To be written|Site to complete):[^\]]*\])/).filter(Boolean).map((x) => new TextRun({ text: x, highlight: /^\[(To be written|Site to complete):/.test(x) ? 'yellow' : undefined })) }))]),
+  ] }] })
+  return Packer.toBlob(doc)
+}
