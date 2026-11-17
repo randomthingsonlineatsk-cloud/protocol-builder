@@ -257,3 +257,41 @@ export function indiaRecording(c: RecordingCase): { need: Recording; why: string
   if (c.hivOrLeprosy) return { need: 'audio', why: 'Vulnerable participants in a trial of an anti-HIV or anti-leprosy drug: an audio recording of the consent process only.' }
   return { need: 'audio-video', why: 'Vulnerable participants in a trial of a new chemical or molecular entity: the consent process is recorded on audio and video, and the recording kept in the investigator’s files.' }
 }
+
+// ---------- re-consent after an amendment ----------
+// New information that may affect a participant's willingness to continue must be given promptly
+// and consent documented again (ICH E6(R3) section 2.8; 21 CFR 50.25(b)(5)); the revised form needs
+// ethics committee approval first (in the EU, a substantial modification of Part II).
+const DECISIVE = new Set(['key', 'what', 'resp', 'risks', 'benefits', 'alternatives', 'voluntary', 'costs', 'injury', 'privacy'])
+export interface ConsentChange { id: string; heading: string; before: string; after: string; decisive: boolean }
+export interface Reconsent { needed: 'Re-consent' | 'Inform' | 'None'; reason: string; changes: ConsentChange[]; steps: string[] }
+export function reconsentDecision(a: DocSection[], b: DocSection[], safetyRights = false): Reconsent {
+  const changes: ConsentChange[] = b.map((s) => ({ s, o: a.find((x) => x.id === s.id) })).filter(({ s, o }) => (o?.text ?? '') !== s.text).map(({ s, o }) => ({ id: s.id, heading: s.heading, before: o?.text ?? '', after: s.text, decisive: DECISIVE.has(s.id) }))
+  const decisive = changes.filter((c) => c.decisive)
+  const needed: Reconsent['needed'] = decisive.length || safetyRights ? 'Re-consent' : changes.length ? 'Inform' : 'None'
+  const reason = needed === 'Re-consent'
+    ? `${decisive.length ? `What participants are told changes in: ${decisive.map((c) => c.heading.toLowerCase()).join('; ')}.` : ''}${safetyRights ? ' The amendment is marked as affecting participants’ safety or rights.' : ''} This is information that may affect their willingness to continue.`.trim()
+    : needed === 'Inform' ? `Only ${changes.map((c) => c.heading.toLowerCase()).join(', ')} change${changes.length === 1 ? 's' : ''}: tell participants at their next visit; a new signature is not needed.` : 'The consent form does not change.'
+  const steps = needed === 'Re-consent' ? [
+    'Revise the consent form (new version number and date) and mark the changes for the ethics committee.',
+    'Get ethics committee approval before using it (EU: part of the Part II substantial modification; US: IRB approval; India: ethics committee approval, with CDSCO where the amendment needs it).',
+    'Tell participants in treatment or follow-up promptly, at or before their next visit; they read and sign the new version, and the conversation is recorded in their notes.',
+    'Participants who have finished the trial are told only if the new information affects their health.',
+    'New participants sign only the new version from the date it is approved at their site.',
+  ] : needed === 'Inform' ? ['Tell participants at their next visit and record it in their notes.', 'Use the revised form for new participants once approved.'] : []
+  return { needed, reason, changes, steps }
+}
+
+// ---------- word-level differences, for tracked changes ----------
+export type Seg = { t: '=' | '-' | '+'; s: string }
+export function wordDiff(a: string, b: string): Seg[] {
+  const A = a.split(/(\s+)/), B = b.split(/(\s+)/)
+  if (A.length * B.length > 400000) return [{ t: '-', s: a }, { t: '+', s: b }]
+  const L = Array.from({ length: A.length + 1 }, () => new Int32Array(B.length + 1))
+  for (let i = A.length - 1; i >= 0; i--) for (let j = B.length - 1; j >= 0; j--) L[i][j] = A[i] === B[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1])
+  const out: Seg[] = [], push = (t: Seg['t'], s: string) => { const l = out[out.length - 1]; if (l && l.t === t) l.s += s; else out.push({ t, s }) }
+  let i = 0, j = 0
+  while (i < A.length && j < B.length) { if (A[i] === B[j]) { push('=', A[i]); i++; j++ } else if (L[i + 1][j] >= L[i][j + 1]) push('-', A[i++]); else push('+', B[j++]) }
+  while (i < A.length) push('-', A[i++]); while (j < B.length) push('+', B[j++])
+  return out
+}
