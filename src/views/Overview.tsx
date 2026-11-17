@@ -40,10 +40,13 @@ export default function Overview() {
         <ol className="list-decimal pl-5 text-sm space-y-1">
           <li><b>Sections</b>: the full M11 table of contents. Structured sections (title page, overall design, criteria, interventions, analysis sets, sample size) have forms; the rest is text, with the template guidance beside it.</li>
           <li><b>Objectives and estimands</b>: each objective with its endpoints; each estimand with the five ICH E9(R1) attributes.</li>
-          <li><b>Schedule of activities</b>: visits with windows, procedures by visit, and what each procedure is for.</li>
+          <li><b>Schedule of activities</b>: visits with windows, procedures by visit, and what each procedure is for, with the complexity and burden score and its amendment-risk flags.</li>
+          <li><b>Feasibility</b>: the criteria run against a synthetic population: the screening funnel and the months to full recruitment.</li>
           <li><b>Consistency checks</b>: 40 rules across the synopsis and body. Fix a finding at its source, or justify it.</li>
           <li><b>Cross-walks</b>: the protocol against SPIRIT 2025, EU CTR Annex I, India’s NDCT Table 2 and 21 CFR 312.23(a)(6), with the gaps for each.</li>
-          <li><b>Versions and amendments</b>: approve a version, amend it with tracked changes, and classify each change for the US, the EU and India.</li>
+          <li><b>Versions and amendments</b>: author, reviewer and approver sign-off; amendments with tracked changes, each change classified for the US, the EU and India, and the downstream documents to update.</li>
+          <li><b>Review</b>: reviewer comments, readiness and a plain-language check.</li>
+          <li><b>Documents</b>: the consent form (checked for the US, EU and India), a SAP outline, registry entries, a site budget and an RTSM specification, drafted from the protocol.</li>
           <li><b>Export</b>: USDM v4 (full, and the teaching subset for the EDC Study Build Lab), the readable protocol as PDF or Word, the SDTM trial design datasets, the application bundle for the Clinical Trial Simulator, the project file and the hand-off for the pharmolecule journey.</li>
         </ol>
       </Panel>

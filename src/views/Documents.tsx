@@ -14,6 +14,10 @@ import { Btn, Panel, Pill, Table, Tabs, TextArea, inputCls } from './ui'
 
 type Tab = 'icf' | 'sap' | 'registry' | 'budget' | 'rtsm'
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+const saveDocx = async (file: string, title: string, secs: DocSection[]) => { const { sectionsDocxBlob } = await import('../domain/docx'); const b = await sectionsDocxBlob(title, secs); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = file; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000) }
+function Downloads({ file, title, secs }: { file: string; title: string; secs: DocSection[] }) {
+  return <span className="flex gap-1"><Btn tone="grey" onClick={() => saveDocx(`${file}.docx`, title, secs)}>Word</Btn><Btn tone="grey" onClick={() => download(`${file}.html`, docHtml(title, secs), 'text/html')}>HTML</Btn></span>
+}
 export const docHtml = (title: string, secs: DocSection[]) => `<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title><style>body{font-family:Georgia,serif;max-width:46em;margin:2em auto;line-height:1.5}h1{font-size:1.4em}h2{font-size:1.1em;margin-top:1.4em}p{white-space:pre-wrap}.gap{background:#fff3c4}</style></head><body><h1>${esc(title)}</h1>${secs.map((s) => `<h2>${esc(s.heading)}</h2><p>${esc(s.text).replace(/(\[(To be written|Site to complete):[^\]]*\])/g, '<span class="gap">$1</span>')}</p>`).join('')}</body></html>`
 
 function Sections({ secs, edit, reset }: { secs: DocSection[]; edit?: (id: string, v: string) => void; reset?: (id: string) => void }) {
@@ -32,10 +36,10 @@ export default function Documents() {
     <div className="space-y-3">
       <Tabs tabs={[{ id: 'icf', label: 'Informed consent form' }, { id: 'sap', label: 'SAP outline' }, { id: 'registry', label: 'Registry entries' }, { id: 'budget', label: 'Site budget' }, { id: 'rtsm', label: 'Randomisation and supply (RTSM)' }]} value={tab} onChange={setTab} />
       {tab === 'icf' && <Icf />}
-      {tab === 'sap' && <Panel title="Statistical analysis plan: outline" sub="Headings follow the published guidance on SAP content (Gamble et al., JAMA 2017) with ICH E9 and E9(R1). The estimands, analysis sets, sample size and multiplicity come from the protocol." right={<Btn tone="grey" onClick={() => download(`${id}_SAP_outline.html`, docHtml(`${d.title['Trial Acronym'] ?? id}: statistical analysis plan (outline)`, sapOutline(d)), 'text/html')}>Download</Btn>}><Sections secs={sapOutline(d)} /></Panel>}
+      {tab === 'sap' && <Panel title="Statistical analysis plan: outline" sub="Headings follow the published guidance on SAP content (Gamble et al., JAMA 2017) with ICH E9 and E9(R1). The estimands, analysis sets, sample size and multiplicity come from the protocol." right={<Downloads file={`${id}_SAP_outline`} title={`${d.title['Trial Acronym'] ?? id}: statistical analysis plan (outline)`} secs={sapOutline(d)} />}><Sections secs={sapOutline(d)} /></Panel>}
       {tab === 'registry' && <Registries />}
       {tab === 'budget' && <BudgetGrid />}
-      {tab === 'rtsm' && <Panel title="RTSM specification" sub="The randomisation and trial supply system’s requirements, drafted from the design, the arms, the dosing and the dispensing visits." right={<Btn tone="grey" onClick={() => download(`${id}_RTSM_specification.html`, docHtml(`${d.title['Trial Acronym'] ?? id}: RTSM specification`, rtsmSpec(d)), 'text/html')}>Download</Btn>}><Sections secs={rtsmSpec(d)} /></Panel>}
+      {tab === 'rtsm' && <Panel title="RTSM specification" sub="The randomisation and trial supply system’s requirements, drafted from the design, the arms, the dosing and the dispensing visits." right={<Downloads file={`${id}_RTSM_specification`} title={`${d.title['Trial Acronym'] ?? id}: RTSM specification`} secs={rtsmSpec(d)} />}><Sections secs={rtsmSpec(d)} /></Panel>}
     </div>
   )
 }
@@ -53,7 +57,7 @@ function Icf() {
     const R: { r: 'US' | 'EU' | 'IN'; name: string }[] = [{ r: 'US', name: 'US: 21 CFR 50.25' }, { r: 'EU', name: 'EU: CTR Article 29' }, { r: 'IN', name: 'India: NDCT Rules, Third Schedule Table 3' }]
     return (
       <div className="grid lg:grid-cols-[1fr_24rem] gap-4">
-        <Panel title="Participant information and consent form" sub="Generated from the protocol in plain words. Edit any section; “regenerate” returns it to the generated text. Marked gaps are for you; site details are for the site." right={<Btn tone="grey" onClick={() => download(`${id}_ICF.html`, docHtml(`${d.title['Trial Acronym'] ?? id}: participant information and consent form`, secs), 'text/html')}>Download</Btn>}>
+        <Panel title="Participant information and consent form" sub="Generated from the protocol in plain words. Edit any section; “regenerate” returns it to the generated text. Marked gaps are for you; site details are for the site." right={<Downloads file={`${id}_ICF`} title={`${d.title['Trial Acronym'] ?? id}: participant information and consent form`} secs={secs} />}>
           <Sections secs={secs} edit={set} reset={reset} />
         </Panel>
         <div className="space-y-3">{R.map(({ r, name }) => { const cs = checks.filter((c) => c.el.region === r), ok = cs.filter((c) => c.ok).length
