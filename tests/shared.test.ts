@@ -10,6 +10,10 @@ test('the shared consent module matches the Plain Language Lab copy', () => {
   if (!existsSync(`${LAB}/src/shared/consent.ts`)) return
   expect(readFileSync('src/shared/consent.ts', 'utf8')).toBe(readFileSync(`${LAB}/src/shared/consent.ts`, 'utf8'))
 })
+for (const f of ['laysummary']) test(`the shared ${f} module matches the Plain Language Lab copy`, () => {
+  if (!existsSync(`${LAB}/src/shared/${f}.ts`)) return
+  expect(readFileSync(`src/shared/${f}.ts`, 'utf8')).toBe(readFileSync(`${LAB}/src/shared/${f}.ts`, 'utf8'))
+})
 test('the shared jargon dictionary matches the Plain Language Lab copy', () => {
   if (!existsSync(`${LAB}/src/shared/jargon.ts`)) return
   expect(readFileSync('src/shared/jargon.ts', 'utf8')).toBe(readFileSync(`${LAB}/src/shared/jargon.ts`, 'utf8'))

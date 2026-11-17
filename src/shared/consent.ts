@@ -37,7 +37,7 @@ export interface StudyFacts {
   newChemicalEntity: boolean; hivOrLeprosy: boolean
 }
 
-const lc = (s: string) => (/^[A-Z][a-z]/.test(s) ? s.charAt(0).toLowerCase() + s.slice(1) : s)
+const lc = (s: string) => (/^[A-Z][a-z]*\b(?![-\d])/.test(s) && !/^[A-Z][a-z]*[A-Z0-9]/.test(s) ? s.charAt(0).toLowerCase() + s.slice(1) : s)
 const sp = (s: string) => s.replace(/\s+/g, ' ').trim()
 function chance(f: StudyFacts) {
   const tot = f.arms.reduce((n, a) => n + a.ratio, 0) || 1
@@ -141,7 +141,7 @@ export function studyFacts(p: ProtocolProjectLike, version = p.versions.length -
     countries: (d.design['Site Geographic Scope'] ?? '').split(/,| and /).map((x) => x.trim()).filter(Boolean), sites: d.design['Site Distribution'] ?? '',
     ageMin: f.ageMin, ageMax: f.ageMax, participants: f.participants, treatmentWeeks: f.treatmentWeeks, followUpWeeks: f.followUpWeeks, participationWeeks: f.participationWeeks,
     arms: d.arms.map((a) => ({ name: a.name, placebo: a.type === 'Placebo', ratio: a.ratio })), blinded: /double/i.test(d.design['Trial Blind Schema'] ?? ''),
-    dosing: iv ? `${iv.route.toLowerCase()}, ${iv.frequency}` : '',
+    dosing: iv ? `${/^oral/i.test(iv.route) ? 'by mouth' : iv.route.toLowerCase()}, ${iv.frequency}` : '',
     visits: d.visits.map((v) => ({ name: v.name, onSite: v.type === 'On site' })),
     procedures: d.procedures.filter((q) => q.visits !== 'continuous').map((q) => ({ name: q.name, visits: (q.visits as string[]).length, bloodMl: q.bloodMl ?? 0 })),
     aim: d.objectives.find((o) => o.level === 'Primary')?.text ?? '', background: d.narrative['2.1'] ?? '',
