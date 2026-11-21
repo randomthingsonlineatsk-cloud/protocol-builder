@@ -2,7 +2,7 @@
 // worked-example study facts that the Lab uses are written from this app's examples.
 import { test, expect } from 'vitest'
 import { writeFileSync, existsSync, readFileSync } from 'node:fs'
-import { exampleProject } from '../src/domain/project'
+import { exampleProject, projectFile } from '../src/domain/project'
 import { studyFacts } from '../src/domain/icf'
 
 const LAB = '../plain-language-lab'
@@ -22,4 +22,15 @@ test('write the worked-example study facts for the Plain Language Lab', () => {
   const out = Object.fromEntries(['HRP-301', 'GLV-12-301'].map((id) => [id, studyFacts(exampleProject(id))]))
   expect(out['HRP-301'].knownReactions.length).toBeGreaterThan(0)
   if (existsSync(`${LAB}/src/domain`)) writeFileSync(`${LAB}/src/domain/studies.json`, JSON.stringify(out, null, 2) + '\n')
+})
+
+test('write the worked-example protocols for the CSR & Narrative Studio', () => {
+  const STUDIO = '../csr-narrative-studio/src/data'
+  if (!existsSync(STUDIO)) return
+  for (const id of ['HRP-301', 'GLV-12-301']) {
+    const p = exampleProject(id)
+    p.updatedUtc = p.createdUtc = '2026-01-15T09:00:00.000Z'
+    const f = JSON.parse(projectFile(p)); f.exportedUtc = '2026-01-15T09:00:00.000Z'
+    writeFileSync(`${STUDIO}/protocol-${id.toLowerCase()}.json`, JSON.stringify(f) + '\n')
+  }
 })
