@@ -29,7 +29,7 @@ test('write the worked-example protocols for the CSR & Narrative Studio', () => 
   if (!existsSync(STUDIO)) return
   for (const id of ['HRP-301', 'GLV-12-301']) {
     const p = exampleProject(id)
-    p.updatedUtc = p.createdUtc = '2026-01-15T09:00:00.000Z'
+    p.updatedUtc = p.createdUtc = '2026-01-15T09:00:00.000Z'; p.id = `P-${id.toLowerCase()}`
     const f = JSON.parse(projectFile(p)); f.exportedUtc = '2026-01-15T09:00:00.000Z'
     writeFileSync(`${STUDIO}/protocol-${id.toLowerCase()}.json`, JSON.stringify(f) + '\n')
   }
